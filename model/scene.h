@@ -25,6 +25,7 @@ public:
     Entity&             getRoot     () { return mRoot; }
 
     void                forEachEntity   ( const Entity::ForEachDelegate& delegate );
+    void                forEachEntity   ( const Entity::ForEachLambda& lambda );
 
 private:
     Entity      mRoot;

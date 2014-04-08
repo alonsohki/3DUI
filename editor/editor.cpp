@@ -3,23 +3,40 @@
 #include <GL/GL.h>
 #include <GL/glut.h>
 
+#include "context.h"
 #include "model/entity.h"
 #include "model/meshFactory.h"
 
+using namespace editor;
+
+namespace {
+    Context* context;
+
+    void display() {
+        context->getRenderer()->clear();
+        context->getRenderer()->renderScene(context->getScene());
+        glutSwapBuffers();
+    }
+}
+
 int main(int argc, char** argv)
 {
-    using namespace model;
+    context = Context::create();
 
-    Entity entity;
-    Mesh& cube = entity.getComponent<Mesh>();
-    MeshFactory::createCube(&cube, 1.0f);
+    // Add a sample cube
+    model::Entity* entity = new model::Entity();
+    model::MeshFactory::createCube(&entity->getComponent<model::Mesh>(), 1.0f);
+    context->getScene()->getRoot().addChild(entity);
 
-	glutInit(&argc, argv);
-    glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB);
-    glutInitWindowSize (250, 250);
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+    glutInitWindowSize (800, 600);
     glutInitWindowPosition (100, 100);
-    glutCreateWindow ("hello");
+    glutCreateWindow ("editor");
+
+    glutDisplayFunc(display);
     glutMainLoop();
+
     return 0; 
 }
 

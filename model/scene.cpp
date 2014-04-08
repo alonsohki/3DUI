@@ -20,9 +20,22 @@ Scene::Scene()
 
 Scene::~Scene()
 {
+    // Clear all the world entities
+    std::vector<Entity*> entities;
+    mRoot.forEach([&entities](Entity* entity) {
+        entities.push_back(entity);
+    });
+    for (Entity* entity : entities) {
+        delete entity;
+    }
 }
 
 void Scene::forEachEntity(const Entity::ForEachDelegate& delegate)
 {
     mRoot.forEach(delegate);
+}
+
+void Scene::forEachEntity(const Entity::ForEachLambda& lambda)
+{
+    mRoot.forEach(lambda);
 }

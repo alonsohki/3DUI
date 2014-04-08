@@ -21,6 +21,7 @@ namespace model {
 class Entity {
 public:
     typedef fastdelegate::FastDelegate<void (Entity*)> ForEachDelegate;
+    typedef Lambda<void (Entity*)> ForEachLambda;
     typedef std::vector<Entity*> EntityVector;
     typedef std::vector<Any> ComponentVector;
 
@@ -38,6 +39,7 @@ public:
     Entity*             getParent       () const { return mParent; }
 
     void                forEach         ( const ForEachDelegate& delegate );
+    void                forEach         ( const ForEachLambda& lambda ) { return forEach(ForEachDelegate(lambda)); }
 
 
     //-------------------------------------------------------------------
@@ -56,12 +58,16 @@ public:
     template<typename T>
     T*                  findComponent()
     {
-        for (Any current : mComponents) {
+        T* ret = nullptr;
+
+        for (Any& current : mComponents) {
             if (current.is<T>()) {
-                return &current.as<T>();
+                ret = &(current.as<T>());
+                break;
             }
         }
-        return nullptr;
+
+        return ret;
     }
 
 private:
