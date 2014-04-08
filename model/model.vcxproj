@@ -22,7 +22,7 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -67,10 +67,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="entity.h" />
+    <ClInclude Include="meshFactory.h" />
+    <ClInclude Include="vertex.h" />
+    <ClInclude Include="mesh.h" />
     <ClInclude Include="scene.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="entity.cpp" />
+    <ClCompile Include="mesh.cpp" />
+    <ClCompile Include="meshFactory.cpp" />
     <ClCompile Include="scene.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

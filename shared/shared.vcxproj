@@ -70,6 +70,9 @@
     <ClInclude Include="FastDelegate.h" />
     <ClInclude Include="lambda.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dummy.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
