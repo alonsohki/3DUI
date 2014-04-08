@@ -66,6 +66,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="any.h" />
     <ClInclude Include="FastDelegate.h" />
     <ClInclude Include="lambda.h" />
   </ItemGroup>

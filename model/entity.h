@@ -12,6 +12,7 @@
 #pragma once
 
 #include "math/transform.h"
+#include "shared/any.h"
 #include "shared/FastDelegate.h"
 #include <vector>
 
@@ -21,6 +22,7 @@ class Entity {
 public:
     typedef fastdelegate::FastDelegate<void (Entity*)> ForEachDelegate;
     typedef std::vector<Entity*> EntityVector;
+    typedef std::vector<Any> ComponentVector;
 
 public:
                         Entity          ();
@@ -37,10 +39,46 @@ public:
 
     void                forEach         ( const ForEachDelegate& delegate );
 
+
+    //-------------------------------------------------------------------
+    // Component management
+public:
+    template<typename T>
+    T&                  getComponent()
+    {
+        T* component = findComponent<T>();
+        if (!component) {
+            component = createComponent<T>();
+        }
+        return *component;
+    }
+
+    template<typename T>
+    T*                  findComponent()
+    {
+        for (Any current : mComponents) {
+            if (current.is<T>()) {
+                return &current.as<T>();
+            }
+        }
+        return nullptr;
+    }
+
 private:
-    Transform       mTransform;
-    Entity*         mParent;
-    EntityVector    mChildren;
+    template<typename T>
+    T*                  createComponent()
+    {
+        mComponents.push_back(T());
+        return &mComponents.back();
+    }
+
+
+
+private:
+    Transform           mTransform;
+    Entity*             mParent;
+    EntityVector        mChildren;
+    ComponentVector     mComponents;
 };
 
 }
