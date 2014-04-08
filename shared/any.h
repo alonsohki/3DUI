@@ -9,7 +9,7 @@
 #include <cassert>
 
 template<class T>
-using StorageType = typename std::decay<typename std::remove_reference<T>::type>::type;
+using StorageType = typename std::decay<T>::type;
 
 struct Any
 {
@@ -28,7 +28,7 @@ struct Any
 
         auto derived = dynamic_cast<Derived<T>*> (ptr);
 
-        return derived;
+        return derived != nullptr;
     }
 
     template<class U>
@@ -39,7 +39,7 @@ struct Any
         auto derived = dynamic_cast<Derived<T>*> (ptr);
 
         if (!derived)
-            throw bad_cast();
+            throw std::bad_cast();
 
         return derived->value;
     }
@@ -56,6 +56,18 @@ struct Any
 
     }
 
+    Any(Any& that)
+        : ptr(that.clone())
+    {
+
+    }
+
+    Any(Any&& that)
+        : ptr(that.ptr)
+    {
+        that.ptr = nullptr;
+    }
+
     Any(const Any& that)
         : ptr(that.clone())
     {
@@ -67,6 +79,7 @@ struct Any
     {
 
     }
+
 
     Any& operator=(const Any& a)
     {

@@ -3,13 +3,15 @@
 #include <GL/GL.h>
 #include <GL/glut.h>
 
+#include "model/entity.h"
 #include "model/meshFactory.h"
 
 int main(int argc, char** argv)
 {
     using namespace model;
 
-    Mesh cube;
+    Entity entity;
+    Mesh& cube = entity.getComponent<Mesh>();
     MeshFactory::createCube(&cube, 1.0f);
 
 	glutInit(&argc, argv);

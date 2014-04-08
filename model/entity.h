@@ -69,7 +69,7 @@ private:
     T*                  createComponent()
     {
         mComponents.push_back(T());
-        return &mComponents.back();
+        return &mComponents.back().as<T>();
     }
 
 

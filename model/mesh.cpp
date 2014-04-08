@@ -17,6 +17,7 @@ Mesh::Mesh()
 : vertices(nullptr)
 , indices(nullptr)
 , indexCount(0)
+, vertexCount(0)
 , type(TRIANGLES)
 {
 }
@@ -42,18 +43,30 @@ Mesh& Mesh::operator=(const Mesh& other) {
     if (this != &other) {
         if (vertices != nullptr) {
             delete[] vertices;
+            vertices = nullptr;
         }
         if (indices != nullptr) {
             delete[] indices;
+            indices = nullptr;
         }
 
-        this->vertexCount = other.vertexCount;
-        this->vertices = new Vertex[other.vertexCount];
-        memcpy(this->vertices, other.vertices, sizeof(Vertex) * other.vertexCount);
+        if (other.vertexCount > 0) {
+            this->vertexCount = other.vertexCount;
+            this->vertices = new Vertex[other.vertexCount];
+            memcpy(this->vertices, other.vertices, sizeof(Vertex)* other.vertexCount);
+        }
+        else {
+            this->vertexCount = 0;
+        }
 
-        this->indexCount = other.indexCount;
-        this->indices = new unsigned int[other.indexCount];
-        memcpy(this->indices, other.indices, sizeof(unsigned int) * other.indexCount);
+        if (other.indexCount > 0) {
+            this->indexCount = other.indexCount;
+            this->indices = new unsigned int[other.indexCount];
+            memcpy(this->indices, other.indices, sizeof(unsigned int)* other.indexCount);
+        }
+        else {
+            this->indexCount = 0;
+        }
 
         this->type = other.type;
     }

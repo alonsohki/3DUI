@@ -16,6 +16,7 @@ using namespace model;
 
 Entity::Entity()
 : mParent(nullptr)
+, mTransform(IdentityTransform())
 {
 }
 
