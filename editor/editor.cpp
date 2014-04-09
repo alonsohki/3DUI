@@ -17,10 +17,16 @@ namespace {
         context->getRenderer()->renderScene(context->getScene());
         glutSwapBuffers();
     }
+
+    void finalize() {
+        delete context;
+    }
 }
 
 int main(int argc, char** argv)
 {
+    atexit(finalize);
+
     context = Context::create();
 
     // Add a sample cube

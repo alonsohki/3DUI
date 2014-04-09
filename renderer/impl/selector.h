@@ -5,20 +5,14 @@
 // as published by Sam Hocevar. See the COPYING file or http://www.wtfpl.net/ 
 // for more details.
 //
-// FILE:        meshFactory.h
-// PURPOUSE:    3D mesh generator
+// FILE:        impl/selector.h
+// PURPOUSE:    Selector of the renderer implementation.
 //
 
 #pragma once
 
-#include "mesh.h"
+#define USE_OPENGL3
 
-namespace model {
-
-class MeshFactory {
-public:
-    static void     createCube      ( Mesh* into, float edgeSize );
-    static void     createPlane     ( Mesh* into, float edgeSize );
-};
-
-}
+#if defined(USE_OPENGL3)
+#   include "opengl3/opengl3.h"
+#endif

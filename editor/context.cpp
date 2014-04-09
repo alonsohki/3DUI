@@ -21,6 +21,8 @@ Context::Context()
 
 Context::~Context()
 {
+    delete mScene;
+    delete mRenderer;
 }
 
 Context* Context::create() {

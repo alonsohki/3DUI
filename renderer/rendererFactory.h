@@ -5,20 +5,20 @@
 // as published by Sam Hocevar. See the COPYING file or http://www.wtfpl.net/ 
 // for more details.
 //
-// FILE:        meshFactory.h
-// PURPOUSE:    3D mesh generator
+// FILE:        rendererFactory.h
+// PURPOUSE:    Private classes for the renderer implementations.
 //
 
 #pragma once
 
-#include "mesh.h"
+#include "impl/selector.h"
+#include "rendererPrivate.h"
 
-namespace model {
+namespace renderer {
 
-class MeshFactory {
+class RendererFactory {
 public:
-    static void     createCube      ( Mesh* into, float edgeSize );
-    static void     createPlane     ( Mesh* into, float edgeSize );
+    static RendererImpl*    createInstance      ();
 };
 
 }

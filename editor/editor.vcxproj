@@ -60,10 +60,11 @@
       <AdditionalDependencies>../freeglut/lib/freeglut.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y $(SolutionDir)freeglut\bin\freeglut.dll $(OutDir)</Command>
+      <Command>xcopy /Y $(SolutionDir)freeglut\bin\freeglut.dll $(OutDir)
+xcopy /Y $(SolutionDir)glew\bin\Release\Win32\glew32.dll $(OutDir)</Command>
     </PostBuildEvent>
     <ProjectReference>
-      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -84,10 +85,11 @@
       <AdditionalDependencies>../freeglut/lib/freeglut.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y $(SolutionDir)freeglut\bin\freeglut.dll $(OutDir)</Command>
+      <Command>xcopy /Y $(SolutionDir)freeglut\bin\freeglut.dll $(OutDir)
+xcopy /Y $(SolutionDir)glew\bin\Release\Win32\glew32.dll $(OutDir)</Command>
     </PostBuildEvent>
     <ProjectReference>
-      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>

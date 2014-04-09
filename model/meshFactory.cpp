@@ -84,3 +84,25 @@ void MeshFactory::createCube(Mesh* mesh, float edgeSize) {
         v += 4;
     }
 }
+
+void MeshFactory::createPlane(Mesh* mesh, float edgeSize) {
+    mesh->indexCount = 6;
+    mesh->vertexCount = 4;
+    mesh->indices = new unsigned int[6];
+    mesh->vertices = new Vertex[4];
+    mesh->type = Mesh::TRIANGLES;
+
+    float corner = edgeSize * 0.5f;
+    mesh->vertices[0].position = Vector3(-corner, corner, 0.0f);
+    mesh->vertices[1].position = Vector3(-corner, -corner, 0.0f);
+    mesh->vertices[2].position = Vector3(corner, -corner, 0.0f);
+    mesh->vertices[3].position = Vector3(corner, corner, 0.0f);
+
+    mesh->indices[0] = 0;
+    mesh->indices[1] = 1;
+    mesh->indices[2] = 2;
+
+    mesh->indices[3] = 0;
+    mesh->indices[4] = 2;
+    mesh->indices[5] = 3;
+}

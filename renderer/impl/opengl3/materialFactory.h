@@ -5,20 +5,21 @@
 // as published by Sam Hocevar. See the COPYING file or http://www.wtfpl.net/ 
 // for more details.
 //
-// FILE:        meshFactory.h
-// PURPOUSE:    3D mesh generator
+// FILE:        materialFactory.h
+// PURPOUSE:    Material factory
 //
 
 #pragma once
 
-#include "mesh.h"
+#include "model/material.h"
 
-namespace model {
+namespace renderer {
+namespace impl {
 
-class MeshFactory {
+class MaterialFactory {
 public:
-    static void     createCube      ( Mesh* into, float edgeSize );
-    static void     createPlane     ( Mesh* into, float edgeSize );
+    static model::Material*     getDefault      ();
 };
 
+}
 }

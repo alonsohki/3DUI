@@ -22,6 +22,9 @@ Entity::Entity()
 
 Entity::~Entity()
 {
+    for (Entity* child : getChildren()) {
+        delete child;
+    }
 }
 
 void Entity::addChild(Entity* entity) {
