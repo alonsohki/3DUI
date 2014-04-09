@@ -69,6 +69,11 @@ void MeshFactory::createCube(Mesh* mesh, float edgeSize) {
         mesh->vertices[v + 2].position = positions[faceIndices[2]];
         mesh->vertices[v + 3].position = positions[faceIndices[3]];
 
+        mesh->vertices[v + 0].uv = Vector2(0.0f, 0.0f);
+        mesh->vertices[v + 1].uv = Vector2(0.0f, 1.0f);
+        mesh->vertices[v + 2].uv = Vector2(1.0f, 1.0f);
+        mesh->vertices[v + 3].uv = Vector2(1.0f, 0.0f);
+
         for (int j = 0; j < 4; ++j) {
             mesh->vertices[v + j].normal = normals[face];
         }
@@ -97,6 +102,16 @@ void MeshFactory::createPlane(Mesh* mesh, float edgeSize) {
     mesh->vertices[1].position = Vector3(-corner, -corner, 0.0f);
     mesh->vertices[2].position = Vector3(corner, -corner, 0.0f);
     mesh->vertices[3].position = Vector3(corner, corner, 0.0f);
+
+    mesh->vertices[0].normal = Vector3(0, 0, 1);
+    mesh->vertices[1].normal = mesh->vertices[0].normal;
+    mesh->vertices[2].normal = mesh->vertices[0].normal;
+    mesh->vertices[3].normal = mesh->vertices[0].normal;
+
+    mesh->vertices[0].uv = Vector2(0.0f, 0.0f);
+    mesh->vertices[1].uv = Vector2(0.0f, 1.0f);
+    mesh->vertices[2].uv = Vector2(1.0f, 1.0f);
+    mesh->vertices[3].uv = Vector2(1.0f, 0.0f);
 
     mesh->indices[0] = 0;
     mesh->indices[1] = 1;
