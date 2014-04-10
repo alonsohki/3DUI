@@ -13,10 +13,11 @@ using namespace editor;
 namespace {
     float xpos = 0.0f;
     Context* context;
+    model::ViewPort viewPort;
 
     void display() {
         context->getRenderer()->clear();
-        context->getRenderer()->renderScene(context->getScene());
+        context->getRenderer()->renderScene(viewPort, context->getScene());
         glutSwapBuffers();
 
         glutPostRedisplay();
@@ -32,6 +33,10 @@ namespace {
         model::Entity* camera = context->getScene()->getMainCamera();
         float aspect = (float)width / height;
         camera->getComponent<model::Camera>().setPerspective(deg2rad(60.0f / (1.0f / aspect)), aspect, 0.01f, 10.0f);
+        viewPort.x = 0;
+        viewPort.y = 0;
+        viewPort.width = width;
+        viewPort.height = height;
     }
 
     void finalize() {

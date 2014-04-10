@@ -83,7 +83,12 @@ void OpenGL3Impl::clear() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void OpenGL3Impl::renderMesh(model::Entity* cameraEntity, model::Mesh* mesh, model::Material* material, const Transform& transform, RendererImplData* data_) {
+void OpenGL3Impl::renderMesh(const model::ViewPort& viewPort,
+                             model::Entity* cameraEntity,
+                             model::Mesh* mesh,
+                             model::Material* material,
+                             const Transform& transform,
+                             RendererImplData* data_) {
     ImplData* data = static_cast<ImplData*>(data_);
     if (data != nullptr && data->initialized == false) {
         data->createFrom(mesh);
@@ -109,6 +114,8 @@ void OpenGL3Impl::renderMesh(model::Entity* cameraEntity, model::Mesh* mesh, mod
     }
 
     if (camera != nullptr && material != nullptr && material->program != nullptr) {
+        glViewport(viewPort.x, viewPort.y, viewPort.width, viewPort.height);
+
         material->program->use();
 
         Matrix lookAt = Transform2Matrix(invert(cameraEntity->getTransform()));

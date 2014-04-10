@@ -73,6 +73,7 @@
     <ClInclude Include="vertex.h" />
     <ClInclude Include="mesh.h" />
     <ClInclude Include="scene.h" />
+    <ClInclude Include="viewPort.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp" />

@@ -34,11 +34,11 @@ Renderer::~Renderer()
 }
 
 
-void Renderer::renderScene(model::Scene* scene) {
+void Renderer::renderScene(const model::ViewPort& viewPort, model::Scene* scene) {
     if (init()) {
         model::Entity* cameraEntity = scene->getMainCamera();
         if (cameraEntity != nullptr) {
-            scene->forEachEntity([this, cameraEntity](model::Entity* entity) -> bool {
+            scene->forEachEntity([this, cameraEntity, &viewPort](model::Entity* entity) -> bool {
                 model::Mesh* mesh = entity->findComponent<model::Mesh>();
                 if (mesh != nullptr) {
                     ImplDataHolder& dataHolder = entity->getComponent<ImplDataHolder>();
@@ -47,7 +47,7 @@ void Renderer::renderScene(model::Scene* scene) {
                     }
                     model::Material* material = entity->findComponent<model::Material>();
 
-                    mImpl->renderMesh(cameraEntity, mesh, material, entity->getTransform(), dataHolder.data);
+                    mImpl->renderMesh(viewPort, cameraEntity, mesh, material, entity->getTransform(), dataHolder.data);
                 }
                 return true;
             });

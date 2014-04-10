@@ -14,6 +14,7 @@
 #include "math/transform.h"
 #include "model/mesh.h"
 #include "model/scene.h"
+#include "model/viewPort.h"
 
 #include "rendererPrivate.h"
 
@@ -24,7 +25,7 @@ public:
                 Renderer        ();
                 ~Renderer       ();
 
-    void        renderScene     ( model::Scene* scene );
+    void        renderScene     ( const model::ViewPort& viewPort, model::Scene* scene );
     void        clear           ();
 
     //------------------------------------------------

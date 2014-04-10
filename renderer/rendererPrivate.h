@@ -15,6 +15,7 @@
 #include "model/entity.h"
 #include "model/material.h"
 #include "model/mesh.h"
+#include "model/viewPort.h"
 #include "program.h"
 
 namespace renderer {
@@ -31,7 +32,12 @@ public:
     virtual                     ~RendererImpl       () {}
 
     virtual void                clear               () = 0;
-    virtual void                renderMesh          ( model::Entity* camera, model::Mesh* mesh, model::Material* material, const Transform& transform, RendererImplData* data ) = 0;
+    virtual void                renderMesh          ( const model::ViewPort& viewPort,
+                                                      model::Entity* camera,
+                                                      model::Mesh* mesh,
+                                                      model::Material* material,
+                                                      const Transform& transform,
+                                                      RendererImplData* data ) = 0;
     virtual RendererImplData*   createData          () const = 0;
     virtual Program*            createProgram       () const = 0;
 };
