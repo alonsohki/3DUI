@@ -11,12 +11,27 @@
 using namespace editor;
 
 namespace {
+    float xpos = 0.0f;
     Context* context;
 
     void display() {
         context->getRenderer()->clear();
         context->getRenderer()->renderScene(context->getScene());
         glutSwapBuffers();
+
+        glutPostRedisplay();
+
+        model::Entity* camera = context->getScene()->getMainCamera();
+        model::Entity* entity = context->getScene()->findEntity("cube");
+        camera->setTransform(Matrix2Transform(TranslationMatrix(xpos, 0, 2 + xpos)));
+        entity->setTransform(Matrix2Transform(RotationMatrix(xpos, 0, 1, 1)));
+        xpos += 0.0005f;
+    }
+
+    void reshape(int width, int height) {
+        model::Entity* camera = context->getScene()->getMainCamera();
+        float aspect = (float)width / height;
+        camera->getComponent<model::Camera>().setPerspective(deg2rad(60.0f / (1.0f / aspect)), aspect, 0.01f, 10.0f);
     }
 
     void finalize() {
@@ -31,14 +46,15 @@ int main(int argc, char** argv)
     context = Context::create();
 
     // Add a sample cube
-    model::Entity* entity = new model::Entity();
+    model::Entity* entity = new model::Entity("cube");
     model::MeshFactory::createCube(&entity->getComponent<model::Mesh>(), 1.0f);
+    entity->setTransform(Matrix2Transform(TranslationMatrix(0, 0, -5)));
     context->getScene()->getRoot().addChild(entity);
 
     // Add a camera
     model::Entity* camera = new model::Entity("camera");
-    camera->setTransform(Matrix2Transform(LookatMatrix(Vector3(0, 0, -0.25f), Vector3(0.1f, 0, -1), Vector3(0, 1, 0))));
-    camera->getComponent<model::Camera>().setPerspective(60.0f, 1.0f, 0.01f, 10.0f);
+    camera->setTransform(Matrix2Transform(TranslationMatrix(0, 0, 2)));
+    camera->getComponent<model::Camera>().setPerspective(deg2rad(60.0f), 1.0f, 0.01f, 10.0f);
     context->getScene()->getRoot().addChild(camera);
 
     glutInit(&argc, argv);
@@ -48,6 +64,9 @@ int main(int argc, char** argv)
     glutCreateWindow ("editor");
 
     glutDisplayFunc(display);
+    glutReshapeFunc(reshape);
+    reshape(800, 600);
+
     glutMainLoop();
 
     return 0; 

@@ -31,6 +31,19 @@ public:
     void                    forEachEntity   ( const Entity::ForEachDelegate& delegate );
     void                    forEachEntity   ( const Entity::ForEachLambda& lambda );
 
+    Entity*                 findEntity(const std::string& id)
+    {
+        Entity* ret = nullptr;
+        forEachEntity([&ret, &id] (Entity* entity) -> bool {
+            if (entity->getID() == id) {
+                ret = entity;
+                return false;
+            }
+            return true;
+        });
+        return ret;
+    }
+
     template<class T>
     void                    findEntities(std::vector<Entity*>* out)
     {

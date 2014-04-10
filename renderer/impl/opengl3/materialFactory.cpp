@@ -58,7 +58,7 @@ model::Material* MaterialFactory::getDefault() {
             void main(void)
             {
                 float diffuseFactor = max(-dot(ex_Normal, vec3(1.0, 0.0, 0.1)), 0.0);
-                vec4 pixel = vec4(diffuseFactor, diffuseFactor, diffuseFactor, 1.0);
+                vec4 pixel = vec4(diffuseFactor, diffuseFactor + 0.05, diffuseFactor, 1.0);
 
                 if (un_TextureLevels > 0.0) {
                     pixel *= texture2D ( un_Sampler0, ex_TexCoord );

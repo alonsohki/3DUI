@@ -57,7 +57,7 @@ void MeshFactory::createCube(Mesh* mesh, float edgeSize) {
                     7, 6, 5, 4,     // back
                     4, 5, 1, 0,     // left
                     4, 0, 3, 7,     // top
-                    1, 2, 6, 5 };   // bottom
+                    1, 5, 6, 2 };   // bottom
 
     int v = 0;
     int i = 0;

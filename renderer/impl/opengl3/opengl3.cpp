@@ -76,6 +76,9 @@ OpenGL3Impl::~OpenGL3Impl()
 }
 
 void OpenGL3Impl::clear() {
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+
     glClearColor(0, 0, 0, 1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
@@ -111,7 +114,8 @@ void OpenGL3Impl::renderMesh(model::Entity* cameraEntity, model::Mesh* mesh, mod
         Matrix lookAt = Transform2Matrix(invert(cameraEntity->getTransform()));
         Matrix mat = Transform2Matrix ( transform );
         Matrix matNormals = MatrixForNormals ( mat );
-        Matrix matGeometry = camera->getProjection() * lookAt * mat;
+        const Matrix& matProjection = camera->getProjection();
+        Matrix matGeometry = matProjection * lookAt * mat;
 
         data->bind();
 
@@ -130,7 +134,7 @@ void OpenGL3Impl::renderMesh(model::Entity* cameraEntity, model::Mesh* mesh, mod
         eglGetError();
 
         // Set the uniforms
-        material->program->setUniform("un_ProjectionMatrix", camera->getProjection());
+        material->program->setUniform("un_ProjectionMatrix", matProjection);
         material->program->setUniform("un_LookatMatrix", lookAt );
         material->program->setUniform("un_ModelviewMatrix", mat);
         material->program->setUniform("un_NormalMatrix", matNormals);

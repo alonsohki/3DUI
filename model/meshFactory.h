@@ -19,6 +19,7 @@ class MeshFactory {
 public:
     static void     createCube      ( Mesh* into, float edgeSize );
     static void     createPlane     ( Mesh* into, float edgeSize );
+    static void     createSphere    ( Mesh* into, float radius, unsigned int slices, unsigned int stacks );
 };
 
 }
