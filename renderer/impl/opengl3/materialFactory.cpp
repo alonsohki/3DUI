@@ -52,11 +52,19 @@ model::Material* MaterialFactory::getDefault() {
             varying vec2 ex_TexCoord;
             uniform mat4 un_LookatMatrix;
             uniform vec3 un_ViewVector;
+            uniform float un_TextureLevels;
+            uniform sampler2D un_Sampler0;
 
             void main(void)
             {
-                float diffuseFactor = max(-dot(ex_Normal, vec3(0.0, 0.0, 1.0)), 0.0);
-                gl_FragColor = vec4(diffuseFactor, diffuseFactor, diffuseFactor, 1.0);
+                float diffuseFactor = max(-dot(ex_Normal, vec3(1.0, 0.0, 0.1)), 0.0);
+                vec4 pixel = vec4(diffuseFactor, diffuseFactor, diffuseFactor, 1.0);
+
+                if (un_TextureLevels > 0.0) {
+                    pixel *= texture2D ( un_Sampler0, ex_TexCoord );
+                }
+
+                gl_FragColor = pixel;
             }
         )";
 

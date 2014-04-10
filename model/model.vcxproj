@@ -66,6 +66,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="camera.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="material.h" />
     <ClInclude Include="meshFactory.h" />
@@ -74,6 +75,7 @@
     <ClInclude Include="scene.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="camera.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="mesh.cpp" />
     <ClCompile Include="meshFactory.cpp" />

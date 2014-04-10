@@ -1033,9 +1033,9 @@ public:
         f32 v [ 16 ] =
         {
             2.0f/(r-l),         0.0f,           0.0f,           0.0f,
-            0.0f,               2.0f/(f-n),     0.0f,           0.0f,
-            0.0f,               0.0f,           2.0f/(t-b),     0.0f,
-            -(r+l)/(r-l),       -(f+n)/(f-n),   -(t+b)/(t-b),   1.0f
+            0.0f,               2.0f/(t-b),     0.0f,           0.0f,
+            0.0f,               0.0f,           -2.0f/(f-n),    0.0f,
+            -(r+l)/(r-l),       -(t+b)/(t-b),   -(f+n)/(f-n),   1.0f
         };
         
         Matrix::operator= ( v );
@@ -1052,10 +1052,10 @@ public:
         f32 f = 1.0f / tan ( fovy*0.5f );
         f32 v [ 16 ] =
         {
-            f/aspect,   0.0f,                           0.0f,           0.0f,
-            0.0f,       (pFar+pNear)/(pFar-pNear),      0.0f,           1.0f,
-            0.0f,       0.0f,                           f,              0.0f,
-            0.0f,       2*pFar*pNear/(pFar-pNear),      0.0f,           0.0f
+            f/aspect,   0.0f,       0.0f,                           0.0f,
+            0.0f,       f,          0.0f,                           0.0f,
+            0.0f,       0.0f,       (pFar+pNear)/(pFar-pNear),     -1.0f,
+            0.0f,       0.0f,       2*pFar*pNear/(pFar-pNear),      0.0f
         };
 
         Matrix::operator= ( v );
@@ -1089,8 +1089,8 @@ public:
         Vector3 up = up_;
         up.normalize ();
         
-	forward = target - eye;
-	forward.normalize ();
+        forward = target - eye;
+        forward.normalize ();
         
         f32 match = forward.dot ( up );
         if ( fabs(fabs(match) - 1.0f) < 0.001f )
@@ -1103,15 +1103,15 @@ public:
         side = forward.cross(up);
         side.normalize();
                 
-	up = side.cross(forward);
+        up = side.cross(forward);
         
-        Vector3 t ( -eye.dot(side), -eye.dot(forward), -eye.dot(up) );
+        Vector3 t ( -eye.dot(side), -eye.dot(up), -eye.dot(-forward) );
 
         f32 m [ 16 ] = {
-            side.x(),           forward.x(),            up.x(),         0.0f,
-            side.y(),           forward.y(),            up.y(),         0.0f,
-            side.z(),           forward.z(),            up.z(),         0.0f,
-            t.x(),              t.y(),                  t.z(),          1.0f
+            side.x(),           up.x(),            -forward.x(),         0.0f,
+            side.y(),           up.y(),            -forward.y(),         0.0f,
+            side.z(),           up.z(),            -forward.z(),         0.0f,
+            t.x(),              t.y(),             t.z(),                1.0f
         };
         
         Matrix::operator= ( m );

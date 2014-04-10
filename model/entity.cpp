@@ -17,7 +17,14 @@ using namespace model;
 Entity::Entity()
 : mParent(nullptr)
 , mTransform(IdentityTransform())
+, mLocalTransform(IdentityTransform())
 {
+}
+
+Entity::Entity(const std::string& id)
+: Entity()
+{
+    setID(id);
 }
 
 Entity::~Entity()
@@ -30,16 +37,31 @@ Entity::~Entity()
 void Entity::addChild(Entity* entity) {
     assert(entity->getParent() == nullptr);
     entity->mParent = this;
+    entity->setTransform(entity->mLocalTransform);
     mChildren.push_back(entity);
 }
 
 void Entity::setParent(Entity* parent) {
-    return parent->addChild(this);
+    parent->addChild(this);
+    setTransform(mLocalTransform);
 }
 
-void Entity::forEach(const ForEachDelegate& delegate) {
+bool Entity::forEach(const ForEachDelegate& delegate) {
     for (Entity* entity : getChildren()) {
-        entity->forEach(delegate);
+        if (!entity->forEach(delegate)) {
+            return false;
+        }
     }
-    delegate(this);
+    return delegate(this);
+}
+
+void Entity::setTransform(const Transform& transform) {
+    mLocalTransform = transform;
+    Entity* parent = getParent();
+    if (parent != nullptr) {
+        mTransform = parent->getTransform() * mLocalTransform;
+    }
+    else {
+        mTransform = mLocalTransform;
+    }
 }

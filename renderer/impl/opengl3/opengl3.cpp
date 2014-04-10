@@ -15,6 +15,8 @@
 
 #include "../../rendererFactory.h"
 #include "materialFactory.h"
+#include "model/camera.h"
+#include "model/entity.h"
 #include "opengl3.h"
 #include "program.h"
 
@@ -78,12 +80,16 @@ void OpenGL3Impl::clear() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void OpenGL3Impl::renderMesh(model::Mesh* mesh, model::Material* material, const Transform& transform, RendererImplData* data_) {
+void OpenGL3Impl::renderMesh(model::Entity* cameraEntity, model::Mesh* mesh, model::Material* material, const Transform& transform, RendererImplData* data_) {
     ImplData* data = static_cast<ImplData*>(data_);
     if (data != nullptr && data->initialized == false) {
         data->createFrom(mesh);
     }
 
+    // Get the camera from the camera entity
+    model::Camera* camera = cameraEntity->findComponent<model::Camera>();
+
+    // Resolve the material to use for rendering
     if (material == nullptr) {
         material = MaterialFactory::getDefault();
     }
@@ -99,13 +105,13 @@ void OpenGL3Impl::renderMesh(model::Mesh* mesh, model::Material* material, const
         }
     }
 
-    if (material != nullptr && material->program != nullptr) {
+    if (camera != nullptr && material != nullptr && material->program != nullptr) {
         material->program->use();
 
-        Matrix lookAt = IdentityMatrix();
+        Matrix lookAt = Transform2Matrix(invert(cameraEntity->getTransform()));
         Matrix mat = Transform2Matrix ( transform );
         Matrix matNormals = MatrixForNormals ( mat );
-        Matrix matGeometry = IdentityMatrix() * lookAt * mat;
+        Matrix matGeometry = camera->getProjection() * lookAt * mat;
 
         data->bind();
 
@@ -124,7 +130,7 @@ void OpenGL3Impl::renderMesh(model::Mesh* mesh, model::Material* material, const
         eglGetError();
 
         // Set the uniforms
-        //material->program->setUniform("un_ProjectionMatrix", m_matProjection );
+        material->program->setUniform("un_ProjectionMatrix", camera->getProjection());
         material->program->setUniform("un_LookatMatrix", lookAt );
         material->program->setUniform("un_ModelviewMatrix", mat);
         material->program->setUniform("un_NormalMatrix", matNormals);
@@ -139,6 +145,7 @@ void OpenGL3Impl::renderMesh(model::Mesh* mesh, model::Material* material, const
         }
 
         if (polyType != GL_INVALID_ENUM) {
+            material->program->setUniform("un_TextureLevels", 0.0f);
             glDrawElements ( polyType, mesh->indexCount, GL_UNSIGNED_INT, 0 );
             eglGetError();
         }

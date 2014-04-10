@@ -20,26 +20,30 @@ namespace model {
 
 class Entity {
 public:
-    typedef fastdelegate::FastDelegate<void (Entity*)> ForEachDelegate;
-    typedef Lambda<void (Entity*)> ForEachLambda;
+    typedef fastdelegate::FastDelegate<bool (Entity*)> ForEachDelegate;
+    typedef Lambda<bool (Entity*)> ForEachLambda;
     typedef std::vector<Entity*> EntityVector;
     typedef std::vector<Any> ComponentVector;
 
 public:
                         Entity          ();
+                        Entity          (const std::string& id);
     virtual             ~Entity         ();
+
+    const std::string&  getID           () const { return mID; }
+    void                setID           (const std::string& id) { mID = id; }
 
     const Transform&    getTransform    () const { return mTransform; }
     Transform&          getTransform    () { return mTransform; }
-    void                setTransform    ( const Transform& transform ) { mTransform = transform; }
+    void                setTransform    (const Transform& transform);
 
     void                addChild        ( Entity* entity );
     void                setParent       ( Entity* parent );
     const EntityVector& getChildren     ()  const { return mChildren; }
     Entity*             getParent       () const { return mParent; }
 
-    void                forEach         ( const ForEachDelegate& delegate );
-    void                forEach         ( const ForEachLambda& lambda ) { return forEach(ForEachDelegate(lambda)); }
+    bool                forEach         ( const ForEachDelegate& delegate );
+    bool                forEach         ( const ForEachLambda& lambda ) { return forEach(ForEachDelegate(lambda)); }
 
 
     //-------------------------------------------------------------------
@@ -81,7 +85,9 @@ private:
 
 
 private:
+    std::string         mID;
     Transform           mTransform;
+    Transform           mLocalTransform;
     Entity*             mParent;
     EntityVector        mChildren;
     ComponentVector     mComponents;

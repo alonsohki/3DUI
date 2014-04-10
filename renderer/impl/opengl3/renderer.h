@@ -24,7 +24,7 @@ public:
     //-------------------------------------------------
     // Methods inherited from RendererImpl
     void                clear           () override;
-    void                renderMesh      ( model::Mesh* mesh, model::Material* material, const Transform& transform, RendererImplData* data ) override;
+    void                renderMesh      ( model::Entity* camera, model::Mesh* mesh, model::Material* material, const Transform& transform, RendererImplData* data ) override;
     RendererImplData*   createData      () const override;
     Program*            createProgram   () const override;
 };

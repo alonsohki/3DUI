@@ -66,6 +66,9 @@ public:
 
 //--------------------------------------------------------------------------
 // Utility transforms
+static Transform invert(const Transform& transform) {
+    return Transform(transform.translation() * -1, Matrix3::transpose(transform.orientation()));
+}
 
 //--------------------------------------------------------------------------
 // IdentityTransform

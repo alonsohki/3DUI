@@ -18,17 +18,49 @@ namespace model {
 
 class Scene {
 public:
-                        Scene       ();
-    virtual             ~Scene      ();
+                            Scene           ();
+    virtual                 ~Scene          ();
 
-    const Entity&       getRoot     () const { return mRoot; }
-    Entity&             getRoot     () { return mRoot; }
+    Entity*                 getMainCamera   ();
+    void                    setMainCamera   (const std::string& id);
+    Entity*                 getCamera       (const std::string& id);
 
-    void                forEachEntity   ( const Entity::ForEachDelegate& delegate );
-    void                forEachEntity   ( const Entity::ForEachLambda& lambda );
+    const Entity&           getRoot         () const { return mRoot; }
+    Entity&                 getRoot         () { return mRoot; }
+
+    void                    forEachEntity   ( const Entity::ForEachDelegate& delegate );
+    void                    forEachEntity   ( const Entity::ForEachLambda& lambda );
+
+    template<class T>
+    void                    findEntities(std::vector<Entity*>* out)
+    {
+        return findEntities<T>("", out);
+    }
+
+    template<class T>
+    void                    findEntities    (const std::string& id, std::vector<Entity*>* out)
+    {
+        if (id == "") {
+            forEachEntity([out] (Entity* entity) -> bool {
+                if (entity->findComponent<T>() != nullptr) {
+                    out->push_back(entity);
+                }
+                return true;
+            });
+        }
+        else {
+            forEachEntity([out, &id](Entity* entity) -> bool {
+                if (entity->getID() == id && entity->findComponent<T>() != nullptr) {
+                    out->push_back(entity);
+                }
+                return true;
+            });
+        }
+    }
 
 private:
     Entity      mRoot;
+    Entity*     mMainCamera;
 };
 
 }

@@ -36,18 +36,22 @@ Renderer::~Renderer()
 
 void Renderer::renderScene(model::Scene* scene) {
     if (init()) {
-        scene->forEachEntity([this] (model::Entity* entity) {
-            model::Mesh* mesh = entity->findComponent<model::Mesh>();
-            if (mesh != nullptr) {
-                ImplDataHolder& dataHolder = entity->getComponent<ImplDataHolder>();
-                if (dataHolder.data == nullptr) {
-                    dataHolder.data = mImpl->createData();
-                }
-                model::Material* material = entity->findComponent<model::Material>();
+        model::Entity* cameraEntity = scene->getMainCamera();
+        if (cameraEntity != nullptr) {
+            scene->forEachEntity([this, cameraEntity](model::Entity* entity) -> bool {
+                model::Mesh* mesh = entity->findComponent<model::Mesh>();
+                if (mesh != nullptr) {
+                    ImplDataHolder& dataHolder = entity->getComponent<ImplDataHolder>();
+                    if (dataHolder.data == nullptr) {
+                        dataHolder.data = mImpl->createData();
+                    }
+                    model::Material* material = entity->findComponent<model::Material>();
 
-                mImpl->renderMesh(mesh, material, entity->getTransform(), dataHolder.data);
-            }
-        });
+                    mImpl->renderMesh(cameraEntity, mesh, material, entity->getTransform(), dataHolder.data);
+                }
+                return true;
+            });
+        }
     }
 }
 
