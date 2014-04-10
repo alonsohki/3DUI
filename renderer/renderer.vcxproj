@@ -44,7 +44,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..;../glew/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..;../glew/include;../freeglut/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -60,7 +60,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..;../glew/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..;../glew/include;../freeglut/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -72,19 +72,26 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="canvas.h" />
+    <ClInclude Include="canvasImpl.h" />
+    <ClInclude Include="constants.h" />
     <ClInclude Include="impl\opengl3\materialFactory.h" />
     <ClInclude Include="impl\opengl3\opengl3.h" />
+    <ClInclude Include="impl\opengl3\opengl3Canvas.h" />
     <ClInclude Include="impl\opengl3\program.h" />
     <ClInclude Include="impl\opengl3\renderer.h" />
     <ClInclude Include="impl\selector.h" />
     <ClInclude Include="program.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="rendererFactory.h" />
-    <ClInclude Include="rendererPrivate.h" />
+    <ClInclude Include="rendererImpl.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="canvas.cpp" />
     <ClCompile Include="impl\opengl3\materialFactory.cpp" />
     <ClCompile Include="impl\opengl3\opengl3.cpp" />
+    <ClCompile Include="impl\opengl3\opengl3Canvas.cpp" />
+    <ClCompile Include="impl\opengl3\opengl3Factory.cpp" />
     <ClCompile Include="impl\opengl3\program.cpp" />
     <ClCompile Include="renderer.cpp" />
   </ItemGroup>

@@ -15,50 +15,63 @@
 #include <cmath>
 #include "platform.h"
 
-static const f32 kPi = 3.141592f;
-static const f32 k2Pi = kPi * 2.0f;
-static const f32 kPiOver2 = kPi / 2.0f;
-static const f32 kOverPi = 1.0f / kPi;
-static const f32 k1Over2Pi = 1.0f / k2Pi;
+namespace {
 
-//------------------------------------------------------------------------------
-// Transform radians to degrees
-static inline f32 rad2deg ( const f32 angle )
-{
-    return angle * 180.0f / kPi;
-}
+    const f32 kPi = 3.141592f;
+    const f32 k2Pi = kPi * 2.0f;
+    const f32 kPiOver2 = kPi / 2.0f;
+    const f32 kOverPi = 1.0f / kPi;
+    const f32 k1Over2Pi = 1.0f / k2Pi;
 
-//------------------------------------------------------------------------------
-// Transform degrees to radians
-static inline f32 deg2rad ( const f32 angle )
-{
-    return angle * kPi / 180;
-}
+    //------------------------------------------------------------------------------
+    // Transform radians to degrees
+    inline f32 rad2deg(const f32 angle)
+    {
+        return angle * 180.0f / kPi;
+    }
 
-//------------------------------------------------------------------------------
-// Calculate simultaneously the sin and cos of a given angle
-static inline void sinCos ( f32* pSin, f32* pCos, f32 angle )
-{
-    *pSin = sin ( angle );
-    *pCos = cos ( angle );
-}
+    //------------------------------------------------------------------------------
+    // Transform degrees to radians
+    inline f32 deg2rad(const f32 angle)
+    {
+        return angle * kPi / 180;
+    }
 
-//------------------------------------------------------------------------------
-// Wrap an angle in the range -pi...pi by adding the correct
-// multiple of 2 pi
-static inline f32 wrapPi ( f32 angle )
-{
-    angle += kPi;
-    angle -= floor ( angle * k1Over2Pi ) * k2Pi;
-    angle -= kPi;
-    return angle;
-}
+    //------------------------------------------------------------------------------
+    // Calculate simultaneously the sin and cos of a given angle
+    inline void sinCos(f32* pSin, f32* pCos, f32 angle)
+    {
+        *pSin = sin(angle);
+        *pCos = cos(angle);
+    }
 
-// Variable swap: Typical A = B and B = A
-template < typename T >
-static inline void swap ( T& a, T& b )
-{
-    T temp = a;
-    a = b;
-    b = temp;
+    //------------------------------------------------------------------------------
+    // Wrap an angle in the range -pi...pi by adding the correct
+    // multiple of 2 pi
+    inline f32 wrapPi(f32 angle)
+    {
+        angle += kPi;
+        angle -= floor(angle * k1Over2Pi) * k2Pi;
+        angle -= kPi;
+        return angle;
+    }
+
+    //------------------------------------------------------------------------------
+    // Clamp a value to a range
+    template<typename T>
+    inline T clamp(const T& min, const T& value, const T& max) {
+        return (value < min) ? min : ((value > max) ? max : value);
+    }
+
+    //------------------------------------------------------------------------------
+    // Linear interpolation
+    template<typename T>
+    inline T lerp(const T& min, float delta, const T& max) {
+        return min + (max - min) * delta;
+    }
+
+    template<typename T>
+    inline float unlerp(const T& min, const T& value, const T& max) {
+        return (value - min) / (max - min);
+    }
 }

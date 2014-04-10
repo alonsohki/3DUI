@@ -11,6 +11,7 @@
 
 #pragma once
 
+#include "../../rendererImpl.h"
 #include "program.h"
 
 namespace renderer {
@@ -24,13 +25,12 @@ public:
     //-------------------------------------------------
     // Methods inherited from RendererImpl
     void                clear           () override;
+    void                setEnabled      (Constant state, bool enabled) override;
     void                renderMesh      ( const model::ViewPort& viewPort,
                                           model::Entity* camera,
                                           model::Mesh* mesh,
                                           model::Material* material,
-                                          const Transform& transform,
-                                          RendererImplData* data ) override;
-    RendererImplData*   createData      () const override;
+                                          const Transform& transform ) override;
     Program*            createProgram   () const override;
 };
 

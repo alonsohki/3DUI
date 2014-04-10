@@ -11,6 +11,7 @@
 
 #pragma once
 
+#include "shared/any.h"
 #include "vertex.h"
 
 namespace model {
@@ -31,6 +32,8 @@ struct Mesh {
     unsigned int*   indices;
     unsigned int    indexCount;
     MeshType        type;
+
+    Any             renderData;
 };
 
 }

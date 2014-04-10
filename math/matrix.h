@@ -428,6 +428,18 @@ public:
         
         return ret;
     }
+
+
+    //--------------------------------------------------------------------------
+    // Private utilities
+    // Variable swap: Typical A = B and B = A
+    template < typename T >
+    static void swap ( T& a, T& b )
+    {
+        T temp = a;
+        a = b;
+        b = temp;
+    }
 };
 
 
@@ -896,6 +908,17 @@ public:
         }
         
         return ret;
+    }
+
+    //--------------------------------------------------------------------------
+    // Private utilities
+    // Variable swap: Typical A = B and B = A
+    template < typename T >
+    static void swap ( T& a, T& b )
+    {
+        T temp = a;
+        a = b;
+        b = temp;
     }
 };
 

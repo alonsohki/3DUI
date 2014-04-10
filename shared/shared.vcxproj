@@ -67,8 +67,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="any.h" />
+    <ClInclude Include="color.h" />
+    <ClInclude Include="endianness.h" />
     <ClInclude Include="FastDelegate.h" />
     <ClInclude Include="lambda.h" />
+    <ClInclude Include="util.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dummy.cpp" />

@@ -72,6 +72,7 @@
     <ClInclude Include="platform.h" />
     <ClInclude Include="qtransform.h" />
     <ClInclude Include="quaternion.h" />
+    <ClInclude Include="rect.h" />
     <ClInclude Include="transform.h" />
     <ClInclude Include="util.h" />
     <ClInclude Include="vector.h" />

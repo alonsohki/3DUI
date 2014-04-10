@@ -11,8 +11,6 @@
 
 #pragma once
 
-#include "../../rendererPrivate.h"
-
 #if defined(DEBUG)
 // This code Copyright (c) Max Rupp
 #define eglError( Error, File, Line )\

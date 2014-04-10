@@ -11,12 +11,13 @@
 
 #pragma once
 
+#include "constants.h"
 #include "math/transform.h"
 #include "model/mesh.h"
 #include "model/scene.h"
 #include "model/viewPort.h"
 
-#include "rendererPrivate.h"
+#include "rendererImpl.h"
 
 namespace renderer {
 
@@ -25,8 +26,11 @@ public:
                 Renderer        ();
                 ~Renderer       ();
 
-    void        renderScene     ( const model::ViewPort& viewPort, model::Scene* scene );
+    void        renderScene     (const model::ViewPort& viewPort, model::Scene* scene);
+    void        renderMesh      (const model::ViewPort& viewPort, model::Entity* camera, model::Mesh* mesh, model::Material* material, const Transform& transform);
     void        clear           ();
+
+    void        setEnabled      (Constant state, bool enabled);
 
     //------------------------------------------------
     // Private utility functions

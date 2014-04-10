@@ -8,6 +8,8 @@
 #include "model/entity.h"
 #include "model/meshFactory.h"
 
+#include "renderer/canvas.h"
+
 using namespace editor;
 
 namespace {
@@ -18,8 +20,12 @@ namespace {
     void display() {
         context->getRenderer()->clear();
         context->getRenderer()->renderScene(viewPort, context->getScene());
-        glutSwapBuffers();
 
+        renderer::Canvas canvas(context->getRenderer());
+        canvas.setRect(Recti(viewPort.x, viewPort.y, viewPort.x + viewPort.width, viewPort.y + viewPort.height));
+        canvas.fillRect(Rectf(0.02f, 0.02f, 0.98f, 0.15f), Color(255, 0, 0, 255));
+
+        glutSwapBuffers();
         glutPostRedisplay();
 
         model::Entity* camera = context->getScene()->getMainCamera();
@@ -27,6 +33,9 @@ namespace {
         camera->setTransform(Matrix2Transform(TranslationMatrix(xpos, 0, 2 + xpos)));
         entity->setTransform(Matrix2Transform(RotationMatrix(xpos, 0, 1, 1)));
         xpos += 0.0005f;
+        if (xpos > 2.5f) {
+            xpos = -0.5f;
+        }
     }
 
     void reshape(int width, int height) {

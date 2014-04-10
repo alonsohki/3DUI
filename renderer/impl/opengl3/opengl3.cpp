@@ -20,12 +20,11 @@
 #include "opengl3.h"
 #include "program.h"
 
-
 using namespace renderer;
 using namespace renderer::impl;
 
 namespace {
-    struct ImplData : public RendererImplData {
+    struct ImplData {
         ImplData() : initialized(false) {}
         ~ImplData() {
             if (initialized) {
@@ -59,10 +58,6 @@ namespace {
     };
 }
 
-RendererImpl* RendererFactory::createInstance() {
-    return new impl::OpenGL3Impl();
-}
-
 OpenGL3Impl::OpenGL3Impl()
 {
     static bool glewInitialized = false;
@@ -76,21 +71,36 @@ OpenGL3Impl::~OpenGL3Impl()
 }
 
 void OpenGL3Impl::clear() {
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-
     glClearColor(0, 0, 0, 1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void OpenGL3Impl::setEnabled(Constant state, bool enabled) {
+    GLenum glState = GL_INVALID_ENUM;
+    switch (state) {
+    case Constant::DEPTH_TEST:
+        glState = GL_DEPTH_TEST;
+        break;
+    case Constant::CULL_FACE:
+        glState = GL_CULL_FACE;
+        break;
+    }
+
+    if (glState != GL_INVALID_ENUM) {
+        enabled ? glEnable(glState) : glDisable(glState);
+    }
 }
 
 void OpenGL3Impl::renderMesh(const model::ViewPort& viewPort,
                              model::Entity* cameraEntity,
                              model::Mesh* mesh,
                              model::Material* material,
-                             const Transform& transform,
-                             RendererImplData* data_) {
-    ImplData* data = static_cast<ImplData*>(data_);
-    if (data != nullptr && data->initialized == false) {
+                             const Transform& transform) {
+    if (mesh->renderData.is_null()) {
+        mesh->renderData = ImplData();
+    }
+    ImplData* data = &mesh->renderData.as<ImplData>();
+    if (data->initialized == false) {
         data->createFrom(mesh);
     }
 
@@ -163,11 +173,6 @@ void OpenGL3Impl::renderMesh(const model::ViewPort& viewPort,
     }
 
     glUseProgram(0);
-}
-
-
-RendererImplData* OpenGL3Impl::createData() const {
-    return new ImplData();
 }
 
 Program* OpenGL3Impl::createProgram() const {

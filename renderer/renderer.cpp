@@ -14,15 +14,6 @@
 
 using namespace renderer;
 
-namespace {
-    struct ImplDataHolder {
-        RendererImplData* data;
-
-        ImplDataHolder() : data(nullptr) {}
-        ~ImplDataHolder() { delete data; }
-    };
-}
-
 Renderer::Renderer()
 : mImpl(nullptr)
 {
@@ -38,20 +29,25 @@ void Renderer::renderScene(const model::ViewPort& viewPort, model::Scene* scene)
     if (init()) {
         model::Entity* cameraEntity = scene->getMainCamera();
         if (cameraEntity != nullptr) {
+            mImpl->setEnabled(CULL_FACE, true);
+            mImpl->setEnabled(DEPTH_TEST, true);
+
             scene->forEachEntity([this, cameraEntity, &viewPort](model::Entity* entity) -> bool {
                 model::Mesh* mesh = entity->findComponent<model::Mesh>();
                 if (mesh != nullptr) {
-                    ImplDataHolder& dataHolder = entity->getComponent<ImplDataHolder>();
-                    if (dataHolder.data == nullptr) {
-                        dataHolder.data = mImpl->createData();
-                    }
                     model::Material* material = entity->findComponent<model::Material>();
 
-                    mImpl->renderMesh(viewPort, cameraEntity, mesh, material, entity->getTransform(), dataHolder.data);
+                    mImpl->renderMesh(viewPort, cameraEntity, mesh, material, entity->getTransform());
                 }
                 return true;
             });
         }
+    }
+}
+
+void Renderer::renderMesh(const model::ViewPort& viewPort, model::Entity* camera, model::Mesh* mesh, model::Material* material, const Transform& transform) {
+    if (init()) {
+        mImpl->renderMesh(viewPort, camera, mesh, material, transform);
     }
 }
 
@@ -61,12 +57,18 @@ void Renderer::clear() {
     }
 }
 
+void Renderer::setEnabled(Constant state, bool enabled) {
+    if (init()) {
+        mImpl->setEnabled(state, enabled);
+    }
+}
+
 
 //------------------------------------------------
 // Private utility functions
 bool Renderer::init() {
     if (mImpl == nullptr) {
-        mImpl = RendererFactory::createInstance();
+        mImpl = RendererFactory::createRenderer();
     }
     return mImpl != nullptr;
 }

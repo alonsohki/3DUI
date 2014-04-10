@@ -11,6 +11,7 @@
 
 #pragma once
 
+#include "constants.h"
 #include "math/transform.h"
 #include "model/entity.h"
 #include "model/material.h"
@@ -22,23 +23,17 @@ namespace renderer {
 
 //-------------------------------------------
 // Interface for renderer implementations
-class RendererImplData {
-public:
-    virtual         ~RendererImplData   () {}
-};
-
 class RendererImpl {
 public:
     virtual                     ~RendererImpl       () {}
 
     virtual void                clear               () = 0;
+    virtual void                setEnabled          (Constant state, bool enabled) = 0;
     virtual void                renderMesh          ( const model::ViewPort& viewPort,
                                                       model::Entity* camera,
                                                       model::Mesh* mesh,
                                                       model::Material* material,
-                                                      const Transform& transform,
-                                                      RendererImplData* data ) = 0;
-    virtual RendererImplData*   createData          () const = 0;
+                                                      const Transform& transform ) = 0;
     virtual Program*            createProgram       () const = 0;
 };
 

@@ -53,12 +53,6 @@ typedef float f32;
 typedef double f64;
 #endif
 
-static inline bool detectBigEndian ()
-{
-    static union { const u16 w; const u8 v[2]; } const u = { 1 };
-    return ( u.v[0] == 0 );
-}
-
 #ifdef __cplusplus
 #  define OFFSETOF(T, MEMBER) (reinterpret_cast<size_t>(&(reinterpret_cast<T *>(0))->MEMBER))
 #else

@@ -5,22 +5,17 @@
 // as published by Sam Hocevar. See the COPYING file or http://www.wtfpl.net/ 
 // for more details.
 //
-// FILE:        rendererFactory.h
-// PURPOUSE:    Private classes for the renderer implementations.
+// FILE:        constants.h
+// PURPOUSE:    Constants.
 //
 
 #pragma once
 
-#include "canvasImpl.h"
-#include "impl/selector.h"
-#include "rendererImpl.h"
-
 namespace renderer {
 
-class RendererFactory {
-public:
-    static RendererImpl*    createRenderer      ();
-    static CanvasImpl*      createCanvas        ();
+enum Constant {
+    DEPTH_TEST,
+    CULL_FACE,
 };
 
 }

@@ -2,11 +2,14 @@
 // Pure magic... http://codereview.stackexchange.com/questions/20058/a-c11-any-class
 //
 
+#pragma once
+
 #include <type_traits>
 #include <utility>
 #include <typeinfo>
 #include <string>
 #include <cassert>
+#include "util.h"
 
 template<class T>
 using StorageType = typename std::decay<T>::type;
