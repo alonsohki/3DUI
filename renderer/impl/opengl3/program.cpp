@@ -149,9 +149,18 @@ bool OpenGL3_Program::link () {
     }
 }
 
-bool OpenGL3_Program::use () {
+bool OpenGL3_Program::bind () {
     if (mLinked) {
         glUseProgram ( handle(mHandle) );
+        eglGetError();
+        return true;
+    }
+    return false;
+}
+
+bool OpenGL3_Program::unbind() {
+    if (mLinked) {
+        glUseProgram(0);
         eglGetError();
         return true;
     }

@@ -57,3 +57,9 @@ void Canvas::fillRect(const Rectf& rect, const Color& color) {
         mImpl->fillRect(mRenderer, mViewport, rect, color);
     }
 }
+
+void Canvas::drawText(const Vector2& position, const std::string& text, const Color& color) {
+    if (init()) {
+        mImpl->drawText(mRenderer, mViewport, position, text, color);
+    }
+}

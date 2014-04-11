@@ -5,7 +5,7 @@
 // as published by Sam Hocevar. See the COPYING file or http://www.wtfpl.net/ 
 // for more details.
 //
-// FILE:        impl/opengl3/renderer.cpp
+// FILE:        impl/opengl3/opengl3Impl.cpp
 // PURPOUSE:    OpenGL3 renderer implementation.
 //
 
@@ -13,11 +13,12 @@
 #include <gl/glew.h>
 #include <gl/GL.h>
 
-#include "../../rendererFactory.h"
 #include "materialFactory.h"
 #include "model/camera.h"
 #include "model/entity.h"
 #include "opengl3.h"
+#include "opengl3BufferObject.h"
+#include "opengl3Impl.h"
 #include "program.h"
 
 using namespace renderer;
@@ -25,35 +26,25 @@ using namespace renderer::impl;
 
 namespace {
     struct ImplData {
-        ImplData() : initialized(false) {}
-        ~ImplData() {
-            if (initialized) {
-                glDeleteBuffers(2, buffers);
+        bool initialized = false;
+        OpenGL3BufferObject buffers[2];
+
+        void createFrom(model::Mesh* mesh) {
+            if (!initialized) {
+                buffers[0].wrap(BufferObject::ARRAY_BUFFER, mesh->vertices, sizeof(model::Vertex) * mesh->vertexCount);
+                buffers[1].wrap(BufferObject::ELEMENT_ARRAY_BUFFER, mesh->indices, sizeof(unsigned int)* mesh->indexCount);
+                initialized = true;
             }
         }
 
-        bool initialized;
-        GLuint buffers [ 2 ];
-
-        void createFrom(model::Mesh* mesh) {
-            glGenBuffers(2, buffers);
-
-            glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
-            eglGetError();
-            glBufferData(GL_ARRAY_BUFFER, sizeof(model::Vertex) * mesh->vertexCount, mesh->vertices, GL_STATIC_DRAW);
-            eglGetError();
-
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers[1]);
-            eglGetError();
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * mesh->indexCount, mesh->indices, GL_STATIC_DRAW);
-            eglGetError();
-
-            initialized = true;
+        void bind() {
+            buffers[0].bind();
+            buffers[1].bind();
         }
 
-        void bind() {
-            glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers[1]);
+        void unbind() {
+            buffers[0].unbind();
+            buffers[1].unbind();
         }
     };
 
@@ -120,9 +111,7 @@ void OpenGL3Impl::renderMesh(const model::ViewPort& viewPort,
         mesh->renderData = ImplData();
     }
     ImplData* data = &mesh->renderData.as<ImplData>();
-    if (data->initialized == false) {
-        data->createFrom(mesh);
-    }
+    data->createFrom(mesh);
 
     // Let's keep the default material compiled
     compileMaterialProgram(defaultMaterial);
@@ -147,7 +136,7 @@ void OpenGL3Impl::renderMesh(const model::ViewPort& viewPort,
     if (camera != nullptr && material != nullptr && program != nullptr) {
         glViewport(viewPort.x, viewPort.y, viewPort.width, viewPort.height);
 
-        program->use();
+        program->bind();
 
         Matrix lookAt = Transform2Matrix(invert(cameraEntity->getTransform()));
         Matrix mat = Transform2Matrix ( transform );
@@ -206,6 +195,9 @@ void OpenGL3Impl::renderMesh(const model::ViewPort& viewPort,
             glDrawElements ( polyType, mesh->indexCount, GL_UNSIGNED_INT, 0 );
             eglGetError();
         }
+
+        data->unbind();
+        program->unbind();
     }
 
     glUseProgram(0);
@@ -214,3 +206,4 @@ void OpenGL3Impl::renderMesh(const model::ViewPort& viewPort,
 Program* OpenGL3Impl::createProgram() const {
     return new OpenGL3_Program();
 }
+

@@ -33,7 +33,9 @@ public:
     virtual bool        loadVertex      (const char* source) = 0;
     virtual bool        loadFragment    (const char* source) = 0;
     virtual bool        link            () = 0;
-    virtual bool        use             () = 0;
+
+    virtual bool        bind            () = 0;
+    virtual bool        unbind          () = 0;
 
 
     virtual bool        setUniform      (const std::string& name, bool value) = 0;

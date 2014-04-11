@@ -94,6 +94,6 @@ void OpenGL3Canvas::fillRect(Renderer* renderer, const model::ViewPort& viewPort
     renderer->renderMesh(viewPort, factory.getCamera(), factory.getMesh(), &material, transform);
 }
 
-void OpenGL3Canvas::drawText(Renderer* renderer, const model::ViewPort& viewPort, const Vector2& position, const std::string& text)
+void OpenGL3Canvas::drawText(Renderer* renderer, const model::ViewPort& viewPort, const Vector2& position, const std::string& text, const Color& color)
 {
 }

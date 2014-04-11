@@ -28,7 +28,7 @@ public:
     void        setRect     (const Recti& rect);
 
     void        fillRect    (const Rectf& rect, const Color& color);
-    void        drawText    (const Vector2& position, const std::string& text);
+    void        drawText    (const Vector2& position, const std::string& text, const Color& color = Color::WHITE);
 
 private:
     bool        init        ();

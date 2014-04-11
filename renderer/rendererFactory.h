@@ -11,6 +11,7 @@
 
 #pragma once
 
+#include "bufferObject.h"
 #include "canvasImpl.h"
 #include "impl/selector.h"
 #include "rendererImpl.h"
@@ -21,6 +22,7 @@ class RendererFactory {
 public:
     static RendererImpl*    createRenderer      ();
     static CanvasImpl*      createCanvas        ();
+    static BufferObject*    createBufferObject  ();
 };
 
 }

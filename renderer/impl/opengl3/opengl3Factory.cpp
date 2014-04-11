@@ -10,7 +10,9 @@
 //
 
 #include "../../rendererFactory.h"
+#include "opengl3BufferObject.h"
 #include "opengl3Canvas.h"
+#include "opengl3Impl.h"
 
 using namespace renderer;
 using namespace renderer::impl;
@@ -21,4 +23,8 @@ RendererImpl* RendererFactory::createRenderer() {
 
 CanvasImpl* RendererFactory::createCanvas() {
     return new impl::OpenGL3Canvas();
+}
+
+BufferObject* RendererFactory::createBufferObject() {
+    return new impl::OpenGL3BufferObject();
 }

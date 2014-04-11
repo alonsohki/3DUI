@@ -30,7 +30,8 @@ protected:
     bool        loadVertex          (const char* source) override;
     bool        loadFragment        (const char* source) override;
     bool        link                () override;
-    bool        use                 () override;
+    bool        bind                () override;
+    bool        unbind              () override;
 
 
     bool        setUniform          (const std::string& name, bool value) override;

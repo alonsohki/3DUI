@@ -38,4 +38,3 @@
 #define eglGetError()
 #endif
 
-#include "renderer.h"

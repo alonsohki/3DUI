@@ -72,14 +72,16 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="bufferObject.h" />
     <ClInclude Include="canvas.h" />
     <ClInclude Include="canvasImpl.h" />
     <ClInclude Include="constants.h" />
     <ClInclude Include="impl\opengl3\materialFactory.h" />
     <ClInclude Include="impl\opengl3\opengl3.h" />
+    <ClInclude Include="impl\opengl3\opengl3BufferObject.h" />
     <ClInclude Include="impl\opengl3\opengl3Canvas.h" />
     <ClInclude Include="impl\opengl3\program.h" />
-    <ClInclude Include="impl\opengl3\renderer.h" />
+    <ClInclude Include="impl\opengl3\opengl3Impl.h" />
     <ClInclude Include="impl\selector.h" />
     <ClInclude Include="program.h" />
     <ClInclude Include="renderer.h" />
@@ -89,9 +91,10 @@
   <ItemGroup>
     <ClCompile Include="canvas.cpp" />
     <ClCompile Include="impl\opengl3\materialFactory.cpp" />
-    <ClCompile Include="impl\opengl3\opengl3.cpp" />
+    <ClCompile Include="impl\opengl3\opengl3BufferObject.cpp" />
     <ClCompile Include="impl\opengl3\opengl3Canvas.cpp" />
     <ClCompile Include="impl\opengl3\opengl3Factory.cpp" />
+    <ClCompile Include="impl\opengl3\opengl3Impl.cpp" />
     <ClCompile Include="impl\opengl3\program.cpp" />
     <ClCompile Include="renderer.cpp" />
   </ItemGroup>

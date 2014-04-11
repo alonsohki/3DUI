@@ -19,11 +19,13 @@ namespace {
 
     void display() {
         context->getRenderer()->clear();
+
         context->getRenderer()->renderScene(viewPort, context->getScene());
 
         renderer::Canvas canvas(context->getRenderer());
         canvas.setRect(Recti(viewPort.x, viewPort.y, viewPort.x + viewPort.width, viewPort.y + viewPort.height));
-        canvas.fillRect(Rectf(0.02f, 0.02f, 0.98f, 0.15f), Color(255, 0, 0, 255));
+        canvas.fillRect(Rectf(0.02f, 0.02f, 0.98f, 0.15f), Color::YELLOW);
+        canvas.drawText(Vector2(0.0f, 0.5f), "Hello, world!", Color::RED);
 
         glutSwapBuffers();
         glutPostRedisplay();

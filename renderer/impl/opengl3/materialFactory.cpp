@@ -78,9 +78,11 @@ model::Material* MaterialFactory::getDefault() {
 
             void main(void)
             {
+                vec4 pixel;
+
                 if ( un_Material.isShadeless == true )
                 {
-                    gl_FragColor = un_Material.diffuse;
+                    pixel = un_Material.diffuse;
                 }
                 else
                 {
@@ -94,14 +96,14 @@ model::Material* MaterialFactory::getDefault() {
                     float specularFactor = temp / (un_Material.shininess - temp*un_Material.shininess + temp);
                     vec3 cSpecular = un_Material.specular * un_Light.specular * specularFactor;
 
-                    vec4 pixel = cDiffuse + vec4 ( cAmbient + cEmission + cSpecular, 0.0 );
-
-                    if (un_TextureLevels > 0.0) {
-                        pixel *= texture2D ( un_Sampler0, ex_TexCoord );
-                    }
-
-                    gl_FragColor = pixel;
+                    pixel = cDiffuse + vec4 ( cAmbient + cEmission + cSpecular, 0.0 );
                 }
+
+                if (un_TextureLevels > 0.0) {
+                    pixel *= texture2D ( un_Sampler0, ex_TexCoord );
+                }
+
+                gl_FragColor = pixel;
             }
         )";
 

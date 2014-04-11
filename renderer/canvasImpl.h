@@ -23,6 +23,6 @@ namespace renderer {
         virtual             ~CanvasImpl     () {}
 
         virtual void        fillRect        (Renderer* renderer, const model::ViewPort& viewPort, const Rectf& rect, const Color& color) = 0;
-        virtual void        drawText        (Renderer* renderer, const model::ViewPort& viewPort, const Vector2& position, const std::string& text) = 0;
+        virtual void        drawText        (Renderer* renderer, const model::ViewPort& viewPort, const Vector2& position, const std::string& text, const Color& color) = 0;
     };
 }
