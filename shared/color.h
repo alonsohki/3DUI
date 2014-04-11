@@ -16,6 +16,10 @@
 
 class Color
 {
+public:
+    static const Color WHITE, BLACK, RED, BLUE, GREEN, YELLOW, MAGENTA, CYAN;
+
+private:
     typedef unsigned char u8;
     typedef unsigned int u32;
 

@@ -56,6 +56,22 @@ namespace {
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers[1]);
         }
     };
+
+    void compileMaterialProgram(model::Material* material) {
+        if (material != nullptr && material->program == nullptr &&
+            material->vertexShader.length() > 0 && material->fragmentShader.length() > 0)
+        {
+            Program* program = new OpenGL3_Program();
+            program->loadVertex(material->vertexShader.c_str());
+            program->loadFragment(material->fragmentShader.c_str());
+            if (program->link()) {
+                material->program = program;
+            }
+            else {
+                delete program;
+            }
+        }
+    }
 }
 
 OpenGL3Impl::OpenGL3Impl()
@@ -96,6 +112,10 @@ void OpenGL3Impl::renderMesh(const model::ViewPort& viewPort,
                              model::Mesh* mesh,
                              model::Material* material,
                              const Transform& transform) {
+    Program* program = nullptr;
+    model::Material* defaultMaterial = MaterialFactory::getDefault();
+
+    // Make sure we have the render data
     if (mesh->renderData.is_null()) {
         mesh->renderData = ImplData();
     }
@@ -104,29 +124,30 @@ void OpenGL3Impl::renderMesh(const model::ViewPort& viewPort,
         data->createFrom(mesh);
     }
 
+    // Let's keep the default material compiled
+    compileMaterialProgram(defaultMaterial);
+
     // Get the camera from the camera entity
     model::Camera* camera = cameraEntity->findComponent<model::Camera>();
 
     // Resolve the material to use for rendering
     if (material == nullptr) {
-        material = MaterialFactory::getDefault();
+        material = defaultMaterial;
     }
-    if (material != nullptr && material->program == nullptr) {
-        Program* program = createProgram();
-        program->loadVertex(material->vertexShader.c_str());
-        program->loadFragment(material->fragmentShader.c_str());
-        if (program->link()) {
-            material->program = program;
-        }
-        else {
-            delete program;
-        }
+    else {
+        compileMaterialProgram(material);
     }
 
-    if (camera != nullptr && material != nullptr && material->program != nullptr) {
+    // Resolve the program to use for rendering
+    program = material->program;
+    if (program == nullptr) {
+        program = defaultMaterial->program;
+    }
+
+    if (camera != nullptr && material != nullptr && program != nullptr) {
         glViewport(viewPort.x, viewPort.y, viewPort.width, viewPort.height);
 
-        material->program->use();
+        program->use();
 
         Matrix lookAt = Transform2Matrix(invert(cameraEntity->getTransform()));
         Matrix mat = Transform2Matrix ( transform );
@@ -151,12 +172,12 @@ void OpenGL3Impl::renderMesh(const model::ViewPort& viewPort,
         eglGetError();
 
         // Set the uniforms
-        material->program->setUniform("un_ProjectionMatrix", matProjection);
-        material->program->setUniform("un_LookatMatrix", lookAt );
-        material->program->setUniform("un_ModelviewMatrix", mat);
-        material->program->setUniform("un_NormalMatrix", matNormals);
-        material->program->setUniform("un_Matrix", matGeometry );
-        //material->program->setUniform("un_ViewVector", m_viewVector );
+        program->setUniform("un_ProjectionMatrix", matProjection);
+        program->setUniform("un_LookatMatrix", lookAt );
+        program->setUniform("un_ModelviewMatrix", mat);
+        program->setUniform("un_NormalMatrix", matNormals);
+        program->setUniform("un_Matrix", matGeometry );
+        //program->setUniform("un_ViewVector", m_viewVector );
 
         GLenum polyType = GL_INVALID_ENUM;
         switch ( mesh->type )
@@ -166,7 +187,22 @@ void OpenGL3Impl::renderMesh(const model::ViewPort& viewPort,
         }
 
         if (polyType != GL_INVALID_ENUM) {
-            material->program->setUniform("un_TextureLevels", 0.0f);
+            program->setUniform("un_TextureLevels", 0.0f);
+
+            program->setUniform("un_Material.diffuse",     material->diffuse,    true );
+            program->setUniform("un_Material.ambient",     material->ambient,    false);
+            program->setUniform("un_Material.specular",    material->specular,   false);
+            program->setUniform("un_Material.emission",    material->emission,   false);
+            program->setUniform("un_Material.shininess",   material->shininess);
+            program->setUniform("un_Material.isShadeless", material->shadeless);
+
+            // For now, hardcode the light values
+            program->setUniform("un_Light.diffuse", Color::WHITE, false);
+            program->setUniform("un_Light.ambient", Color(10, 20, 25, 255), false);
+            program->setUniform("un_Light.specular", Color::WHITE, false);
+            program->setUniform("un_Light.position", Vector3(0, 0, 1) );
+            program->setUniform("un_Light.direction", Vector3(0.1f, 0, -1) );
+
             glDrawElements ( polyType, mesh->indexCount, GL_UNSIGNED_INT, 0 );
             eglGetError();
         }

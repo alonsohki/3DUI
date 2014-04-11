@@ -13,6 +13,7 @@
 
 #include "math/matrix.h"
 #include "math/vector.h"
+#include "shared/color.h"
 #include <string>
 
 namespace renderer {
@@ -42,6 +43,7 @@ public:
     virtual bool        setUniform      (const std::string& name, const Vector3& vec) = 0;
     virtual bool        setUniform      (const std::string& name, const Matrix& mat) = 0;
     virtual bool        setUniform      (const std::string& name, const Matrix* mat, unsigned int count) = 0;
+    virtual bool        setUniform      (const std::string& name, const Color& col, bool includeAlpha) = 0;
     virtual bool        setUniform      (const std::string& name, float* values, unsigned int count) = 0;
 };
 

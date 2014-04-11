@@ -12,13 +12,11 @@
 #pragma once
 
 #include "renderer/program.h"
+#include "shared/color.h"
 
 namespace model {
 
 struct Material {
-    Material() : program(nullptr)
-    {
-    }
     ~Material()
     {
         delete program;
@@ -26,7 +24,14 @@ struct Material {
 
     std::string         vertexShader;
     std::string         fragmentShader;
-    renderer::Program*  program;
+    renderer::Program*  program = nullptr;
+
+    Color               diffuse = Color(178, 178, 178, 255);
+    Color               ambient = Color(178, 178, 178, 255);
+    Color               specular = Color::BLACK;
+    Color               emission = Color::BLACK;
+    float               shininess = 0.0f;
+    bool                shadeless = false;
 };
 
 }

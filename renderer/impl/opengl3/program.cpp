@@ -230,6 +230,27 @@ bool OpenGL3_Program::setUniform (const std::string& name, const Matrix* mat, un
     return true;
 }
 
+bool OpenGL3_Program::setUniform(const std::string& name, const Color& col, bool includeAlpha)
+{
+    GLint loc = glGetUniformLocation ( handle(mHandle), name.c_str() );
+    eglGetError();
+    if ( loc == -1 )
+        return false;
+    
+    float values [ 4 ];
+    values[0] = col.r() / 255.0f;
+    values[1] = col.g() / 255.0f;
+    values[2] = col.b() / 255.0f;
+    values[3] = col.a() / 255.0f;
+    
+    if ( includeAlpha )
+        glUniform4fv ( loc, 1, &values[0] );
+    else
+        glUniform3fv ( loc, 1, &values[0] );
+    eglGetError();
+    return true;
+}
+
 bool OpenGL3_Program::setUniform (const std::string& name, float* values, unsigned int count) {
     GLint loc = glGetUniformLocation ( handle(mHandle), name.c_str() );
     eglGetError();

@@ -40,6 +40,7 @@ protected:
     bool        setUniform          (const std::string& name, const Vector3& vec) override;
     bool        setUniform          (const std::string& name, const Matrix& mat) override;
     bool        setUniform          (const std::string& name, const Matrix* mat, unsigned int count) override;
+    bool        setUniform          (const std::string& name, const Color& col, bool includeAlpha) override;
     bool        setUniform          (const std::string& name, float* values, unsigned int count) override;
 
 

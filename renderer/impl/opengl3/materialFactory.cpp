@@ -55,16 +55,53 @@ model::Material* MaterialFactory::getDefault() {
             uniform float un_TextureLevels;
             uniform sampler2D un_Sampler0;
 
+            struct Material
+            {
+                vec4  diffuse;
+                vec3  ambient;
+                vec3  specular;
+                vec3  emission;
+                float shininess;
+                bool  isShadeless;
+            };
+            uniform Material un_Material;
+
+            struct Light
+            {
+                vec3 diffuse;
+                vec3 ambient;
+                vec3 specular;
+                vec3 position;
+                vec3 direction;
+            };
+            uniform Light un_Light;
+
             void main(void)
             {
-                float diffuseFactor = max(-dot(ex_Normal, vec3(1.0, 0.0, 0.1)), 0.0);
-                vec4 pixel = vec4(diffuseFactor, diffuseFactor + 0.05, diffuseFactor, 1.0);
-
-                if (un_TextureLevels > 0.0) {
-                    pixel *= texture2D ( un_Sampler0, ex_TexCoord );
+                if ( un_Material.isShadeless == true )
+                {
+                    gl_FragColor = un_Material.diffuse;
                 }
+                else
+                {
+                    float diffuseFactor = max(-dot(ex_Normal, un_Light.direction), 0.0);
+                    vec4 cDiffuse = vec4 ( un_Material.diffuse.rgb * un_Light.diffuse * diffuseFactor, un_Material.diffuse.a );
+                    vec3 cAmbient = un_Material.ambient * un_Light.ambient;
+                    vec3 cEmission = un_Material.emission;
 
-                gl_FragColor = pixel;
+                    vec3 halfWay = normalize(un_Light.direction + un_ViewVector);
+                    float temp = max(-dot(ex_Normal, halfWay), 0.0);
+                    float specularFactor = temp / (un_Material.shininess - temp*un_Material.shininess + temp);
+                    vec3 cSpecular = un_Material.specular * un_Light.specular * specularFactor;
+
+                    vec4 pixel = cDiffuse + vec4 ( cAmbient + cEmission + cSpecular, 0.0 );
+
+                    if (un_TextureLevels > 0.0) {
+                        pixel *= texture2D ( un_Sampler0, ex_TexCoord );
+                    }
+
+                    gl_FragColor = pixel;
+                }
             }
         )";
 
