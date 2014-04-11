@@ -136,8 +136,6 @@ void OpenGL3Impl::renderMesh(const model::ViewPort& viewPort,
     if (camera != nullptr && material != nullptr && program != nullptr) {
         glViewport(viewPort.x, viewPort.y, viewPort.width, viewPort.height);
 
-        program->bind();
-
         Matrix lookAt = Transform2Matrix(invert(cameraEntity->getTransform()));
         Matrix mat = Transform2Matrix ( transform );
         Matrix matNormals = MatrixForNormals ( mat );
@@ -192,6 +190,7 @@ void OpenGL3Impl::renderMesh(const model::ViewPort& viewPort,
             program->setUniform("un_Light.position", Vector3(0, 0, 1) );
             program->setUniform("un_Light.direction", Vector3(0.1f, 0, -1) );
 
+            program->bind();
             glDrawElements ( polyType, mesh->indexCount, GL_UNSIGNED_INT, 0 );
             eglGetError();
         }

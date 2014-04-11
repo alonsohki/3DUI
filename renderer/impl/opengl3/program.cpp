@@ -61,6 +61,7 @@ namespace {
 OpenGL3_Program::OpenGL3_Program()
 : mInitialized(false)
 , mLinked(false)
+, mBound(false)
 {
     mHandle = new GLuint;
 }
@@ -150,122 +151,163 @@ bool OpenGL3_Program::link () {
 }
 
 bool OpenGL3_Program::bind () {
-    if (mLinked) {
+    if (mLinked && !mBound) {
         glUseProgram ( handle(mHandle) );
         eglGetError();
-        return true;
+
+        for (auto& command : mBindCommands) {
+            command();
+        }
+        mBindCommands.clear();
+
+        mBound = true;
     }
-    return false;
+    return mBound;
 }
 
 bool OpenGL3_Program::unbind() {
-    if (mLinked) {
+    if (mLinked && mBound) {
+        for (auto& command : mUnbindCommands) {
+            command();
+        }
+        mUnbindCommands.clear();
+
         glUseProgram(0);
         eglGetError();
+
+        mBound = false;
         return true;
     }
     return false;
 }
 
+bool OpenGL3_Program::execute(const std::function<void()>&& bindFn) {
+    if (mBound) {
+        bindFn();
+    }
+    else {
+        mBindCommands.push_back(bindFn);
+    }
+    return true;
+}
+
+bool OpenGL3_Program::execute(const std::function<void()>&& bindFn, const std::function<void()>&& unbindFn) {
+    if (mBound) {
+        bindFn();
+    }
+    else {
+        mBindCommands.push_back(bindFn);
+    }
+    mUnbindCommands.push_back(unbindFn);
+    return true;
+}
 
 
 bool OpenGL3_Program::setUniform (const std::string& name, bool value) {
-    GLint loc = glGetUniformLocation ( handle(mHandle), name.c_str() );
-    eglGetError();
-    if ( loc == -1 )
-        return false;
-    glUniform1i ( loc, value );
-    eglGetError();
-    return true;
+    return execute([=] {
+        GLint loc = glGetUniformLocation(handle(mHandle), name.c_str());
+        eglGetError();
+        if (loc != -1) {
+            glUniform1i(loc, value);
+            eglGetError();
+        }
+    });
 }
 
 bool OpenGL3_Program::setUniform (const std::string& name, float value) {
-    GLint loc = glGetUniformLocation ( handle(mHandle), name.c_str() );
-    eglGetError();
-    if ( loc == -1 )
-        return false;
-    glUniform1f ( loc, value );
-    eglGetError();
-    return true;
+    return execute([=] {
+        GLint loc = glGetUniformLocation(handle(mHandle), name.c_str());
+        eglGetError();
+        if (loc != -1) {
+            glUniform1f(loc, value);
+            eglGetError();
+        }
+    });
 }
 
 bool OpenGL3_Program::setUniform (const std::string& name, int value) {
-    GLint loc = glGetUniformLocation ( handle(mHandle), name.c_str() );
-    eglGetError();
-    if ( loc == -1 )
-        return false;
-    glUniform1i ( loc, value );
-    eglGetError();
-    return true;
+    return execute([=] {
+        GLint loc = glGetUniformLocation(handle(mHandle), name.c_str());
+        eglGetError();
+        if (loc != -1) {
+            glUniform1i(loc, value);
+            eglGetError();
+        }
+    });
 }
 
 bool OpenGL3_Program::setUniform (const std::string& name, const Vector2& vec) {
-    GLint loc = glGetUniformLocation ( handle(mHandle), name.c_str() );
-    eglGetError();
-    if ( loc == -1 )
-        return false;
-    glUniform2fv ( loc, 1, vec.vector() );
-    eglGetError();
-    return true;
+    return execute([=] {
+        GLint loc = glGetUniformLocation(handle(mHandle), name.c_str());
+        eglGetError();
+        if (loc != -1) {
+            glUniform2fv(loc, 1, vec.vector());
+            eglGetError();
+        }
+    });
 }
 
 bool OpenGL3_Program::setUniform (const std::string& name, const Vector3& vec) {
-    GLint loc = glGetUniformLocation ( handle(mHandle), name.c_str() );
-    eglGetError();
-    if ( loc == -1 )
-        return false;
-    glUniform3fv ( loc, 1, vec.vector() );
-    eglGetError();
-    return true;
+    return execute([=] {
+        GLint loc = glGetUniformLocation(handle(mHandle), name.c_str());
+        eglGetError();
+        if (loc != -1) {
+            glUniform3fv(loc, 1, vec.vector());
+            eglGetError();
+        }
+    });
 }
 
 bool OpenGL3_Program::setUniform (const std::string& name, const Matrix& mat) {
-    GLint loc = glGetUniformLocation ( handle(mHandle), name.c_str() );
-    eglGetError();
-    if ( loc == -1 )
-        return false;
-    glUniformMatrix4fv ( loc, 1, GL_FALSE, mat.vector() );
-    eglGetError();
-    return true;
+    return execute([=] {
+        GLint loc = glGetUniformLocation(handle(mHandle), name.c_str());
+        eglGetError();
+        if (loc != -1) {
+            glUniformMatrix4fv ( loc, 1, GL_FALSE, mat.vector() );
+            eglGetError();
+        }
+    });
 }
 
 bool OpenGL3_Program::setUniform (const std::string& name, const Matrix* mat, unsigned int count) {
-    GLint loc = glGetUniformLocation ( handle(mHandle), name.c_str() );
-    eglGetError();
-    if ( loc == -1 )
-        return false;
-    glUniformMatrix4fv ( loc, count, GL_FALSE, mat->vector() );
-    eglGetError();
-    return true;
+    return execute([=] {
+        GLint loc = glGetUniformLocation(handle(mHandle), name.c_str());
+        eglGetError();
+        if (loc != -1) {
+            glUniformMatrix4fv ( loc, count, GL_FALSE, mat->vector() );
+            eglGetError();
+        }
+    });
 }
 
 bool OpenGL3_Program::setUniform(const std::string& name, const Color& col, bool includeAlpha)
 {
-    GLint loc = glGetUniformLocation ( handle(mHandle), name.c_str() );
-    eglGetError();
-    if ( loc == -1 )
-        return false;
+    return execute([=] {
+        GLint loc = glGetUniformLocation(handle(mHandle), name.c_str());
+        eglGetError();
+        if (loc != -1) {
+            float values [ 4 ];
+            values[0] = col.r() / 255.0f;
+            values[1] = col.g() / 255.0f;
+            values[2] = col.b() / 255.0f;
+            values[3] = col.a() / 255.0f;
     
-    float values [ 4 ];
-    values[0] = col.r() / 255.0f;
-    values[1] = col.g() / 255.0f;
-    values[2] = col.b() / 255.0f;
-    values[3] = col.a() / 255.0f;
-    
-    if ( includeAlpha )
-        glUniform4fv ( loc, 1, &values[0] );
-    else
-        glUniform3fv ( loc, 1, &values[0] );
-    eglGetError();
-    return true;
+            if ( includeAlpha )
+                glUniform4fv ( loc, 1, &values[0] );
+            else
+                glUniform3fv ( loc, 1, &values[0] );
+            eglGetError();
+        }
+    });
 }
 
 bool OpenGL3_Program::setUniform (const std::string& name, float* values, unsigned int count) {
-    GLint loc = glGetUniformLocation ( handle(mHandle), name.c_str() );
-    eglGetError();
-    if ( loc == -1 )
-        return false;
-    glUniform1fv ( loc, count, values );
-    eglGetError();
-    return true;
+    return execute([=] {
+        GLint loc = glGetUniformLocation(handle(mHandle), name.c_str());
+        eglGetError();
+        if (loc != -1) {
+            glUniform1fv ( loc, count, values );
+            eglGetError();
+        }
+    });
 }

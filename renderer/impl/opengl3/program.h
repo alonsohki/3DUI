@@ -12,10 +12,14 @@
 #pragma once
 
 #include "../../program.h"
+#include <functional>
+#include <vector>
 
 namespace renderer { namespace impl {
 
 class OpenGL3_Program : public Program {
+    typedef std::vector<std::function<void()>> CommandVector;
+
 public:
                 OpenGL3_Program     ();
     virtual     ~OpenGL3_Program    ();
@@ -44,11 +48,18 @@ protected:
     bool        setUniform          (const std::string& name, const Color& col, bool includeAlpha) override;
     bool        setUniform          (const std::string& name, float* values, unsigned int count) override;
 
+private:
+    bool        execute             (const std::function<void()>&& bindFn);
+    bool        execute             (const std::function<void()>&& bindFn, const std::function<void()>&& unbindFn);
 
 private:
     void*   mHandle;
     bool    mInitialized;
     bool    mLinked;
+    bool    mBound;
+
+    CommandVector   mBindCommands;
+    CommandVector   mUnbindCommands;
 };
 
 } }
