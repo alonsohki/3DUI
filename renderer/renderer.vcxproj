@@ -82,11 +82,13 @@
     <ClInclude Include="impl\opengl3\opengl3Canvas.h" />
     <ClInclude Include="impl\opengl3\program.h" />
     <ClInclude Include="impl\opengl3\opengl3Impl.h" />
+    <ClInclude Include="impl\opengl3\opengl3VertexAttrib.h" />
     <ClInclude Include="impl\selector.h" />
     <ClInclude Include="program.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="rendererFactory.h" />
     <ClInclude Include="rendererImpl.h" />
+    <ClInclude Include="vertexAttrib.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="canvas.cpp" />
@@ -96,6 +98,7 @@
     <ClCompile Include="impl\opengl3\opengl3Factory.cpp" />
     <ClCompile Include="impl\opengl3\opengl3Impl.cpp" />
     <ClCompile Include="impl\opengl3\program.cpp" />
+    <ClCompile Include="impl\opengl3\opengl3VertexAttrib.cpp" />
     <ClCompile Include="renderer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -19,6 +19,7 @@
 #include "opengl3.h"
 #include "opengl3BufferObject.h"
 #include "opengl3Impl.h"
+#include "opengl3VertexAttrib.h"
 #include "program.h"
 
 using namespace renderer;
@@ -28,23 +29,26 @@ namespace {
     struct ImplData {
         bool initialized = false;
         OpenGL3BufferObject buffers[2];
+        OpenGL3VertexAttrib attribs[3];
 
         void createFrom(model::Mesh* mesh) {
             if (!initialized) {
+                const model::Vertex* v = nullptr;
+
                 buffers[0].wrap(BufferObject::ARRAY_BUFFER, mesh->vertices, sizeof(model::Vertex) * mesh->vertexCount);
                 buffers[1].wrap(BufferObject::ELEMENT_ARRAY_BUFFER, mesh->indices, sizeof(unsigned int)* mesh->indexCount);
+                attribs[0].set(3, VertexAttrib::FLOAT, false, sizeof(model::Vertex), &buffers[0], (GLchar *)&(v->position));
+                attribs[1].set(3, VertexAttrib::FLOAT, true,  sizeof(model::Vertex), &buffers[0], (GLchar *)&(v->normal));
+                attribs[2].set(2, VertexAttrib::FLOAT, false, sizeof(model::Vertex), &buffers[0], (GLchar *)&(v->uv));
                 initialized = true;
             }
         }
 
-        void bind() {
-            buffers[0].bind();
+        void bind(Program* program) {
+            program->setVertexAttrib("in_Position", &attribs[0]);
+            program->setVertexAttrib("in_Normal",   &attribs[1]);
+            program->setVertexAttrib("in_TexCoord", &attribs[2]);
             buffers[1].bind();
-        }
-
-        void unbind() {
-            buffers[0].unbind();
-            buffers[1].unbind();
         }
     };
 
@@ -142,21 +146,7 @@ void OpenGL3Impl::renderMesh(const model::ViewPort& viewPort,
         const Matrix& matProjection = camera->getProjection();
         Matrix matGeometry = matProjection * lookAt * mat;
 
-        data->bind();
-
-        const model::Vertex* v = 0;
-        glVertexAttribPointer ( OpenGL3_Program::POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(model::Vertex), (GLchar *)&(v->position) );
-        eglGetError();
-        glVertexAttribPointer ( OpenGL3_Program::NORMAL, 3, GL_FLOAT, GL_TRUE, sizeof(model::Vertex), (GLchar *)&(v->normal) );
-        eglGetError();
-        glVertexAttribPointer ( OpenGL3_Program::TEX2D, 2, GL_FLOAT, GL_FALSE, sizeof(model::Vertex), (GLchar *)&(v->uv) );
-        eglGetError();
-        glEnableVertexAttribArray ( OpenGL3_Program::POSITION );
-        eglGetError();
-        glEnableVertexAttribArray ( OpenGL3_Program::NORMAL );
-        eglGetError();
-        glEnableVertexAttribArray ( OpenGL3_Program::TEX2D );
-        eglGetError();
+        program->bind();
 
         // Set the uniforms
         program->setUniform("un_ProjectionMatrix", matProjection);
@@ -190,12 +180,11 @@ void OpenGL3Impl::renderMesh(const model::ViewPort& viewPort,
             program->setUniform("un_Light.position", Vector3(0, 0, 1) );
             program->setUniform("un_Light.direction", Vector3(0.1f, 0, -1) );
 
-            program->bind();
+            data->bind(program);
             glDrawElements ( polyType, mesh->indexCount, GL_UNSIGNED_INT, 0 );
             eglGetError();
         }
 
-        data->unbind();
         program->unbind();
     }
 

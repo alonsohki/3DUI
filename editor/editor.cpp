@@ -3,6 +3,7 @@
 #include <GL/GL.h>
 #include <GL/glut.h>
 
+#include <chrono>
 #include "context.h"
 #include "model/camera.h"
 #include "model/entity.h"
@@ -18,6 +19,9 @@ namespace {
     model::ViewPort viewPort;
 
     void display() {
+        using namespace std::chrono;
+        auto t0 = high_resolution_clock::now();
+
         context->getRenderer()->clear();
 
         context->getRenderer()->renderScene(viewPort, context->getScene());
@@ -34,10 +38,14 @@ namespace {
         model::Entity* entity = context->getScene()->findEntity("cube");
         camera->setTransform(Matrix2Transform(TranslationMatrix(xpos, 0, 2 + xpos)));
         entity->setTransform(Matrix2Transform(RotationMatrix(xpos, 0, 1, 1)));
-        xpos += 0.0005f;
+        xpos += 0.001f;
         if (xpos > 2.5f) {
             xpos = -0.5f;
         }
+
+        auto t1 = high_resolution_clock::now();
+        milliseconds total_ms = std::chrono::duration_cast<milliseconds>(t1 - t0);
+        //printf("FPS: %d\r", 1000 / (int)total_ms.count());
     }
 
     void reshape(int width, int height) {

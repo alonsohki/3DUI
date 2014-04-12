@@ -13,6 +13,7 @@
 #include "opengl3.h"
 #include "program.h"
 
+using namespace renderer;
 using namespace renderer::impl;
 
 namespace {
@@ -202,6 +203,21 @@ bool OpenGL3_Program::execute(const std::function<void()>&& bindFn, const std::f
     return true;
 }
 
+bool OpenGL3_Program::setVertexAttrib(const std::string& name, VertexAttrib* attrib) {
+    return execute([=] {
+        GLint loc = glGetAttribLocation(handle(mHandle), name.c_str());
+        eglGetError();
+        if (loc != -1) {
+            attrib->enable(loc);
+        }
+    }, [=] {
+        GLint loc = glGetAttribLocation(handle(mHandle), name.c_str());
+        eglGetError();
+        if (loc != -1) {
+            attrib->disable(loc);
+        }
+    });
+}
 
 bool OpenGL3_Program::setUniform (const std::string& name, bool value) {
     return execute([=] {

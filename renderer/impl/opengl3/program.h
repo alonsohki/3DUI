@@ -37,6 +37,7 @@ protected:
     bool        bind                () override;
     bool        unbind              () override;
 
+    bool        setVertexAttrib     (const std::string& name, VertexAttrib* attrib) override;
 
     bool        setUniform          (const std::string& name, bool value) override;
     bool        setUniform          (const std::string& name, float value) override;

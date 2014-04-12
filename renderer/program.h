@@ -15,6 +15,7 @@
 #include "math/vector.h"
 #include "shared/color.h"
 #include <string>
+#include "vertexAttrib.h"
 
 namespace renderer {
 
@@ -37,6 +38,7 @@ public:
     virtual bool        bind            () = 0;
     virtual bool        unbind          () = 0;
 
+    virtual bool        setVertexAttrib (const std::string& name, VertexAttrib* attrib) = 0;
 
     virtual bool        setUniform      (const std::string& name, bool value) = 0;
     virtual bool        setUniform      (const std::string& name, float value) = 0;
