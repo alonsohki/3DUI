@@ -24,6 +24,11 @@ Renderer::~Renderer()
     delete mImpl;
 }
 
+void Renderer::buildMaterial(model::Material* material) {
+    if (init()) {
+        mImpl->buildMaterial(material);
+    }
+}
 
 void Renderer::renderScene(const model::ViewPort& viewPort, model::Scene* scene) {
     if (init()) {

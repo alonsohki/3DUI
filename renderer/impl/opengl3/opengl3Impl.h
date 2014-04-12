@@ -24,6 +24,7 @@ public:
 
     //-------------------------------------------------
     // Methods inherited from RendererImpl
+    void                buildMaterial   (model::Material* material) override;
     void                clear           () override;
     void                setEnabled      (Constant state, bool enabled) override;
     void                renderMesh      ( const model::ViewPort& viewPort,

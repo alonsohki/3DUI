@@ -27,6 +27,8 @@ class RendererImpl {
 public:
     virtual                     ~RendererImpl       () {}
 
+    virtual void                buildMaterial       (model::Material* material) = 0;
+
     virtual void                clear               () = 0;
     virtual void                setEnabled          (Constant state, bool enabled) = 0;
     virtual void                renderMesh          ( const model::ViewPort& viewPort,

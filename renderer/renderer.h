@@ -26,6 +26,8 @@ public:
                 Renderer        ();
                 ~Renderer       ();
 
+    void        buildMaterial   (model::Material* material);
+
     void        renderScene     (const model::ViewPort& viewPort, model::Scene* scene);
     void        renderMesh      (const model::ViewPort& viewPort, model::Entity* camera, model::Mesh* mesh, model::Material* material, const Transform& transform);
     void        clear           ();

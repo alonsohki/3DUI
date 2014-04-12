@@ -51,22 +51,6 @@ namespace {
             buffers[1].bind();
         }
     };
-
-    void compileMaterialProgram(model::Material* material) {
-        if (material != nullptr && material->program == nullptr &&
-            material->vertexShader.length() > 0 && material->fragmentShader.length() > 0)
-        {
-            Program* program = new OpenGL3_Program();
-            program->loadVertex(material->vertexShader.c_str());
-            program->loadFragment(material->fragmentShader.c_str());
-            if (program->link()) {
-                material->program = program;
-            }
-            else {
-                delete program;
-            }
-        }
-    }
 }
 
 OpenGL3Impl::OpenGL3Impl()
@@ -79,6 +63,22 @@ OpenGL3Impl::OpenGL3Impl()
 
 OpenGL3Impl::~OpenGL3Impl()
 {
+}
+
+void OpenGL3Impl::buildMaterial(model::Material* material) {
+    if (material != nullptr && material->program == nullptr &&
+        material->vertexShader.length() > 0 && material->fragmentShader.length() > 0)
+    {
+        Program* program = new OpenGL3_Program();
+        program->loadVertex(material->vertexShader.c_str());
+        program->loadFragment(material->fragmentShader.c_str());
+        if (program->link()) {
+            material->program = program;
+        }
+        else {
+            delete program;
+        }
+    }
 }
 
 void OpenGL3Impl::clear() {
@@ -118,7 +118,7 @@ void OpenGL3Impl::renderMesh(const model::ViewPort& viewPort,
     data->createFrom(mesh);
 
     // Let's keep the default material compiled
-    compileMaterialProgram(defaultMaterial);
+    buildMaterial(defaultMaterial);
 
     // Get the camera from the camera entity
     model::Camera* camera = cameraEntity->findComponent<model::Camera>();
@@ -128,7 +128,7 @@ void OpenGL3Impl::renderMesh(const model::ViewPort& viewPort,
         material = defaultMaterial;
     }
     else {
-        compileMaterialProgram(material);
+        buildMaterial(material);
     }
 
     // Resolve the program to use for rendering
