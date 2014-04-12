@@ -45,10 +45,12 @@ namespace {
             }
         }
 
-        void bind(Program* program) {
+        void bind(Program* program, bool includeTex2d) {
             program->setVertexAttrib("in_Position", &attribs[0]);
             program->setVertexAttrib("in_Normal",   &attribs[1]);
-            program->setVertexAttrib("in_TexCoord", &attribs[2]);
+            if (includeTex2d) {
+                program->setVertexAttrib("in_TexCoord", &attribs[2]);
+            }
             buffers[1].bind();
         }
     };
@@ -196,7 +198,7 @@ void OpenGL3Impl::renderMesh(const model::ViewPort& viewPort,
             program->setUniform("un_Light.position", Vector3(0, 0, 1) );
             program->setUniform("un_Light.direction", Vector3(0.1f, 0, -1) );
 
-            data->bind(program);
+            data->bind(program, material->texture != nullptr);
             glDrawElements ( polyType, mesh->indexCount, GL_UNSIGNED_INT, 0 );
             eglGetError();
         }
