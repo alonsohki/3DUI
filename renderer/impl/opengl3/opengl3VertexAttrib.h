@@ -33,7 +33,6 @@ public:
     bool                disable                 (unsigned int index) override;
 
 private:
-    std::string     mName;
     BufferObject*   mBuffer;
     const void*     mData;
     const char*     mOffset;

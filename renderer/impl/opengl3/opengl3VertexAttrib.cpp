@@ -66,6 +66,7 @@ bool OpenGL3VertexAttrib::enable(unsigned int index)
         glVertexAttribPointer(index, mElementCount, mType, mNormalize ? GL_TRUE : GL_FALSE, mStride, mOffset);
     }
     else {
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
         glVertexAttribPointer(index, mElementCount, mType, mNormalize ? GL_TRUE : GL_FALSE, mStride, mData);
     }
 
