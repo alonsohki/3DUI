@@ -74,4 +74,15 @@ namespace {
     inline float unlerp(const T& min, const T& value, const T& max) {
         return (value - min) / (max - min);
     }
+
+    //------------------------------------------------------------------------------
+    // Cubic interpolation
+    template < typename T >
+    static inline T cubic_interpolate ( T from, T tangentFrom, float alpha, T to, T tangentTo )
+    {
+        float alpha2 = alpha*alpha;
+        float alpha3 = alpha2*alpha;
+        return (2*alpha3 - 3*alpha2 + 1.0f)*from + (alpha3 - 2*alpha2 + alpha)*tangentFrom
+             + (-2*alpha3 + 3*alpha2)*to + (alpha3 - alpha2)*tangentTo;
+    }
 }

@@ -63,8 +63,14 @@ namespace {
     }
 }
 
+#include "shared/pixmap.h"
+
 int main(int argc, char** argv)
 {
+    Pixmap pix;
+    pix.load("pngtest.png");
+    pix.savePNG("test.png");
+
     atexit(finalize);
 
     context = Context::create();
