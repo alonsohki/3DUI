@@ -64,13 +64,17 @@ bool OpenGL3VertexAttrib::enable(unsigned int index)
     if (mBuffer != nullptr) {
         mBuffer->bind();
         glVertexAttribPointer(index, mElementCount, mType, mNormalize ? GL_TRUE : GL_FALSE, mStride, mOffset);
+        eglGetError();
     }
     else {
         glBindBuffer(GL_ARRAY_BUFFER, 0);
+        eglGetError();
         glVertexAttribPointer(index, mElementCount, mType, mNormalize ? GL_TRUE : GL_FALSE, mStride, mData);
+        eglGetError();
     }
 
     glEnableVertexAttribArray(index);
+    eglGetError();
     return true;
 }
 
