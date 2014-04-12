@@ -180,11 +180,13 @@ void OpenGL3Impl::renderMesh(const model::ViewPort& viewPort,
                 program->setUniform("un_TextureLevels", 0.0f);
             }
 
-            program->setUniform("un_Material.diffuse",     material->diffuse,    true );
-            program->setUniform("un_Material.ambient",     material->ambient,    false);
-            program->setUniform("un_Material.specular",    material->specular,   false);
-            program->setUniform("un_Material.emission",    material->emission,   false);
-            program->setUniform("un_Material.shininess",   material->shininess);
+            program->setUniform("un_Material.diffuse", material->diffuse, true);
+            if (material->shadeless == false) {
+                program->setUniform("un_Material.ambient", material->ambient, false);
+                program->setUniform("un_Material.specular", material->specular, false);
+                program->setUniform("un_Material.emission", material->emission, false);
+                program->setUniform("un_Material.shininess", material->shininess);
+            }
             program->setUniform("un_Material.isShadeless", material->shadeless);
 
             // For now, hardcode the light values
