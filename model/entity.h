@@ -26,24 +26,24 @@ public:
     typedef std::vector<Any> ComponentVector;
 
 public:
-                        Entity          ();
-                        Entity          (const std::string& id);
-    virtual             ~Entity         ();
+                        Entity              ();
+                        Entity              (const std::string& id);
+    virtual             ~Entity             ();
 
-    const std::string&  getID           () const { return mID; }
-    void                setID           (const std::string& id) { mID = id; }
+    const std::string&  getID               () const { return mID; }
+    void                setID               (const std::string& id) { mID = id; }
 
-    const Transform&    getTransform    () const { return mTransform; }
-    Transform&          getTransform    () { return mTransform; }
-    void                setTransform    (const Transform& transform);
+    const Transform&    getTransform        () const { return mTransform; }
+    Transform&          getTransform        () { return mTransform; }
+    void                setTransform        (const Transform& transform);
 
-    void                addChild        ( Entity* entity );
-    void                setParent       ( Entity* parent );
-    const EntityVector& getChildren     ()  const { return mChildren; }
-    Entity*             getParent       () const { return mParent; }
+    void                addChild            ( Entity* entity );
+    void                setParent           ( Entity* parent );
+    const EntityVector& getChildren         ()  const { return mChildren; }
+    Entity*             getParent           () const { return mParent; }
 
-    bool                forEach         ( const ForEachDelegate& delegate );
-    bool                forEach         ( const ForEachLambda& lambda ) { return forEach(ForEachDelegate(lambda)); }
+    bool                forEach             ( const ForEachDelegate& delegate );
+    bool                forEach             ( const ForEachLambda& lambda ) { return forEach(ForEachDelegate(lambda)); }
 
 
     //-------------------------------------------------------------------

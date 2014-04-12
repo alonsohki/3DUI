@@ -64,4 +64,9 @@ void Entity::setTransform(const Transform& transform) {
     else {
         mTransform = mLocalTransform;
     }
+
+    // Update children transform
+    for (Entity* entity : getChildren()) {
+        entity->setTransform(entity->mLocalTransform);
+    }
 }
