@@ -8,6 +8,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "model", "model\model.vcxproj", "{7EDBC579-D42D-4EA4-B690-0FBCD4EC44F9}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "shared", "shared\shared.vcxproj", "{EB192615-EE60-466E-B8C0-35BB1FB96EF2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E1B01525-8DAB-40AD-B372-86B160D34728} = {E1B01525-8DAB-40AD-B372-86B160D34728}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "editor", "editor\editor.vcxproj", "{68D39162-B2F8-4ADE-931A-476C4956A39E}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -24,6 +27,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib", "zlib\zlib.vcxproj", "{CAD698A7-4B21-437C-992D-C62DE1BDC43F}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libpng", "libpng\libpng.vcxproj", "{E1B01525-8DAB-40AD-B372-86B160D34728}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CAD698A7-4B21-437C-992D-C62DE1BDC43F} = {CAD698A7-4B21-437C-992D-C62DE1BDC43F}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

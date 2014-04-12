@@ -18,11 +18,17 @@ namespace {
     float xpos = 0.0f;
     Context* context;
     model::ViewPort viewPort;
-    Pixmap smiley;
+    Pixmap smileyPix;
+    renderer::Texture* smiley = nullptr;
 
     void display() {
         using namespace std::chrono;
         auto t0 = high_resolution_clock::now();
+
+        if (smiley == nullptr) {
+            smiley = context->getRenderer()->createTexture();
+            smiley->load(smileyPix.pixels(), smileyPix.width(), smileyPix.height(), renderer::Texture::RGBA, false);
+        }
 
         context->getRenderer()->clear();
 
@@ -34,7 +40,7 @@ namespace {
         canvas.setRect(Recti(viewPort.x, viewPort.y, viewPort.x + viewPort.width, viewPort.y + viewPort.height));
         canvas.fillRect(Rectf(0.02f, 0.02f, 0.98f, 0.15f), Color::YELLOW);
         canvas.drawText(Vector2(0.0f, 0.5f), "Hello, world!", Color::RED);
-        canvas.drawImage(Rectf(0.01f, 0.6f, 0.25f, 0.8f), smiley);
+        canvas.drawTexture(Rectf(0.01f, 0.6f, 0.25f, 0.8f), smiley, Rectf(0, 0, 1, 1));
 
         glutSwapBuffers();
         glutPostRedisplay();
@@ -64,6 +70,7 @@ namespace {
     }
 
     void finalize() {
+        delete smiley;
         delete context;
     }
 }
@@ -74,7 +81,7 @@ int main(int argc, char** argv)
 {
     atexit(finalize);
 
-    smiley.load("smiley.png");
+    smileyPix.load("smiley.png");
 
     context = Context::create();
 
