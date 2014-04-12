@@ -97,3 +97,15 @@ void OpenGL3Canvas::fillRect(Renderer* renderer, const model::ViewPort& viewPort
 void OpenGL3Canvas::drawText(Renderer* renderer, const model::ViewPort& viewPort, const Vector2& position, const std::string& text, const Color& color)
 {
 }
+
+void OpenGL3Canvas::drawTexture(Renderer* renderer, const model::ViewPort& viewPort, const Rectf& rect, Texture* tex, const Rectf& textureCoordinates)
+{
+    model::Material material;
+    material.diffuse = Color::WHITE;
+    material.shadeless = true;
+    material.texture = tex;
+
+    Factory& factory = Factory::instance();
+    Transform transform = Matrix2Transform(TranslationMatrix(lerp(-1.0f, rect.left, 1.0f), lerp(1.0f, rect.top, -1.0f), 0.0f) * ScalingMatrix(rect.width(), rect.height(), 1.0f));
+    renderer->renderMesh(viewPort, factory.getCamera(), factory.getMesh(), &material, transform);
+}

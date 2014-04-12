@@ -16,6 +16,7 @@ namespace renderer {
 enum Constant {
     DEPTH_TEST,
     CULL_FACE,
+    BLENDING,
 };
 
 }

@@ -30,6 +30,13 @@ void Renderer::buildMaterial(model::Material* material) {
     }
 }
 
+Texture* Renderer::createTexture() {
+    if (init()) {
+        return mImpl->createTexture();
+    }
+    return nullptr;
+}
+
 void Renderer::renderScene(const model::ViewPort& viewPort, model::Scene* scene) {
     if (init()) {
         model::Entity* cameraEntity = scene->getMainCamera();

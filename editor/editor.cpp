@@ -10,6 +10,7 @@
 #include "model/meshFactory.h"
 
 #include "renderer/canvas.h"
+#include "renderer/constants.h"
 
 using namespace editor;
 
@@ -17,6 +18,7 @@ namespace {
     float xpos = 0.0f;
     Context* context;
     model::ViewPort viewPort;
+    Pixmap smiley;
 
     void display() {
         using namespace std::chrono;
@@ -24,12 +26,15 @@ namespace {
 
         context->getRenderer()->clear();
 
+        context->getRenderer()->setEnabled(renderer::BLENDING, false);
         context->getRenderer()->renderScene(viewPort, context->getScene());
+        context->getRenderer()->setEnabled(renderer::BLENDING, true);
 
         renderer::Canvas canvas(context->getRenderer());
         canvas.setRect(Recti(viewPort.x, viewPort.y, viewPort.x + viewPort.width, viewPort.y + viewPort.height));
         canvas.fillRect(Rectf(0.02f, 0.02f, 0.98f, 0.15f), Color::YELLOW);
         canvas.drawText(Vector2(0.0f, 0.5f), "Hello, world!", Color::RED);
+        canvas.drawImage(Rectf(0.01f, 0.6f, 0.25f, 0.8f), smiley);
 
         glutSwapBuffers();
         glutPostRedisplay();
@@ -68,6 +73,8 @@ namespace {
 int main(int argc, char** argv)
 {
     atexit(finalize);
+
+    smiley.load("smiley.png");
 
     context = Context::create();
 

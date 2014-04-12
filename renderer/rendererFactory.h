@@ -15,6 +15,7 @@
 #include "canvasImpl.h"
 #include "impl/selector.h"
 #include "rendererImpl.h"
+#include "texture.h"
 
 namespace renderer {
 
@@ -23,6 +24,7 @@ public:
     static RendererImpl*    createRenderer      ();
     static CanvasImpl*      createCanvas        ();
     static BufferObject*    createBufferObject  ();
+    static Texture*         createTexture       ();
 };
 
 }

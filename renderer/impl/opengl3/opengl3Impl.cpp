@@ -19,6 +19,7 @@
 #include "opengl3.h"
 #include "opengl3BufferObject.h"
 #include "opengl3Impl.h"
+#include "opengl3Texture.h"
 #include "opengl3VertexAttrib.h"
 #include "program.h"
 
@@ -95,10 +96,17 @@ void OpenGL3Impl::setEnabled(Constant state, bool enabled) {
     case Constant::CULL_FACE:
         glState = GL_CULL_FACE;
         break;
+    case Constant::BLENDING:
+        glState = GL_BLEND;
+        break;
     }
 
     if (glState != GL_INVALID_ENUM) {
         enabled ? glEnable(glState) : glDisable(glState);
+
+        if (enabled && glState == GL_BLEND) {
+            glBlendFunc ( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+        }
     }
 }
 
@@ -164,7 +172,13 @@ void OpenGL3Impl::renderMesh(const model::ViewPort& viewPort,
         }
 
         if (polyType != GL_INVALID_ENUM) {
-            program->setUniform("un_TextureLevels", 0.0f);
+            if (material->texture != nullptr) {
+                program->setUniform("un_TextureLevels", 1.0f);
+                program->setUniform("un_Sampler0", 0);
+            }
+            else {
+                program->setUniform("un_TextureLevels", 0.0f);
+            }
 
             program->setUniform("un_Material.diffuse",     material->diffuse,    true );
             program->setUniform("un_Material.ambient",     material->ambient,    false);
@@ -195,3 +209,6 @@ Program* OpenGL3Impl::createProgram() const {
     return new OpenGL3_Program();
 }
 
+Texture* OpenGL3Impl::createTexture() const {
+    return new OpenGL3Texture();
+}

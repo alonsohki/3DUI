@@ -63,3 +63,20 @@ void Canvas::drawText(const Vector2& position, const std::string& text, const Co
         mImpl->drawText(mRenderer, mViewport, position, text, color);
     }
 }
+
+void Canvas::drawImage(const Rectf& rect, const Pixmap& pixmap) {
+    if (init()) {
+        Texture* texture = mRenderer->createTexture();
+        if (texture != nullptr) {
+            texture->load(pixmap.pixels(), pixmap.width(), pixmap.height(), renderer::Texture::RGBA, false);
+            mImpl->drawTexture(mRenderer, mViewport, rect, texture, Rectf(0, 0, 1, 1));
+            delete texture;
+        }
+    }
+}
+
+void Canvas::drawTexture(const Rectf& rect, Texture* texture, const Rectf& textureCoordinates) {
+    if (init()) {
+        mImpl->drawTexture(mRenderer, mViewport, rect, texture, textureCoordinates);
+    }
+}

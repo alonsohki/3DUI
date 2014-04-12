@@ -18,6 +18,7 @@
 #include "model/mesh.h"
 #include "model/viewPort.h"
 #include "program.h"
+#include "texture.h"
 
 namespace renderer {
 
@@ -37,6 +38,7 @@ public:
                                                       model::Material* material,
                                                       const Transform& transform ) = 0;
     virtual Program*            createProgram       () const = 0;
+    virtual Texture*            createTexture       () const = 0;
 };
 
 }

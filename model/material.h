@@ -12,6 +12,7 @@
 #pragma once
 
 #include "renderer/program.h"
+#include "renderer/texture.h"
 #include "shared/color.h"
 
 namespace model {
@@ -32,6 +33,8 @@ struct Material {
     Color               emission = Color::BLACK;
     float               shininess = 0.0f;
     bool                shadeless = false;
+
+    renderer::Texture*  texture = nullptr;
 };
 
 }

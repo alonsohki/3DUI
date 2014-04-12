@@ -15,23 +15,27 @@
 #include "math/rect.h"
 #include "renderer.h"
 #include "shared/color.h"
+#include "shared/pixmap.h"
+#include "texture.h"
 
 namespace renderer {
 
 class Canvas {
 public:
-                Canvas      ();
-                Canvas      (Renderer* renderer) : Canvas() { setRenderer(renderer); }
-    virtual     ~Canvas     ();
+                Canvas          ();
+                Canvas          (Renderer* renderer) : Canvas() { setRenderer(renderer); }
+    virtual     ~Canvas         ();
 
-    void        setRenderer (Renderer* renderer);
-    void        setRect     (const Recti& rect);
+    void        setRenderer     (Renderer* renderer);
+    void        setRect         (const Recti& rect);
 
-    void        fillRect    (const Rectf& rect, const Color& color);
-    void        drawText    (const Vector2& position, const std::string& text, const Color& color = Color::WHITE);
+    void        fillRect        (const Rectf& rect, const Color& color);
+    void        drawText        (const Vector2& position, const std::string& text, const Color& color = Color::WHITE);
+    void        drawImage       (const Rectf& rect, const Pixmap& image);
+    void        drawTexture     (const Rectf& rect, Texture* texture, const Rectf& textureCoordinates);
 
 private:
-    bool        init        ();
+    bool        init            ();
 
 private:
     Renderer*           mRenderer;

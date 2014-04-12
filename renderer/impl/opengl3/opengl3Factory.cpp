@@ -13,6 +13,7 @@
 #include "opengl3BufferObject.h"
 #include "opengl3Canvas.h"
 #include "opengl3Impl.h"
+#include "opengl3Texture.h"
 
 using namespace renderer;
 using namespace renderer::impl;
@@ -27,4 +28,8 @@ CanvasImpl* RendererFactory::createCanvas() {
 
 BufferObject* RendererFactory::createBufferObject() {
     return new impl::OpenGL3BufferObject();
+}
+
+Texture* RendererFactory::createTexture() {
+    return new impl::OpenGL3Texture();
 }

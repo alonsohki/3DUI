@@ -24,5 +24,6 @@ namespace renderer {
 
         virtual void        fillRect        (Renderer* renderer, const model::ViewPort& viewPort, const Rectf& rect, const Color& color) = 0;
         virtual void        drawText        (Renderer* renderer, const model::ViewPort& viewPort, const Vector2& position, const std::string& text, const Color& color) = 0;
+        virtual void        drawTexture     (Renderer* renderer, const model::ViewPort& viewPort, const Rectf& rect, Texture* texture, const Rectf& textureCoordinates) = 0;
     };
 }

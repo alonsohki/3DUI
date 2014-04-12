@@ -27,6 +27,7 @@ public:
     // Methods inherited from CanvasImpl
     void        fillRect            (Renderer* renderer, const model::ViewPort& viewPort, const Rectf& rect, const Color& color) override;
     void        drawText            (Renderer* renderer, const model::ViewPort& viewPort, const Vector2& position, const std::string& text, const Color& color) override;
+    void        drawTexture         (Renderer* renderer, const model::ViewPort& viewPort, const Rectf& rect, Texture* texture, const Rectf& textureCoordinates) override;
 };
 
 }

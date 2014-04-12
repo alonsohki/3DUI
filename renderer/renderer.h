@@ -16,8 +16,8 @@
 #include "model/mesh.h"
 #include "model/scene.h"
 #include "model/viewPort.h"
-
 #include "rendererImpl.h"
+#include "texture.h"
 
 namespace renderer {
 
@@ -26,6 +26,7 @@ public:
                 Renderer        ();
                 ~Renderer       ();
 
+    Texture*    createTexture   ();
     void        buildMaterial   (model::Material* material);
 
     void        renderScene     (const model::ViewPort& viewPort, model::Scene* scene);

@@ -5,7 +5,7 @@
 // as published by Sam Hocevar. See the COPYING file or http://www.wtfpl.net/ 
 // for more details.
 //
-// FILE:        impl/opengl3/renderer.h
+// FILE:        impl/opengl3/opengl3Impl.h
 // PURPOUSE:    OpenGL3 renderer implementation.
 //
 
@@ -33,6 +33,7 @@ public:
                                           model::Material* material,
                                           const Transform& transform ) override;
     Program*            createProgram   () const override;
+    Texture*            createTexture   () const override;
 };
 
 }

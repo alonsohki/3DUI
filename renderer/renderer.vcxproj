@@ -80,6 +80,7 @@
     <ClInclude Include="impl\opengl3\opengl3.h" />
     <ClInclude Include="impl\opengl3\opengl3BufferObject.h" />
     <ClInclude Include="impl\opengl3\opengl3Canvas.h" />
+    <ClInclude Include="impl\opengl3\opengl3Texture.h" />
     <ClInclude Include="impl\opengl3\program.h" />
     <ClInclude Include="impl\opengl3\opengl3Impl.h" />
     <ClInclude Include="impl\opengl3\opengl3VertexAttrib.h" />
@@ -88,6 +89,7 @@
     <ClInclude Include="renderer.h" />
     <ClInclude Include="rendererFactory.h" />
     <ClInclude Include="rendererImpl.h" />
+    <ClInclude Include="texture.h" />
     <ClInclude Include="vertexAttrib.h" />
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +99,7 @@
     <ClCompile Include="impl\opengl3\opengl3Canvas.cpp" />
     <ClCompile Include="impl\opengl3\opengl3Factory.cpp" />
     <ClCompile Include="impl\opengl3\opengl3Impl.cpp" />
+    <ClCompile Include="impl\opengl3\opengl3Texture.cpp" />
     <ClCompile Include="impl\opengl3\program.cpp" />
     <ClCompile Include="impl\opengl3\opengl3VertexAttrib.cpp" />
     <ClCompile Include="renderer.cpp" />
