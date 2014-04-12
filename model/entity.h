@@ -11,17 +11,16 @@
 
 #pragma once
 
+#include <functional>
 #include "math/transform.h"
 #include "shared/any.h"
-#include "shared/FastDelegate.h"
 #include <vector>
 
 namespace model {
 
 class Entity {
 public:
-    typedef fastdelegate::FastDelegate<bool (Entity*)> ForEachDelegate;
-    typedef Lambda<bool (Entity*)> ForEachLambda;
+    typedef std::function<bool (Entity*)> ForEachDelegate;
     typedef std::vector<Entity*> EntityVector;
     typedef std::vector<Any> ComponentVector;
 
@@ -43,7 +42,6 @@ public:
     Entity*             getParent           () const { return mParent; }
 
     bool                forEach             ( const ForEachDelegate& delegate );
-    bool                forEach             ( const ForEachLambda& lambda ) { return forEach(ForEachDelegate(lambda)); }
 
 
     //-------------------------------------------------------------------

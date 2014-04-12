@@ -53,8 +53,3 @@ void Scene::forEachEntity(const Entity::ForEachDelegate& delegate)
 {
     mRoot.forEach(delegate);
 }
-
-void Scene::forEachEntity(const Entity::ForEachLambda& lambda)
-{
-    mRoot.forEach(lambda);
-}

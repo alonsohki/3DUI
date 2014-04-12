@@ -5,12 +5,15 @@
 
 #include <chrono>
 #include "context.h"
+
 #include "model/camera.h"
 #include "model/entity.h"
 #include "model/meshFactory.h"
 
 #include "renderer/canvas.h"
 #include "renderer/constants.h"
+
+#include "shared/pixmap.h"
 
 using namespace editor;
 
@@ -75,7 +78,6 @@ namespace {
     }
 }
 
-#include "shared/pixmap.h"
 
 int main(int argc, char** argv)
 {
