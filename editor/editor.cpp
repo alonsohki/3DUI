@@ -6,6 +6,8 @@
 #include <chrono>
 #include "context.h"
 
+#include "libdrawtext/src/drawtext.h"
+
 #include "model/camera.h"
 #include "model/entity.h"
 #include "model/meshFactory.h"
@@ -23,6 +25,7 @@ namespace {
     model::ViewPort viewPort;
     Pixmap smileyPix;
     renderer::Texture* smiley = nullptr;
+    struct dtx_font *font = nullptr;
 
     void display() {
         using namespace std::chrono;
@@ -42,8 +45,8 @@ namespace {
         renderer::Canvas canvas(context->getRenderer());
         canvas.setRect(Recti(viewPort.x, viewPort.y, viewPort.x + viewPort.width, viewPort.y + viewPort.height));
         canvas.fillRect(Rectf(0.02f, 0.02f, 0.98f, 0.15f), Color::YELLOW);
-        canvas.drawText(Vector2(0.0f, 0.5f), "Hello, world!", Color::RED);
         canvas.drawTexture(Rectf(0.01f, 0.6f, 0.25f, 0.8f), smiley, Rectf(0, 0, 1, 1));
+        canvas.drawText(Vector2(0.01f, 0.5f), "Hello, world!", Color::RED);
 
         glutSwapBuffers();
         glutPostRedisplay();
@@ -84,6 +87,11 @@ int main(int argc, char** argv)
     atexit(finalize);
 
     smileyPix.load("smiley.png");
+    if(!(font = dtx_open_font("tahoma.ttf", 14))) {
+		fprintf(stderr, "failed to open font\n");
+		return EXIT_FAILURE;
+	}
+    dtx_use_font(font, 14);
 
     context = Context::create();
 

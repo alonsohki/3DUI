@@ -177,6 +177,7 @@ void OpenGL3Impl::renderMesh(const model::ViewPort& viewPort,
             if (material->texture != nullptr) {
                 program->setUniform("un_TextureLevels", 1.0f);
                 program->setUniform("un_Sampler0", 0);
+                material->texture->bind();
             }
             else {
                 program->setUniform("un_TextureLevels", 0.0f);

@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{45B260A8-DF0E-483C-B86C-70A1528248AB}</ProjectGuid>
-    <RootNamespace>renderer</RootNamespace>
+    <ProjectGuid>{8C340417-92D2-447C-83A8-08C104277967}</ProjectGuid>
+    <RootNamespace>libdrawtext</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -44,13 +44,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..;../glew/include;../freeglut/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..;../glew/include;../freetype/include;../freetype/include/freetype2</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;S_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>../glew/lib/Release/Win32/glew32.lib</AdditionalDependencies>
+      <AdditionalDependencies>../freetype/lib/freetype.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -60,7 +61,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..;../glew/include;../freeglut/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..;../glew/include;../freetype/include;../freetype/include/freetype2</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;S_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -68,46 +70,17 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>../glew/lib/Release/Win32/glew32.lib</AdditionalDependencies>
+      <AdditionalDependencies>../freetype/lib/freetype.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="bufferObject.h" />
-    <ClInclude Include="canvas.h" />
-    <ClInclude Include="canvasImpl.h" />
-    <ClInclude Include="constants.h" />
-    <ClInclude Include="impl\opengl3\materialFactory.h" />
-    <ClInclude Include="impl\opengl3\opengl3.h" />
-    <ClInclude Include="impl\opengl3\opengl3BufferObject.h" />
-    <ClInclude Include="impl\opengl3\opengl3Canvas.h" />
-    <ClInclude Include="impl\opengl3\opengl3Texture.h" />
-    <ClInclude Include="impl\opengl3\program.h" />
-    <ClInclude Include="impl\opengl3\opengl3Impl.h" />
-    <ClInclude Include="impl\opengl3\opengl3VertexAttrib.h" />
-    <ClInclude Include="impl\selector.h" />
-    <ClInclude Include="program.h" />
-    <ClInclude Include="renderer.h" />
-    <ClInclude Include="rendererFactory.h" />
-    <ClInclude Include="rendererImpl.h" />
-    <ClInclude Include="texture.h" />
-    <ClInclude Include="vertexAttrib.h" />
+    <ClCompile Include="src\drawgl.c" />
+    <ClCompile Include="src\font.c" />
+    <ClCompile Include="src\utf8.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="canvas.cpp" />
-    <ClCompile Include="impl\opengl3\materialFactory.cpp" />
-    <ClCompile Include="impl\opengl3\opengl3BufferObject.cpp" />
-    <ClCompile Include="impl\opengl3\opengl3Canvas.cpp" />
-    <ClCompile Include="impl\opengl3\opengl3Factory.cpp" />
-    <ClCompile Include="impl\opengl3\opengl3Impl.cpp" />
-    <ClCompile Include="impl\opengl3\opengl3Texture.cpp" />
-    <ClCompile Include="impl\opengl3\program.cpp" />
-    <ClCompile Include="impl\opengl3\opengl3VertexAttrib.cpp" />
-    <ClCompile Include="renderer.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\libdrawtext\libdrawtext.vcxproj">
-      <Project>{8c340417-92d2-447c-83a8-08c104277967}</Project>
-    </ProjectReference>
+    <ClInclude Include="src\drawtext.h" />
+    <ClInclude Include="src\drawtext_impl.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

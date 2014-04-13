@@ -13,6 +13,8 @@
 #include <gl/GL.h>
 #include <gl/glut.h>
 
+#include "libdrawtext/src/drawtext.h"
+
 #include "math/util.h"
 
 #include "model/camera.h"
@@ -96,6 +98,18 @@ void OpenGL3Canvas::fillRect(Renderer* renderer, const model::ViewPort& viewPort
 
 void OpenGL3Canvas::drawText(Renderer* renderer, const model::ViewPort& viewPort, const Vector2& position, const std::string& text, const Color& color)
 {
+    glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(-viewPort.width/2, viewPort.width/2, -viewPort.height/2, viewPort.height/2, -1, 1);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+	glPushMatrix();
+	glTranslatef(lerp<GLfloat>(-viewPort.width*0.5f, position.x(), viewPort.width*0.5f), lerp<GLfloat>(-viewPort.height*0.5f, position.y(), viewPort.height*0.5f), 0.0f);
+	glColor3f(color.r(), color.g(), color.b());
+	dtx_string(text.c_str());
+	glPopMatrix();
 }
 
 void OpenGL3Canvas::drawTexture(Renderer* renderer, const model::ViewPort& viewPort, const Rectf& rect, Texture* tex, const Rectf& textureCoordinates)
