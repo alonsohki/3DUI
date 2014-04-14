@@ -63,8 +63,7 @@
       <Command>xcopy /Y $(SolutionDir)freeglut\bin\freeglut.dll $(OutDir)
 xcopy /Y $(SolutionDir)freetype\bin\freetype6.dll $(OutDir)
 xcopy /Y $(SolutionDir)glew\bin\Release\Win32\glew32.dll $(OutDir)
-xcopy /Y $(SolutionDir)editor\tahoma.ttf $(OutDir)
-xcopy /Y $(SolutionDir)editor\smiley.png $(OutDir)</Command>
+xcopy /Y $(SolutionDir)editor\tahoma.ttf $(OutDir)</Command>
     </PostBuildEvent>
     <ProjectReference>
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
@@ -91,8 +90,7 @@ xcopy /Y $(SolutionDir)editor\smiley.png $(OutDir)</Command>
       <Command>xcopy /Y $(SolutionDir)freeglut\bin\freeglut.dll $(OutDir)
 xcopy /Y $(SolutionDir)freetype\bin\freetype6.dll $(OutDir)
 xcopy /Y $(SolutionDir)glew\bin\Release\Win32\glew32.dll $(OutDir)
-xcopy /Y $(SolutionDir)editor\tahoma.ttf $(OutDir)
-xcopy /Y $(SolutionDir)editor\smiley.png $(OutDir)</Command>
+xcopy /Y $(SolutionDir)editor\tahoma.ttf $(OutDir)</Command>
     </PostBuildEvent>
     <ProjectReference>
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
