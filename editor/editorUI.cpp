@@ -12,6 +12,7 @@
 #include "editorUI.h"
 #include "entityCreatorView.h"
 
+#include "model/camera.h"
 #include "model/meshFactory.h"
 
 using namespace editor;
@@ -83,4 +84,8 @@ void EditorUI::onLayout(const Recti& rect) {
     mPanel->setHeight(rect.height());
     mSceneView->setHeight(rect.height());
     mSceneView->setWidth(rect.width() - mPanel->getWidth());
+
+    model::Entity* camera = mSceneView->getScene()->getMainCamera();
+    float aspect = (float)rect.width() / rect.height();
+    camera->getComponent<model::Camera>().setPerspective(deg2rad(60.0f / (1.0f / aspect)), aspect, 0.1f, 30.0f);
 }
