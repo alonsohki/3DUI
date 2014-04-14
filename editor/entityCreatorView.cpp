@@ -30,27 +30,31 @@ void EntityCreatorView::setOnCreateEntityListener(const OnCreateEntityListener& 
 }
 
 void EntityCreatorView::init() {
-    ui::Button* addCube = new ui::Button(10, 10, 70, 30, "+ Cube");
+    ui::TextView* title = new ui::TextView(10, 10, "Create new entity");
+    title->setColor(Color::BLACK);
+
+    ui::Button* addCube = new ui::Button(10, 40, 70, 30, "+ Cube");
     addCube->setOnClickListener([this](ui::Button* button) {
         if (mListener) {
             mListener("cube");
         }
     });
 
-    ui::Button* addPlane = new ui::Button(90, 10, 70, 30, "+ Plane");
+    ui::Button* addPlane = new ui::Button(90, 40, 70, 30, "+ Plane");
     addPlane->setOnClickListener([this](ui::Button* button) {
         if (mListener) {
             mListener("plane");
         }
     });
 
-    ui::Button* addSphere = new ui::Button(170, 10, 70, 30, "+ Sphere");
+    ui::Button* addSphere = new ui::Button(170, 40, 70, 30, "+ Sphere");
     addSphere->setOnClickListener([this](ui::Button* button) {
         if (mListener) {
             mListener("sphere");
         }
     });
 
+    addView(title);
     addView(addCube);
     addView(addPlane);
     addView(addSphere);

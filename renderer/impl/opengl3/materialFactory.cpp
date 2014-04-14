@@ -93,7 +93,7 @@ model::Material* MaterialFactory::getDefault() {
 
                     vec3 halfWay = normalize(un_Light.direction + un_ViewVector);
                     float temp = max(-dot(ex_Normal, halfWay), 0.0);
-                    float specularFactor = temp / (un_Material.shininess - temp*un_Material.shininess + temp);
+                    float specularFactor = clamp(temp / (un_Material.shininess - temp*un_Material.shininess + temp), 0.0, 1.0);
                     vec3 cSpecular = un_Material.specular * un_Light.specular * specularFactor;
 
                     pixel = cDiffuse + vec4 ( cAmbient + cEmission + cSpecular, 0.0 );

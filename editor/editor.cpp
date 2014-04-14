@@ -48,7 +48,7 @@ namespace {
     void reshape(int width, int height) {
         model::Entity* camera = context->getScene()->getMainCamera();
         float aspect = (float)width / height;
-        camera->getComponent<model::Camera>().setPerspective(deg2rad(60.0f / (1.0f / aspect)), aspect, 0.01f, 10.0f);
+        camera->getComponent<model::Camera>().setPerspective(deg2rad(60.0f / (1.0f / aspect)), aspect, 0.1f, 30.0f);
         viewPort.x = 0;
         viewPort.y = 0;
         viewPort.width = width;
@@ -128,7 +128,7 @@ int main(int argc, char** argv)
     // Add a camera
     model::Entity* camera = new model::Entity("camera");
     camera->setTransform(Matrix2Transform(TranslationMatrix(0.2f, 0.2f, 2) * RotationMatrix(deg2rad(60.0f), 0, -1, 0) * RotationMatrix(deg2rad(30.0f), -1, 0, 0)));
-    camera->getComponent<model::Camera>().setPerspective(deg2rad(60.0f), 1.0f, 0.01f, 10.0f);
+    camera->getComponent<model::Camera>().setPerspective(deg2rad(60.0f), 1.0f, 0.1f, 30.0f);
     context->getScene()->getRoot().addChild(camera);
 
     glutInit(&argc, argv);

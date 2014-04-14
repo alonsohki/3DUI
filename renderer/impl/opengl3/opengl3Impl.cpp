@@ -155,6 +155,7 @@ void OpenGL3Impl::renderMesh(const model::ViewPort& viewPort,
         Matrix matNormals = MatrixForNormals ( mat );
         const Matrix& matProjection = camera->getProjection();
         Matrix matGeometry = matProjection * lookAt * mat;
+        Vector3 viewVector = Vector3(0.0f, 1.0f, 0.0) * lookAt;
 
         program->bind();
 
@@ -163,8 +164,8 @@ void OpenGL3Impl::renderMesh(const model::ViewPort& viewPort,
         program->setUniform("un_LookatMatrix", lookAt );
         program->setUniform("un_ModelviewMatrix", mat);
         program->setUniform("un_NormalMatrix", matNormals);
-        program->setUniform("un_Matrix", matGeometry );
-        //program->setUniform("un_ViewVector", m_viewVector );
+        program->setUniform("un_Matrix", matGeometry);
+        program->setUniform("un_ViewVector", viewVector);
 
         GLenum polyType = GL_INVALID_ENUM;
         switch ( mesh->type )
