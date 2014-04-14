@@ -9,9 +9,16 @@
 // PURPOUSE:    Base class for the UI views.
 //
 
+#include "ui.h"
 #include "view.h"
 
 using namespace ui;
+
+View::View(UI* ui)
+: View()
+{
+    setUI(ui);
+}
 
 View::View()
 : mParent(nullptr)
@@ -33,12 +40,14 @@ View::View(const Vector2i& pos)
 
 View::~View()
 {
+    mUI->notifyDeleted(this);
 }
 
 void View::addView(View* view) {
     assert(view->getParent() == nullptr);
 
     view->mParent = this;
+    view->setUI(mUI);
     mChildren.push_back(view);
 }
 
@@ -46,3 +55,10 @@ void View::setPosition(const Vector2i& position) {
     mPosition = position;
 }
 
+void View::setUI(UI* ui) {
+    mUI = ui;
+
+    for (auto& child : mChildren) {
+        child->setUI(mUI);
+    }
+}

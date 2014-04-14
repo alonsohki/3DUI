@@ -66,8 +66,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="mouseEvent.h" />
     <ClInclude Include="ui.h" />
     <ClInclude Include="view.h" />
+    <ClInclude Include="view\button.h" />
     <ClInclude Include="view\imageView.h" />
     <ClInclude Include="view\panel.h" />
     <ClInclude Include="view\textView.h" />
@@ -75,6 +77,7 @@
   <ItemGroup>
     <ClCompile Include="ui.cpp" />
     <ClCompile Include="view.cpp" />
+    <ClCompile Include="view\button.cpp" />
     <ClCompile Include="view\imageView.cpp" />
     <ClCompile Include="view\panel.cpp" />
     <ClCompile Include="view\textView.cpp" />

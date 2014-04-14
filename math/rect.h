@@ -30,6 +30,10 @@ struct Rect {
     T height() const {
         return bottom - top;
     }
+
+    bool contains(const T& x, const T& y) const {
+        return x >= left && x <= right && y >= top && y <= bottom;
+    }
 };
 
 typedef Rect<float> Rectf;

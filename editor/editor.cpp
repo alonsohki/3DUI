@@ -17,6 +17,8 @@
 
 #include "shared/pixmap.h"
 
+#include "ui/mouseEvent.h"
+#include "ui/view/button.h"
 #include "ui/view/imageView.h"
 #include "ui/view/panel.h"
 #include "ui/view/textView.h"
@@ -74,6 +76,48 @@ namespace {
         panel->setHeight(viewPort.height);
     }
 
+    void mouse(int button, int state, int x, int y) {
+        ui::MouseEvent event;
+        switch (button) {
+        case GLUT_LEFT_BUTTON:
+            event.button = ui::MouseEvent::LEFT;
+            break;
+        case GLUT_MIDDLE_BUTTON:
+            event.button = ui::MouseEvent::MIDDLE;
+            break;
+        case GLUT_RIGHT_BUTTON:
+            event.button = ui::MouseEvent::RIGHT;
+            break;
+        default:
+            return;
+        }
+
+        switch (state) {
+        case GLUT_UP:
+            event.state = ui::MouseEvent::UP;
+            break;
+        case GLUT_DOWN:
+            event.state = ui::MouseEvent::DOWN;
+            break;
+        default:
+            return;
+        }
+
+        event.position.x() = x;
+        event.position.y() = y;
+
+        context->getUI()->onMouseEvent(event);
+    }
+
+    void motion(int x, int y) {
+        ui::MouseEvent event;
+        event.position.x() = x;
+        event.position.y() = y;
+        event.state = ui::MouseEvent::MOVE;
+
+        context->getUI()->onMouseEvent(event);
+    }
+
     void finalize() {
         delete context;
     }
@@ -96,6 +140,15 @@ namespace {
         pix.load("smiley.png");
         ui::ImageView* img = new ui::ImageView(50, 50, pix);
         panel->addView(img);
+
+        ui::Button* button = new ui::Button(10, 40, 60, 30, "+ Cube");
+        button->setOnClickListener([](ui::Button* button) {
+            puts("Clicked");
+        });
+
+        panel->addView(button);
+
+        return true;
     }
 }
 
@@ -129,6 +182,9 @@ int main(int argc, char** argv)
 
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
+    glutMouseFunc(mouse);
+    glutMotionFunc(motion);
+    glutPassiveMotionFunc(motion);
     reshape(800, 600);
 
     glutMainLoop();

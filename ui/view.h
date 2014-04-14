@@ -11,16 +11,22 @@
 
 #pragma once
 
+#include "mouseEvent.h"
 #include "math/vector.h"
 #include "renderer/canvas.h"
 #include <vector>
 
 namespace ui {
 
+class UI;
+
 class View {
 public:
     typedef std::vector<View *> ViewVector;
+    friend class UI;
 
+private:
+                            View                (UI* ui);
 public:
                             View                ();
                             View                (const Vector2i& position);
@@ -29,7 +35,11 @@ public:
 
     void                    addView             (View* view);
     virtual void            draw                (renderer::Canvas* canvas) {}
+
+    //-----------------------------------------
+    // Events
     virtual void            onLayout            (const Recti& rect) {}
+    virtual bool            onMouseEvent        (const MouseEvent& event) { return false; }
 
     ViewVector&             getChildren         () { return mChildren; }
     const ViewVector&       getChildren         () const { return mChildren; }
@@ -38,7 +48,12 @@ public:
     void                    setPosition         (const Vector2i& position);
     const Vector2i&         getPosition         () const { return mPosition; }
 
+
 private:
+    void                    setUI               (UI* ui);
+
+private:
+    UI*             mUI;
     View*           mParent;
     ViewVector      mChildren;
     Vector2i        mPosition;

@@ -14,6 +14,7 @@
 using namespace ui;
 
 UI::UI()
+: mMouseOwner(nullptr)
 {
 }
 
@@ -43,5 +44,37 @@ void UI::drawView(renderer::Canvas* canvas, View* view, const Recti& rect) {
     for (auto iter = children.rbegin(); iter != children.rend(); ++iter) {
         View* child = *iter;
         drawView(canvas, child, childrenRect);
+    }
+}
+
+void UI::onMouseEvent(const MouseEvent& event) {
+    if (mMouseOwner == nullptr) {
+        mMouseOwner = &mViewRoot;
+    }
+
+    View* newOwner = handleMouse(event, mMouseOwner);
+    if (newOwner == nullptr && mMouseOwner != &mViewRoot) {
+        mMouseOwner = handleMouse(event, &mViewRoot);
+    }
+    else {
+        mMouseOwner = newOwner;
+    }
+}
+
+View* UI::handleMouse(const MouseEvent& event, View* view) {
+    View::ViewVector& children = view->getChildren();
+    for (auto iter = children.rbegin(); iter != children.rend(); ++iter) {
+        View* handler = handleMouse(event, *iter);
+        if (handler != nullptr) {
+            return handler;
+        }
+    }
+
+    return view->onMouseEvent(event) ? view : nullptr;
+}
+
+void UI::notifyDeleted(View* view) {
+    if (view == mMouseOwner) {
+        mMouseOwner = nullptr;
     }
 }

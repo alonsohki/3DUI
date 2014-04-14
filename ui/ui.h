@@ -11,26 +11,33 @@
 
 #pragma once
 
+#include "mouseEvent.h"
 #include "renderer/canvas.h"
 #include "view.h"
 
 namespace ui {
 
 class UI final {
+    friend class View;
+
 public:
-                UI          ();
-                ~UI         ();
+                UI              ();
+                ~UI             ();
 
-    void        addView     (View* view);
-    View*       getRoot     () { return &mViewRoot; }
+    void        addView         (View* view);
+    View*       getRoot         () { return &mViewRoot; }
 
-    void        draw        (renderer::Canvas* canvas);
+    void        draw            (renderer::Canvas* canvas);
+    void        onMouseEvent    (const MouseEvent& event);
 
 private:
-    void        drawView    (renderer::Canvas* canvas, View* view, const Recti& rect);
+    void        notifyDeleted   (View* view);
+    void        drawView        (renderer::Canvas* canvas, View* view, const Recti& rect);
+    View*       handleMouse     (const MouseEvent& event, View* view);
 
 private:
     View    mViewRoot;
+    View*   mMouseOwner;
 };
 
 }
