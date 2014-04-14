@@ -13,6 +13,7 @@
 
 #include "../view.h"
 #include <string>
+#include "textView.h"
 
 namespace ui {
 
@@ -38,7 +39,7 @@ public:
 
 private:
     Vector2i            mDimensions;
-    std::string         mText;
+    TextView            mTextView;
     OnClickListener     mListener;
     Color               mStrokeColor = Color::BLACK;
     Color               mBackgroundColor = Color(128, 128, 128, 255);

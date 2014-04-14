@@ -15,13 +15,18 @@ using namespace ui;
 
 Button::Button()
 : mHover(false)
+, mTextView(4, 4, "")
 {
+    addView(&mTextView);
 }
 
 Button::Button(int x, int y, int width, int height, const std::string& text)
 : View(x, y)
 , mHover(false)
+, mTextView(4, 4, "")
 {
+    addView(&mTextView);
+
     setWidth(width);
     setHeight(height);
     setText(text);
@@ -44,7 +49,7 @@ void Button::setHeight(int height) {
 }
 
 void Button::setText(const std::string& text) {
-    mText = text;
+    mTextView.setText(text);
 }
 
 //--------------------------------------
@@ -68,5 +73,4 @@ void Button::draw(renderer::Canvas* canvas) {
 
     canvas->fillRect(rect, mStrokeColor);
     canvas->fillRect(innerRect, mHover ? mHighlightColor : mBackgroundColor);
-    canvas->drawText(Vector2i(pos.x() + 4, pos.y() + 4), mText, Color::WHITE);
 }
