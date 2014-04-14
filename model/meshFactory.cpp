@@ -9,6 +9,7 @@
 // PURPOUSE:    3D mesh generator
 //
 
+#include "math/matrix.h"
 #include "meshFactory.h"
 
 using namespace model;
@@ -123,5 +124,72 @@ void MeshFactory::createPlane(Mesh* mesh, float edgeSize) {
 }
 
 void MeshFactory::createSphere(Mesh* mesh, float radius, unsigned int slices, unsigned int stacks) {
+    mesh->vertexCount = ( slices + 1 ) * ( stacks + 1 );
+    mesh->vertices = new Vertex [ mesh->vertexCount ];
+    mesh->indexCount = slices * stacks * 6;
+    mesh->indices = new unsigned int [ mesh->indexCount ];
 
+    // Sphere is generated laying down, so we transform each generated vertex
+    RotationMatrix matRotation(kPi * 0.5f, 1, 0, 0);
+
+    // Use the sphere parametric equation to generate vertices
+    for ( unsigned int i = 0; i <= stacks; ++i )
+    {
+        float vSin = sin ( i * kPi / stacks );
+        float vCos = cos ( i * kPi / stacks );
+
+        for ( unsigned int j = 0; j <= slices; ++j )
+        {
+            float uSin = sin ( j * k2Pi / slices );
+            float uCos = cos ( j * k2Pi / slices );
+
+            unsigned int uiCurVertex = j + i * ( slices + 1 );
+            Vertex& cur = mesh->vertices [ uiCurVertex ];
+
+            Vector3 vecPosition = Vector3 ( uSin * vSin, uCos * vSin, vCos ) * matRotation;
+            cur.position = vecPosition;
+            cur.normal = vecPosition;
+
+            // Assume cylindric texture mapping
+            cur.uv = Vector2((float)j / slices, (float)i / stacks);
+        }
+    }
+
+    // Generate indices. Sphere is generated as quads, but we will triangulate them as well.
+    unsigned int uiCurIndex = 0;
+    unsigned int v1, v2, v3;
+    for ( unsigned int i = 0; i < stacks; ++i )
+    {
+        for ( unsigned int j = 0; j < slices; ++j )
+        {
+            unsigned int uiRing = i * ( slices + 1 );
+            unsigned int uiNextRing = ( i + 1 ) * ( slices + 1 );
+
+            // First triangle
+            v1 = j + uiRing;
+            v2 = j + uiNextRing;
+            v3 = 1 + j + uiNextRing;
+
+            if ( mesh->vertices[ v1 ].position != mesh->vertices[ v2 ].position &&
+                 mesh->vertices[ v1 ].position != mesh->vertices[ v3 ].position &&
+                 mesh->vertices[ v2 ].position != mesh->vertices[ v3 ].position )
+            {
+                mesh->indices[ uiCurIndex++ ] = v3;
+                mesh->indices[ uiCurIndex++ ] = v2;
+                mesh->indices[ uiCurIndex++ ] = v1;
+            }
+
+            // Second triangle
+            v2 = 1 + j + uiNextRing;
+            v3 = 1 + j + uiRing;
+            if ( mesh->vertices[ v1 ].position != mesh->vertices[ v2 ].position &&
+                 mesh->vertices[ v1 ].position != mesh->vertices[ v3 ].position &&
+                 mesh->vertices[ v2 ].position != mesh->vertices[ v3 ].position )
+            {
+                mesh->indices[ uiCurIndex++ ] = v3;
+                mesh->indices[ uiCurIndex++ ] = v2;
+                mesh->indices[ uiCurIndex++ ] = v1;
+            }
+        }
+    }
 }
