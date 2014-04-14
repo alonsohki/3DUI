@@ -16,6 +16,7 @@ using namespace editor;
 Context::Context()
 : mRenderer(nullptr)
 , mScene(nullptr)
+, mUI(nullptr)
 {
 }
 
@@ -23,11 +24,13 @@ Context::~Context()
 {
     delete mScene;
     delete mRenderer;
+    delete mUI;
 }
 
 Context* Context::create() {
     Context* context = new Context();
     context->mRenderer = new renderer::Renderer();
     context->mScene = new model::Scene();
+    context->mUI = new ui::UI();
     return context;
 }

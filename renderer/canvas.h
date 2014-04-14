@@ -22,25 +22,29 @@ namespace renderer {
 
 class Canvas {
 public:
-                Canvas          ();
-                Canvas          (Renderer* renderer) : Canvas() { setRenderer(renderer); }
-    virtual     ~Canvas         ();
+                    Canvas          ();
+                    Canvas          (Renderer* renderer) : Canvas() { setRenderer(renderer); }
+    virtual         ~Canvas         ();
 
-    void        setRenderer     (Renderer* renderer);
-    void        setRect         (const Recti& rect);
+    void            setRenderer     (Renderer* renderer);
+    Renderer*       getRenderer     () const { return mRenderer; }
+    void            setViewport     (const model::ViewPort& viewPort);
+    void            setRect         (const Recti& rect);
+    const Recti&    getRect         () const;
 
-    void        fillRect        (const Rectf& rect, const Color& color);
-    void        drawText        (const Vector2& position, const std::string& text, const Color& color = Color::WHITE);
-    void        drawImage       (const Rectf& rect, const Pixmap& image);
-    void        drawTexture     (const Rectf& rect, Texture* texture, const Rectf& textureCoordinates);
+    void            fillRect        (const Recti& rect, const Color& color);
+    void            drawText        (const Vector2i& position, const std::string& text, const Color& color = Color::WHITE);
+    void            drawImage       (const Recti& rect, const Pixmap& image);
+    void            drawTexture     (const Recti& rect, Texture* texture, const Rectf& textureCoordinates);
 
 private:
-    bool        init            ();
+    bool            init            ();
 
 private:
     Renderer*           mRenderer;
     CanvasImpl*         mImpl;
     model::ViewPort     mViewport;
+    Recti               mRect;
 };
 
 }

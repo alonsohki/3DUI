@@ -18,6 +18,7 @@ using namespace renderer;
 Canvas::Canvas()
 : mImpl(nullptr)
 , mRenderer(nullptr)
+, mRect(0, 0, 0, 0)
 {
 }
 
@@ -44,39 +45,47 @@ bool Canvas::init() {
     }
 }
 
+void Canvas::setViewport(const model::ViewPort& viewPort) {
+    mViewport = viewPort;
+}
+
 void Canvas::setRect(const Recti& rect) {
-    mViewport = model::ViewPort(rect.left, rect.top, rect.width(), rect.height());
+    mRect = rect;
+}
+
+const Recti& Canvas::getRect() const {
+    return mRect;
 }
 
 void Canvas::setRenderer(Renderer* renderer) {
     mRenderer = renderer;
 }
 
-void Canvas::fillRect(const Rectf& rect, const Color& color) {
+void Canvas::fillRect(const Recti& rect, const Color& color) {
     if (init()) {
-        mImpl->fillRect(mRenderer, mViewport, rect, color);
+        mImpl->fillRect(mRenderer, mViewport, Recti(mRect.left + rect.left, mRect.top + rect.top, rect.right, rect.bottom), color);
     }
 }
 
-void Canvas::drawText(const Vector2& position, const std::string& text, const Color& color) {
+void Canvas::drawText(const Vector2i& position, const std::string& text, const Color& color) {
     if (init()) {
-        mImpl->drawText(mRenderer, mViewport, position, text, color);
+        mImpl->drawText(mRenderer, mViewport, position + Vector2i(mRect.left, mRect.top), text, color);
     }
 }
 
-void Canvas::drawImage(const Rectf& rect, const Pixmap& pixmap) {
+void Canvas::drawImage(const Recti& rect, const Pixmap& pixmap) {
     if (init()) {
         Texture* texture = mRenderer->createTexture();
         if (texture != nullptr) {
             texture->load(pixmap.pixels(), pixmap.width(), pixmap.height(), renderer::Texture::RGBA, false);
-            mImpl->drawTexture(mRenderer, mViewport, rect, texture, Rectf(0, 0, 1, 1));
+            mImpl->drawTexture(mRenderer, mViewport, Recti(mRect.left + rect.left, mRect.top + rect.top, rect.right, rect.bottom), texture, Rectf(0, 0, 1, 1));
             delete texture;
         }
     }
 }
 
-void Canvas::drawTexture(const Rectf& rect, Texture* texture, const Rectf& textureCoordinates) {
+void Canvas::drawTexture(const Recti& rect, Texture* texture, const Rectf& textureCoordinates) {
     if (init()) {
-        mImpl->drawTexture(mRenderer, mViewport, rect, texture, textureCoordinates);
+        mImpl->drawTexture(mRenderer, mViewport, Recti(mRect.left + rect.left, mRect.top + rect.top, rect.right, rect.bottom), texture, textureCoordinates);
     }
 }

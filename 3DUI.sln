@@ -14,6 +14,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "shared", "shared\shared.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "editor", "editor\editor.vcxproj", "{68D39162-B2F8-4ADE-931A-476C4956A39E}"
 	ProjectSection(ProjectDependencies) = postProject
+		{D1D9EF77-24CD-4622-800D-189939FCB044} = {D1D9EF77-24CD-4622-800D-189939FCB044}
 		{45B260A8-DF0E-483C-B86C-70A1528248AB} = {45B260A8-DF0E-483C-B86C-70A1528248AB}
 	EndProjectSection
 EndProject
@@ -33,6 +34,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libpng", "libpng\libpng.vcx
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libdrawtext", "libdrawtext\libdrawtext.vcxproj", "{8C340417-92D2-447C-83A8-08C104277967}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ui", "ui\ui.vcxproj", "{D1D9EF77-24CD-4622-800D-189939FCB044}"
+	ProjectSection(ProjectDependencies) = postProject
+		{45B260A8-DF0E-483C-B86C-70A1528248AB} = {45B260A8-DF0E-483C-B86C-70A1528248AB}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -72,6 +78,10 @@ Global
 		{8C340417-92D2-447C-83A8-08C104277967}.Debug|Win32.Build.0 = Debug|Win32
 		{8C340417-92D2-447C-83A8-08C104277967}.Release|Win32.ActiveCfg = Release|Win32
 		{8C340417-92D2-447C-83A8-08C104277967}.Release|Win32.Build.0 = Release|Win32
+		{D1D9EF77-24CD-4622-800D-189939FCB044}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D1D9EF77-24CD-4622-800D-189939FCB044}.Debug|Win32.Build.0 = Debug|Win32
+		{D1D9EF77-24CD-4622-800D-189939FCB044}.Release|Win32.ActiveCfg = Release|Win32
+		{D1D9EF77-24CD-4622-800D-189939FCB044}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -11,6 +11,7 @@
 
 #include "model/scene.h"
 #include "renderer/renderer.h"
+#include "ui/ui.h"
 
 namespace editor {
 
@@ -24,10 +25,12 @@ public:
     
     renderer::Renderer*     getRenderer     () const { return mRenderer; }
     model::Scene*           getScene        () const { return mScene; }
+    ui::UI*                 getUI           () const { return mUI; }
 
 private:
     renderer::Renderer*     mRenderer;
     model::Scene*           mScene;
+    ui::UI*                 mUI;
 };
 
 }

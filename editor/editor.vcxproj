@@ -61,6 +61,7 @@
     </Link>
     <PostBuildEvent>
       <Command>xcopy /Y $(SolutionDir)freeglut\bin\freeglut.dll $(OutDir)
+xcopy /Y $(SolutionDir)freetype\bin\freetype6.dll $(OutDir)
 xcopy /Y $(SolutionDir)glew\bin\Release\Win32\glew32.dll $(OutDir)
 xcopy /Y $(SolutionDir)editor\tahoma.ttf $(OutDir)
 xcopy /Y $(SolutionDir)editor\smiley.png $(OutDir)</Command>
@@ -88,6 +89,7 @@ xcopy /Y $(SolutionDir)editor\smiley.png $(OutDir)</Command>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /Y $(SolutionDir)freeglut\bin\freeglut.dll $(OutDir)
+xcopy /Y $(SolutionDir)freetype\bin\freetype6.dll $(OutDir)
 xcopy /Y $(SolutionDir)glew\bin\Release\Win32\glew32.dll $(OutDir)
 xcopy /Y $(SolutionDir)editor\tahoma.ttf $(OutDir)
 xcopy /Y $(SolutionDir)editor\smiley.png $(OutDir)</Command>
@@ -116,6 +118,9 @@ xcopy /Y $(SolutionDir)editor\smiley.png $(OutDir)</Command>
     </ProjectReference>
     <ProjectReference Include="..\shared\shared.vcxproj">
       <Project>{eb192615-ee60-466e-b8c0-35bb1fb96ef2}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\ui\ui.vcxproj">
+      <Project>{d1d9ef77-24cd-4622-800d-189939fcb044}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -72,7 +72,7 @@ namespace {
 
     template<typename T>
     inline float unlerp(const T& min, const T& value, const T& max) {
-        return (value - min) / (max - min);
+        return (value - min) / (float)(max - min);
     }
 
     //------------------------------------------------------------------------------

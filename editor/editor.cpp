@@ -17,24 +17,22 @@
 
 #include "shared/pixmap.h"
 
+#include "ui/view/imageView.h"
+#include "ui/view/panel.h"
+#include "ui/view/textView.h"
+
 using namespace editor;
 
 namespace {
     float xpos = 0.0f;
     Context* context;
     model::ViewPort viewPort;
-    Pixmap smileyPix;
-    renderer::Texture* smiley = nullptr;
     struct dtx_font *font = nullptr;
+    ui::Panel* panel = nullptr;
 
     void display() {
         using namespace std::chrono;
         auto t0 = high_resolution_clock::now();
-
-        if (smiley == nullptr) {
-            smiley = context->getRenderer()->createTexture();
-            smiley->load(smileyPix.pixels(), smileyPix.width(), smileyPix.height(), renderer::Texture::RGBA, false);
-        }
 
         context->getRenderer()->clear();
 
@@ -43,10 +41,9 @@ namespace {
         context->getRenderer()->setEnabled(renderer::BLENDING, true);
 
         renderer::Canvas canvas(context->getRenderer());
+        canvas.setViewport(viewPort);
         canvas.setRect(Recti(viewPort.x, viewPort.y, viewPort.x + viewPort.width, viewPort.y + viewPort.height));
-        canvas.fillRect(Rectf(0.02f, 0.02f, 0.98f, 0.15f), Color::YELLOW);
-        canvas.drawTexture(Rectf(0.01f, 0.6f, 0.25f, 0.8f), smiley, Rectf(0, 0, 1, 1));
-        canvas.drawText(Vector2(0.01f, 0.5f), "Hello, world!", Color::RED);
+        context->getUI()->draw(&canvas);
 
         glutSwapBuffers();
         glutPostRedisplay();
@@ -73,11 +70,32 @@ namespace {
         viewPort.y = 0;
         viewPort.width = width;
         viewPort.height = height;
+
+        panel->setHeight(viewPort.height);
     }
 
     void finalize() {
-        delete smiley;
         delete context;
+    }
+
+    bool createUI(ui::UI* ui) {
+        if(!(font = dtx_open_font("tahoma.ttf", 14))) {
+		    fprintf(stderr, "failed to open font\n");
+		    return false;
+	    }
+        dtx_use_font(font, 14);
+
+        panel = new ui::Panel(0, 0, 300, 600);
+        ui->addView(panel);
+
+        ui::TextView* text = new ui::TextView(10, 10, "Hello, world!");
+        text->setColor(Color::RED);
+        panel->addView(text);
+
+        Pixmap pix;
+        pix.load("smiley.png");
+        ui::ImageView* img = new ui::ImageView(50, 50, pix);
+        panel->addView(img);
     }
 }
 
@@ -86,14 +104,10 @@ int main(int argc, char** argv)
 {
     atexit(finalize);
 
-    smileyPix.load("smiley.png");
-    if(!(font = dtx_open_font("tahoma.ttf", 14))) {
-		fprintf(stderr, "failed to open font\n");
-		return EXIT_FAILURE;
-	}
-    dtx_use_font(font, 14);
-
     context = Context::create();
+    if (!createUI(context->getUI())) {
+        return EXIT_FAILURE;
+    }
 
     // Add a sample cube
     model::Entity* entity = new model::Entity("cube");

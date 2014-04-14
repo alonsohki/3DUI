@@ -16,51 +16,83 @@
 #include <cstring>
 #include "platform.h"
 
-class Vector2
+template<typename T>
+class _Vector2
 {
 private:
-    typedef struct { f32 fX, fY; } __s2f;
+    typedef struct { T fX, fY; } __s2f;
     
     union
     {
-        f32 v [ 2 ];
+        T v [ 2 ];
         __s2f s;
     };
     
 public:
-    Vector2 ()
+    _Vector2 ()
     {
-        x() = 0.0f;
-        y() = 0.0f;
+        x() = 0;
+        y() = 0;
     }
     
-    Vector2 ( const Vector2& vec )
+    _Vector2 ( const _Vector2& vec )
     {
         x() = vec.x();
         y() = vec.y();
     }
     
-    Vector2 ( float fX, float fY )
+    _Vector2 ( const T& fX, const T& fY )
     {
         x() = fX;
         y() = fY;
     }
     
-    Vector2 ( const float* f )
+    _Vector2 ( const T* f )
     {
         x() = f[0];
         y() = f[1];
     }
     
-    const f32& x() const { return s.fX; }
-    const f32& y() const { return s.fY; }
-    const f32* vector() const { return v; }
+    const T& x() const { return s.fX; }
+    const T& y() const { return s.fY; }
+    const T* vector() const { return v; }
     
-    f32& x() { return s.fX; }
-    f32& y() { return s.fY; }
-    f32* vector() { return v; }
+    T& x() { return s.fX; }
+    T& y() { return s.fY; }
+    T* vector() { return v; }
+
+    //------------------------------------
+    // v + v
+    template<typename U>
+    _Vector2 operator+(const _Vector2<U>& right) const {
+        return _Vector2(x() + (T)right.x(), y() + (T)right.y());
+    }
+
+    template<typename U>
+    _Vector2& operator+=(const _Vector2<U>& right) {
+        x() += (T)right.x();
+        y() += (T)right.y();
+        return *this;
+    }
+
+    
+    //------------------------------------
+    // v - v
+    template<typename U>
+    _Vector2 operator-(const _Vector2<U>& right) const {
+        return _Vector2(x() - (T)right.x(), y() - (T)right.y());
+    }
+
+    template<typename U>
+    _Vector2& operator-=(const _Vector2<U>& right) {
+        x() -= (T)right.x();
+        y() -= (T)right.y();
+        return *this;
+    }
 };
 
+typedef _Vector2<float> Vector2;
+typedef _Vector2<int> Vector2i;
 
 
 class Vector3
