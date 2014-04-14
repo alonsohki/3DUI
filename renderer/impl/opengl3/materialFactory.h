@@ -19,6 +19,7 @@ namespace impl {
 class MaterialFactory {
 public:
     static model::Material*     getDefault      ();
+    static model::Material*     getPicking      ();
 };
 
 }

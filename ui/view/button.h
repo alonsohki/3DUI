@@ -27,9 +27,6 @@ public:
     virtual         ~Button             ();
 
     void            setOnClickListener  (const OnClickListener& listener);
-
-    void            setWidth            (int width);
-    void            setHeight           (int height);
     void            setText             (const std::string& text);
 
     //--------------------------------------
@@ -38,7 +35,6 @@ public:
     void            draw                (renderer::Canvas* canvas) override;
 
 private:
-    Vector2i            mDimensions;
     TextView            mTextView;
     OnClickListener     mListener;
     Color               mStrokeColor = Color::BLACK;

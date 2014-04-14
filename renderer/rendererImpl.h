@@ -17,6 +17,7 @@
 #include "model/material.h"
 #include "model/mesh.h"
 #include "model/viewPort.h"
+#include "pick.h"
 #include "program.h"
 #include "texture.h"
 
@@ -37,6 +38,14 @@ public:
                                                       model::Mesh* mesh,
                                                       model::Material* material,
                                                       const Transform& transform ) = 0;
+    virtual void                beginPicking        (const model::ViewPort& viewPort, const Vector2i& position) = 0;
+    virtual void                renderForPicking    (const model::ViewPort& viewPort,
+                                                     model::Entity* camera,
+                                                     model::Mesh* mesh,
+                                                     const Transform& transform,
+                                                     unsigned int name) = 0;
+    virtual void                endPicking          (Pick* result) = 0;
+
     virtual Program*            createProgram       () const = 0;
     virtual Texture*            createTexture       () const = 0;
 };

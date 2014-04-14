@@ -35,9 +35,25 @@ void SceneView::setScene(model::Scene* scene) {
     mScene = scene;
 }
 
+void SceneView::setOnClickListener(const OnClickListener& listener) {
+    mListener = listener;
+}
 
 //--------------------------------------
 // Methods inherited from View
+bool SceneView::onMouseEvent(const MouseEvent& event) {
+    if (mScene != nullptr && mListener && event.state == MouseEvent::UP) {
+        const Vector2i& pos = getPosition();
+        const Vector2i& dimensions = getDimensions();
+
+        Recti rect(pos.x(), pos.y(), pos.x() + dimensions.x(), pos.y() + dimensions.y());
+        if (rect.contains(event.position.x(), event.position.y())) {
+            mListener(this, event);
+        }
+    }
+    return false;
+}
+
 void SceneView::draw(renderer::Canvas* canvas) {
     if (mScene != nullptr) {
         const Vector2i& pos = getPosition();

@@ -9,6 +9,8 @@
 // PURPOUSE:    Class to hold the editor context.
 //
 
+#pragma once
+
 #include "model/scene.h"
 #include "renderer/renderer.h"
 #include "ui/ui.h"

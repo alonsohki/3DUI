@@ -75,6 +75,33 @@ void Renderer::setEnabled(Constant state, bool enabled) {
     }
 }
 
+model::Entity* Renderer::pick(const model::ViewPort& viewPort, model::Scene* scene, const Vector2i& position) {
+    model::Entity* pickedEntity = nullptr;
+
+    if (init()) {
+        model::Entity* cameraEntity = scene->getMainCamera();
+        if (cameraEntity != nullptr) {
+            mImpl->setEnabled(CULL_FACE, true);
+            mImpl->setEnabled(DEPTH_TEST, true);
+
+            std::vector<model::Entity*> entities;
+            Pick pick;
+            mImpl->beginPicking(viewPort, position);
+            scene->forEachEntity([this, cameraEntity, &viewPort, &entities](model::Entity* entity) -> bool {
+                model::Mesh* mesh = entity->findComponent<model::Mesh>();
+                if (mesh != nullptr) {
+                    entities.push_back(entity);
+                    mImpl->renderForPicking(viewPort, cameraEntity, mesh, entity->getTransform(), entities.size());
+                }
+                return true;
+            });
+            mImpl->endPicking(&pick);
+        }
+    }
+
+    return pickedEntity;
+}
+
 
 //------------------------------------------------
 // Private utility functions

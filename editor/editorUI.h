@@ -11,6 +11,8 @@
 
 #pragma once
 
+#include "context.h"
+
 #include "ui/view.h"
 #include "ui/view/panel.h"
 #include "ui/view/sceneView.h"
@@ -22,7 +24,7 @@ public:
                 EditorUI    ();
     virtual     ~EditorUI   ();
 
-    void        setScene    (model::Scene* scene);
+    void        setContext  (Context* context);
 
 
     //-----------------------------------------------
@@ -35,7 +37,7 @@ private:
 private:
     ui::Panel*      mPanel;
     ui::SceneView*  mSceneView;
-    model::Scene*   mScene;
+    Context*        mContext;
 };
 
 }

@@ -18,22 +18,26 @@ namespace ui {
 
 class SceneView : public View {
 public:
-    typedef std::function<void(SceneView* view, model::Entity* entity)> OnPickListener;
+    typedef std::function<void(SceneView* view, const MouseEvent&)> OnClickListener;
 
 public:
-                SceneView       ();
-                SceneView       (int x, int y, int width, int height, model::Scene* scene);
-    virtual     ~SceneView      ();
+                    SceneView           ();
+                    SceneView           (int x, int y, int width, int height, model::Scene* scene);
+    virtual         ~SceneView          ();
 
-    void        setScene        (model::Scene* scene);
+    void            setScene            (model::Scene* scene);
+    model::Scene*   getScene            () const { return mScene; }
+
+    void            setOnClickListener  (const OnClickListener& listener);
 
     //--------------------------------------
     // Methods inherited from View
-    void        draw            (renderer::Canvas* canvas) override;
+    bool            onMouseEvent        (const MouseEvent& event) override;
+    void            draw                (renderer::Canvas* canvas) override;
 
 private:
-    model::Scene*   mScene;
-    OnPickListener  mListener;
+    model::Scene*       mScene;
+    OnClickListener     mListener;
 };
 
 }

@@ -11,6 +11,9 @@
 
 #pragma once
 
+#include <Windows.h>
+#include <gl/GL.h>
+
 #include "../../rendererImpl.h"
 #include "program.h"
 
@@ -19,21 +22,34 @@ namespace impl {
 
 class OpenGL3Impl : public RendererImpl {
 public:
-                        OpenGL3Impl     ();
-    virtual             ~OpenGL3Impl    ();
+                        OpenGL3Impl         ();
+    virtual             ~OpenGL3Impl        ();
 
     //-------------------------------------------------
     // Methods inherited from RendererImpl
-    void                buildMaterial   (model::Material* material) override;
-    void                clear           () override;
-    void                setEnabled      (Constant state, bool enabled) override;
-    void                renderMesh      ( const model::ViewPort& viewPort,
-                                          model::Entity* camera,
-                                          model::Mesh* mesh,
-                                          model::Material* material,
-                                          const Transform& transform ) override;
-    Program*            createProgram   () const override;
-    Texture*            createTexture   () const override;
+    void                buildMaterial       (model::Material* material) override;
+    void                clear               () override;
+    void                setEnabled          (Constant state, bool enabled) override;
+    void                renderMesh          (const model::ViewPort& viewPort,
+                                             model::Entity* camera,
+                                             model::Mesh* mesh,
+                                             model::Material* material,
+                                             const Transform& transform ) override;
+    void                beginPicking        (const model::ViewPort& viewPort, const Vector2i& position) override;
+    void                renderForPicking    (const model::ViewPort& viewPort,
+                                             model::Entity* camera,
+                                             model::Mesh* mesh,
+                                             const Transform& transform,
+                                             unsigned int name) override;
+    void                endPicking          (Pick* result) override;
+
+    Program*            createProgram       () const override;
+    Texture*            createTexture       () const override;
+
+private:
+    bool    mPicking;
+    Matrix  mPickingMatrix;
+    GLuint  mPickingBuffer[512];
 };
 
 }

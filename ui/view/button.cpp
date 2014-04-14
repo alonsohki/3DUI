@@ -40,14 +40,6 @@ void Button::setOnClickListener(const OnClickListener& listener) {
     mListener = listener;
 }
 
-void Button::setWidth(int width) {
-    mDimensions.x() = width;
-}
-
-void Button::setHeight(int height) {
-    mDimensions.y() = height;
-}
-
 void Button::setText(const std::string& text) {
     mTextView.setText(text);
 }
@@ -56,7 +48,9 @@ void Button::setText(const std::string& text) {
 // Methods inherited from View
 bool Button::onMouseEvent(const MouseEvent& event) {
     const Vector2i& pos = getPosition();
-    Recti rect(pos.x(), pos.y(), pos.x() + mDimensions.x(), pos.y() + mDimensions.y());
+    const Vector2i& dimensions = getDimensions();
+
+    Recti rect(pos.x(), pos.y(), pos.x() + dimensions.x(), pos.y() + dimensions.y());
     mHover = rect.contains(event.position.x(), event.position.y());
 
     if (mHover && event.state == MouseEvent::UP && mListener) {
@@ -68,7 +62,8 @@ bool Button::onMouseEvent(const MouseEvent& event) {
 
 void Button::draw(renderer::Canvas* canvas) {
     const Vector2i& pos = getPosition();
-    Recti rect(pos.x(), pos.y(), pos.x() + mDimensions.x(), pos.y() + mDimensions.y());
+    const Vector2i& dimensions = getDimensions();
+    Recti rect(pos.x(), pos.y(), pos.x() + dimensions.x(), pos.y() + dimensions.y());
     Recti innerRect(rect.left + 2, rect.top + 2, rect.right - 2, rect.bottom - 2);
 
     canvas->fillRect(rect, mStrokeColor);

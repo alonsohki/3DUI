@@ -26,17 +26,28 @@ EditorUI::~EditorUI()
     delete mPanel;
 }
 
-void EditorUI::setScene(model::Scene* scene) {
+void EditorUI::setContext(Context* context) {
     if (mPanel == nullptr) {
         createUI();
     }
-    mSceneView->setScene(scene);
-    mScene = scene;
+    mSceneView->setScene(context->getScene());
+    mContext = context;
 }
 
 void EditorUI::createUI() {
     mPanel = new ui::Panel(0, 0, 300, 600);
     mSceneView = new ui::SceneView(300, 0, 500, 600, nullptr);
+
+    mSceneView->setOnClickListener([this](ui::SceneView* view, const ui::MouseEvent& event) {
+        const Vector2i& pos = view->getPosition();
+        const Vector2i& dimensions = view->getDimensions();
+        model::ViewPort viewPort(pos.x(), pos.y(), dimensions.x(), dimensions.y());
+
+        model::Entity* entity = mContext->getRenderer()->pick(viewPort, mContext->getScene(), event.position);
+        if (entity != nullptr) {
+        }
+        printf("Picking: %p\n", entity);
+    });
 
     addView(mPanel);
     addView(mSceneView);
@@ -59,7 +70,7 @@ void EditorUI::createUI() {
         }
 
         if (entity != nullptr) {
-            mScene->getRoot().addChild(entity);
+            mContext->getScene()->getRoot().addChild(entity);
         }
     });
 

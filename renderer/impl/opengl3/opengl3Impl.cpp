@@ -57,6 +57,7 @@ namespace {
 }
 
 OpenGL3Impl::OpenGL3Impl()
+: mPicking(false)
 {
     static bool glewInitialized = false;
     if (!glewInitialized) {
@@ -153,7 +154,11 @@ void OpenGL3Impl::renderMesh(const model::ViewPort& viewPort,
         Matrix lookAt = Transform2Matrix(invert(cameraEntity->getTransform()));
         Matrix mat = Transform2Matrix ( transform );
         Matrix matNormals = MatrixForNormals ( mat );
-        const Matrix& matProjection = camera->getProjection();
+        Matrix matProjection = camera->getProjection();
+        if (mPicking) {
+            //matProjection = mPickingMatrix * camera->getProjection();
+        }
+
         Matrix matGeometry = matProjection * lookAt * mat;
         Vector3 viewVector = Vector3(0.0f, 1.0f, 0.0) * lookAt;
 
@@ -209,6 +214,24 @@ void OpenGL3Impl::renderMesh(const model::ViewPort& viewPort,
     }
 
     glUseProgram(0);
+}
+
+void OpenGL3Impl::beginPicking(const model::ViewPort& viewPort, const Vector2i& position) {
+    mPicking = true;
+}
+
+void OpenGL3Impl::renderForPicking(const model::ViewPort& viewPort,
+                                   model::Entity* cameraEntity,
+                                   model::Mesh* mesh,
+                                   const Transform& transform,
+                                   unsigned int name)
+{
+}
+
+void OpenGL3Impl::endPicking(Pick* result) {
+    glFlush();
+
+    mPicking = false;
 }
 
 Program* OpenGL3Impl::createProgram() const {

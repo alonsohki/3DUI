@@ -85,6 +85,7 @@
     <ClInclude Include="impl\opengl3\opengl3Impl.h" />
     <ClInclude Include="impl\opengl3\opengl3VertexAttrib.h" />
     <ClInclude Include="impl\selector.h" />
+    <ClInclude Include="pick.h" />
     <ClInclude Include="program.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="rendererFactory.h" />

@@ -18,11 +18,6 @@
 #include "shared/pixmap.h"
 
 #include "ui/mouseEvent.h"
-#include "ui/view/button.h"
-#include "ui/view/imageView.h"
-#include "ui/view/panel.h"
-#include "ui/view/sceneView.h"
-#include "ui/view/textView.h"
 
 using namespace editor;
 
@@ -109,7 +104,7 @@ namespace {
         dtx_use_font(font, 14);
 
         context->getUI()->addView(&editorUI);
-        editorUI.setScene(context->getScene());
+        editorUI.setContext(context);
 
         return true;
     }
