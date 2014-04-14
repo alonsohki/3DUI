@@ -23,8 +23,6 @@ public:
     virtual         ~Panel          ();
 
 
-    void            setWidth        (int width) { mDimensions.x() = width; }
-    void            setHeight       (int height) { mDimensions.y() = height; }
     void            setBackground   (const Color& color);
     const Color&    getBackground   () const { return mBackground; }
 
@@ -36,7 +34,6 @@ public:
 
 private:
     Color       mBackground;
-    Vector2i    mDimensions;
 };
 
 }

@@ -47,6 +47,11 @@ public:
 
     void                    setPosition         (const Vector2i& position);
     const Vector2i&         getPosition         () const { return mPosition; }
+    void                    setWidth            (int width);
+    int                     getWidth            () const { return mDimensions.x(); }
+    void                    setHeight           (int height);
+    int                     getHeight           () const { return mDimensions.y(); }
+    const Vector2i&         getDimensions       () const { return mDimensions; }
 
 
 private:
@@ -57,6 +62,7 @@ private:
     View*           mParent;
     ViewVector      mChildren;
     Vector2i        mPosition;
+    Vector2i        mDimensions;
 };
 
 }

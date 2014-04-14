@@ -72,6 +72,7 @@
     <ClInclude Include="view\button.h" />
     <ClInclude Include="view\imageView.h" />
     <ClInclude Include="view\panel.h" />
+    <ClInclude Include="view\sceneView.h" />
     <ClInclude Include="view\textView.h" />
   </ItemGroup>
   <ItemGroup>
@@ -80,6 +81,7 @@
     <ClCompile Include="view\button.cpp" />
     <ClCompile Include="view\imageView.cpp" />
     <ClCompile Include="view\panel.cpp" />
+    <ClCompile Include="view\sceneView.cpp" />
     <ClCompile Include="view\textView.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

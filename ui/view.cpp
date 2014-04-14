@@ -55,6 +55,14 @@ void View::setPosition(const Vector2i& position) {
     mPosition = position;
 }
 
+void View::setWidth(int width) {
+    mDimensions.x() = width;
+}
+
+void View::setHeight(int height) {
+    mDimensions.y() = height;
+}
+
 void View::setUI(UI* ui) {
     mUI = ui;
 

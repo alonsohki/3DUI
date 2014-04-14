@@ -38,7 +38,8 @@ void Panel::setBackground(const Color& color) {
 // Methods inherited from View
 void Panel::draw(renderer::Canvas* canvas) {
     const Vector2i& pos = getPosition();
+    const Vector2i& dimensions = getDimensions();
 
-    Recti rect(pos.x(), pos.y(), mDimensions.x() + pos.x(), mDimensions.y() + pos.y());
+    Recti rect(pos.x(), pos.y(), dimensions.x() + pos.x(), dimensions.y() + pos.y());
     canvas->fillRect(rect, mBackground);
 }

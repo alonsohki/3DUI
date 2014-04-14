@@ -21,6 +21,7 @@
 #include "ui/view/button.h"
 #include "ui/view/imageView.h"
 #include "ui/view/panel.h"
+#include "ui/view/sceneView.h"
 #include "ui/view/textView.h"
 
 using namespace editor;
@@ -31,16 +32,13 @@ namespace {
     model::ViewPort viewPort;
     struct dtx_font *font = nullptr;
     ui::Panel* panel = nullptr;
+    ui::SceneView* sceneView = nullptr;
 
     void display() {
         using namespace std::chrono;
         auto t0 = high_resolution_clock::now();
 
         context->getRenderer()->clear();
-
-        context->getRenderer()->setEnabled(renderer::BLENDING, false);
-        context->getRenderer()->renderScene(viewPort, context->getScene());
-        context->getRenderer()->setEnabled(renderer::BLENDING, true);
 
         renderer::Canvas canvas(context->getRenderer());
         canvas.setViewport(viewPort);
@@ -74,6 +72,8 @@ namespace {
         viewPort.height = height;
 
         panel->setHeight(viewPort.height);
+        sceneView->setWidth(viewPort.width - panel->getWidth());
+        sceneView->setHeight(viewPort.height);
     }
 
     void mouse(int button, int state, int x, int y) {
@@ -145,8 +145,10 @@ namespace {
         button->setOnClickListener([](ui::Button* button) {
             puts("Clicked");
         });
-
         panel->addView(button);
+
+        sceneView = new ui::SceneView(300, 0, 500, 600, context->getScene());
+        ui->addView(sceneView);
 
         return true;
     }
