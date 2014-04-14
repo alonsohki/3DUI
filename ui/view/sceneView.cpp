@@ -39,12 +39,14 @@ void SceneView::setScene(model::Scene* scene) {
 //--------------------------------------
 // Methods inherited from View
 void SceneView::draw(renderer::Canvas* canvas) {
-    const Vector2i& pos = getPosition();
-    const Vector2i& dimensions = getDimensions();
-    model::ViewPort viewPort(pos.x(), pos.y(), dimensions.x(), dimensions.y());
+    if (mScene != nullptr) {
+        const Vector2i& pos = getPosition();
+        const Vector2i& dimensions = getDimensions();
+        model::ViewPort viewPort(pos.x(), pos.y(), dimensions.x(), dimensions.y());
 
-    renderer::Renderer* renderer = canvas->getRenderer();
-    renderer->setEnabled(renderer::BLENDING, false);
-    renderer->renderScene(viewPort, mScene);
-    renderer->setEnabled(renderer::BLENDING, true);
+        renderer::Renderer* renderer = canvas->getRenderer();
+        renderer->setEnabled(renderer::BLENDING, false);
+        renderer->renderScene(viewPort, mScene);
+        renderer->setEnabled(renderer::BLENDING, true);
+    }
 }

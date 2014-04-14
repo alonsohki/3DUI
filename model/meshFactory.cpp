@@ -121,3 +121,7 @@ void MeshFactory::createPlane(Mesh* mesh, float edgeSize) {
     mesh->indices[4] = 2;
     mesh->indices[5] = 3;
 }
+
+void MeshFactory::createSphere(Mesh* mesh, float radius, unsigned int slices, unsigned int stacks) {
+
+}

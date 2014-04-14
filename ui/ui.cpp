@@ -15,6 +15,7 @@ using namespace ui;
 
 UI::UI()
 : mMouseOwner(nullptr)
+, mViewRoot(this)
 {
 }
 
@@ -38,7 +39,7 @@ void UI::drawView(renderer::Canvas* canvas, View* view, const Recti& rect) {
     view->draw(canvas);
 
     const Vector2i& pos = view->getPosition();
-    Recti childrenRect(rect.left + pos.x(), rect.top + pos.y(), rect.right + pos.x(), rect.top + pos.y());
+    Recti childrenRect(rect.left + pos.x(), rect.top + pos.y(), rect.right + pos.x(), rect.bottom + pos.y());
 
     View::ViewVector& children = view->getChildren();
     for (auto iter = children.rbegin(); iter != children.rend(); ++iter) {

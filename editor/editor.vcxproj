@@ -101,11 +101,14 @@ xcopy /Y $(SolutionDir)editor\smiley.png $(OutDir)</Command>
   <ItemGroup>
     <ClInclude Include="context.h" />
     <ClInclude Include="editorUI.h" />
+    <ClInclude Include="entityCreatorView.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="context.cpp" />
     <ClCompile Include="editor.cpp" />
+    <ClCompile Include="editorUI.cpp" />
+    <ClCompile Include="entityCreatorView.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\math\math.vcxproj">

@@ -194,7 +194,7 @@ void OpenGL3Impl::renderMesh(const model::ViewPort& viewPort,
 
             // For now, hardcode the light values
             program->setUniform("un_Light.diffuse", Color::WHITE, false);
-            program->setUniform("un_Light.ambient", Color(10, 20, 25, 255), false);
+            program->setUniform("un_Light.ambient", Color(80, 80, 80, 255), false);
             program->setUniform("un_Light.specular", Color::WHITE, false);
             program->setUniform("un_Light.position", Vector3(0, 0, 1) );
             program->setUniform("un_Light.direction", Vector3(0.1f, 0, -1) );
