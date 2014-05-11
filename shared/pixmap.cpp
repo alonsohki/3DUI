@@ -498,3 +498,11 @@ void Pixmap::resample_Y ( unsigned int newHeight )
     m_pixels = newPixels;
     m_height = newHeight;
 }
+
+void Pixmap::setPixel(int x, int y, const Color& color) {
+    return setPixel(x + y*height(), color);
+}
+
+void Pixmap::setPixel(int offset, const Color& color) {
+    m_pixels[offset] = color;
+}

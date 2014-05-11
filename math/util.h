@@ -85,4 +85,10 @@ namespace {
         return (2*alpha3 - 3*alpha2 + 1.0f)*from + (alpha3 - 2*alpha2 + alpha)*tangentFrom
              + (-2*alpha3 + 3*alpha2)*to + (alpha3 - alpha2)*tangentTo;
     }
+
+
+    template<typename T>
+    inline T saturate(const T& value) {
+        return value < 0 ? 0 : (value > 1 ? 1 : value);
+    }
 }

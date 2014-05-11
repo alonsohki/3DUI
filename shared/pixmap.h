@@ -47,6 +47,9 @@ public:
     const unsigned int& height          () const { return m_height; }
     const Color*        pixels          () const { return m_pixels; }
     Color*              pixels          () { return m_pixels; }
+
+    void                setPixel        (int x, int y, const Color& color);
+    void                setPixel        (int offset, const Color& color);
     
 private:
     bool                loadPNG         ( std::istream& stream );

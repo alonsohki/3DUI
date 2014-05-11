@@ -35,6 +35,8 @@ void ImageView::setImage(const Pixmap& image) {
     mTexture = nullptr;
 
     mImage = image;
+    setWidth(mImage.width());
+    setHeight(mImage.height());
 }
 
 
@@ -48,6 +50,7 @@ void ImageView::draw(renderer::Canvas* canvas) {
     }
 
     const Vector2i& pos = getPosition();
-    Recti rect(pos.x(), pos.y(), pos.x() + mImage.width(), pos.y() + mImage.height());
+    const Vector2i& dim = getDimensions();
+    Recti rect(pos.x(), pos.y(), pos.x() + dim.x(), pos.y() + dim.y());
     canvas->drawTexture(rect, mTexture, Rectf(0, 0, 1, 1));
 }

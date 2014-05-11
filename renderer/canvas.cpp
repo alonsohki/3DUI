@@ -86,6 +86,6 @@ void Canvas::drawImage(const Recti& rect, const Pixmap& pixmap) {
 
 void Canvas::drawTexture(const Recti& rect, Texture* texture, const Rectf& textureCoordinates) {
     if (init()) {
-        mImpl->drawTexture(mRenderer, mViewport, Recti(mRect.left + rect.left, mRect.top + rect.top, rect.right, rect.bottom), texture, textureCoordinates);
+        mImpl->drawTexture(mRenderer, mViewport, Recti(mRect.left + rect.left, mRect.top + rect.top, mRect.left + rect.right, mRect.top + rect.bottom), texture, textureCoordinates);
     }
 }
