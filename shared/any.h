@@ -59,18 +59,6 @@ struct Any
 
     }
 
-    Any(Any& that)
-        : ptr(that.clone())
-    {
-
-    }
-
-    Any(Any&& that)
-        : ptr(that.ptr)
-    {
-        that.ptr = nullptr;
-    }
-
     Any(const Any& that)
         : ptr(that.clone())
     {
@@ -83,6 +71,11 @@ struct Any
 
     }
 
+    Any(Any&& that)
+        : ptr(that.ptr)
+    {
+        that.ptr = nullptr;
+    }
 
     Any& operator=(const Any& a)
     {
