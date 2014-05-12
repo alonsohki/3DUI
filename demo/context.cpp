@@ -11,7 +11,7 @@
 
 #include "context.h"
 
-using namespace editor;
+using namespace demo;
 
 Context::Context()
 : mRenderer(nullptr)

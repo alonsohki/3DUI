@@ -21,7 +21,7 @@
 #include "opengl3Impl.h"
 #include "opengl3Texture.h"
 #include "opengl3VertexAttrib.h"
-#include "program.h"
+#include "opengl3Program.h"
 
 using namespace renderer;
 using namespace renderer::impl;

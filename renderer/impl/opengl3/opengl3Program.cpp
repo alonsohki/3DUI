@@ -11,7 +11,7 @@
 
 #include <gl/glew.h>
 #include "opengl3.h"
-#include "program.h"
+#include "opengl3Program.h"
 
 using namespace renderer;
 using namespace renderer::impl;

@@ -17,12 +17,12 @@
 #include "ui/view/panel.h"
 #include "ui/view/sceneView.h"
 
-namespace editor {
+namespace demo {
 
-class EditorUI final : public ui::View {
+class DemoUI final : public ui::View {
 public:
-                EditorUI    ();
-    virtual     ~EditorUI   ();
+                DemoUI      ();
+    virtual     ~DemoUI     ();
 
     void        setContext  (Context* context);
 

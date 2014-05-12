@@ -15,7 +15,7 @@
 #include "renderer/renderer.h"
 #include "ui/ui.h"
 
-namespace editor {
+namespace demo {
 
 class Context final {
 private:

@@ -15,7 +15,7 @@
 #include <gl/GL.h>
 
 #include "../../rendererImpl.h"
-#include "program.h"
+#include "opengl3Program.h"
 
 namespace renderer {
 namespace impl {

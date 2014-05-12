@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{68D39162-B2F8-4ADE-931A-476C4956A39E}</ProjectGuid>
+    <ProjectGuid>{3A9F58FE-B3C7-46EB-A0E2-B1676E9014EC}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>editor</RootNamespace>
   </PropertyGroup>
@@ -63,8 +63,8 @@
       <Command>xcopy /Y $(SolutionDir)freeglut\bin\freeglut.dll $(OutDir)
 xcopy /Y $(SolutionDir)freetype\bin\freetype6.dll $(OutDir)
 xcopy /Y $(SolutionDir)glew\bin\Release\Win32\glew32.dll $(OutDir)
-xcopy /Y $(SolutionDir)editor\tahoma.ttf $(OutDir)
-xcopy /Y $(SolutionDir)editor\win32\*.dll $(OutDir)
+xcopy /Y $(SolutionDir)demo\tahoma.ttf $(OutDir)
+xcopy /Y $(SolutionDir)demo\win32\*.dll $(OutDir)
 </Command>
     </PostBuildEvent>
     <ProjectReference>
@@ -92,8 +92,8 @@ xcopy /Y $(SolutionDir)editor\win32\*.dll $(OutDir)
       <Command>xcopy /Y $(SolutionDir)freeglut\bin\freeglut.dll $(OutDir)
 xcopy /Y $(SolutionDir)freetype\bin\freetype6.dll $(OutDir)
 xcopy /Y $(SolutionDir)glew\bin\Release\Win32\glew32.dll $(OutDir)
-xcopy /Y $(SolutionDir)editor\tahoma.ttf $(OutDir)
-xcopy /Y $(SolutionDir)editor\win32\*.dll $(OutDir)
+xcopy /Y $(SolutionDir)demo\tahoma.ttf $(OutDir)
+xcopy /Y $(SolutionDir)demo\win32\*.dll $(OutDir)
 </Command>
     </PostBuildEvent>
     <ProjectReference>
@@ -102,15 +102,13 @@ xcopy /Y $(SolutionDir)editor\win32\*.dll $(OutDir)
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="context.h" />
-    <ClInclude Include="editorUI.h" />
-    <ClInclude Include="entityCreatorView.h" />
+    <ClInclude Include="demoUI.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="context.cpp" />
-    <ClCompile Include="editor.cpp" />
-    <ClCompile Include="editorUI.cpp" />
-    <ClCompile Include="entityCreatorView.cpp" />
+    <ClCompile Include="demo.cpp" />
+    <ClCompile Include="demoUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\math\math.vcxproj">

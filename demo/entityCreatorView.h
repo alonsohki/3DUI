@@ -13,7 +13,7 @@
 
 #include "ui/view/panel.h"
 
-namespace editor {
+namespace demo {
 
 class EntityCreatorView final : public ui::Panel {
 public:

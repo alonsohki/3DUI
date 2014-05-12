@@ -13,7 +13,7 @@
 
 #include "ui/view/button.h"
 
-using namespace editor;
+using namespace demo;
 
 EntityCreatorView::EntityCreatorView()
 {

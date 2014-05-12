@@ -4,7 +4,7 @@
 #include <GL/glut.h>
 
 #include "context.h"
-#include "editorUI.h"
+#include "demoUI.h"
 
 #include "libdrawtext/src/drawtext.h"
 
@@ -19,13 +19,13 @@
 
 #include "ui/mouseEvent.h"
 
-using namespace editor;
+using namespace demo;
 
 namespace {
     Context* context;
     model::ViewPort viewPort;
     struct dtx_font *font = nullptr;
-    EditorUI editorUI;
+    DemoUI UI;
 
 
     void display() {
@@ -100,8 +100,8 @@ namespace {
 	    }
         dtx_use_font(font, 14);
 
-        context->getUI()->addView(&editorUI);
-        editorUI.setContext(context);
+        context->getUI()->addView(&UI);
+        UI.setContext(context);
 
         return true;
     }
@@ -127,7 +127,7 @@ int main(int argc, char** argv)
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize (800, 600);
     glutInitWindowPosition (100, 100);
-    glutCreateWindow ("editor");
+    glutCreateWindow("demo");
 
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);

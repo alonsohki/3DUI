@@ -3,6 +3,7 @@
 *.sdf
 Debug/
 Release/
+!glew/*/Release/
 _ReSharper.*
 *.filters
 ipch/
