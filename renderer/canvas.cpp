@@ -63,7 +63,47 @@ void Canvas::setRenderer(Renderer* renderer) {
 
 void Canvas::fillRect(const Recti& rect, const Color& color) {
     if (init()) {
-        mImpl->fillRect(mRenderer, mViewport, Recti(mRect.left + rect.left, mRect.top + rect.top, rect.right, rect.bottom), color);
+        if (mColorMaterial.vertexShader.empty()) {
+            mColorMaterial.vertexShader = R"(
+                attribute vec3 in_Position;
+                uniform mat4 un_Matrix;
+
+                void main(void)
+                {
+                    gl_Position = un_Matrix * vec4(in_Position, 1.0);
+                }
+            )";
+
+            mColorMaterial.fragmentShader = R"(
+                struct Material
+                {
+                    vec4  diffuse;
+                    vec3  ambient;
+                    vec3  specular;
+                    vec3  emission;
+                    float shininess;
+                    bool  isShadeless;
+                };
+                uniform Material un_Material;
+
+                void main(void)
+                {
+                    gl_FragColor = un_Material.diffuse;
+                }
+            )";
+
+            mRenderer->buildMaterial(&mColorMaterial);
+        }
+
+        model::Material mat = mColorMaterial;
+        mat.diffuse = color;
+        fillRect(rect, &mat);
+    }
+}
+
+void Canvas::fillRect(const Recti& rect, model::Material* material) {
+    if (material != nullptr && init()) {
+        mImpl->fillRect(mRenderer, mViewport, Recti(mRect.left + rect.left, mRect.top + rect.top, rect.right, rect.bottom), material);
     }
 }
 
