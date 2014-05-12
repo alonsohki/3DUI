@@ -85,12 +85,8 @@ OpenGL3Canvas::~OpenGL3Canvas()
 
 //-----------------------------------------
 // Methods inherited from CanvasImpl
-void OpenGL3Canvas::fillRect(Renderer* renderer, const model::ViewPort& viewPort, const Recti& rect, const Color& color)
+void OpenGL3Canvas::fillRect(Renderer* renderer, const model::ViewPort& viewPort, const Recti& rect, model::Material* material)
 {
-    model::Material material;
-    material.diffuse = color;
-    material.shadeless = true;
-
     // Invert y-axis
     float top = 2.0f * (1.0f - unlerp(0, rect.top, viewPort.height)) - 1.0f;
     float left = 2.0f * unlerp(0, rect.left, viewPort.width) - 1.0f;
@@ -99,7 +95,7 @@ void OpenGL3Canvas::fillRect(Renderer* renderer, const model::ViewPort& viewPort
 
     Factory& factory = Factory::instance();
     Transform transform = Matrix2Transform(TranslationMatrix(left, top, 0.0f) * ScalingMatrix(width, height, 1.0f));
-    renderer->renderMesh(viewPort, factory.getCamera(), factory.getMesh(), &material, transform);
+    renderer->renderMesh(viewPort, factory.getCamera(), factory.getMesh(), material, transform);
 }
 
 void OpenGL3Canvas::drawText(Renderer* renderer, const model::ViewPort& viewPort, const Vector2i& position, const std::string& text, const Color& color)

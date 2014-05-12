@@ -7,3 +7,4 @@ Release/
 _ReSharper.*
 *.filters
 ipch/
+*.vcxproj.user

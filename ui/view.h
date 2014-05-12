@@ -31,6 +31,7 @@ public:
                             View                ();
                             View                (const Vector2i& position);
                             View                (int x, int y);
+                            View                (int x, int y, int width, int height);
     virtual                 ~View               ();
 
     void                    addView             (View* view);

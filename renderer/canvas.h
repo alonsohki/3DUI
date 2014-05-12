@@ -13,6 +13,8 @@
 
 #include "canvasImpl.h"
 #include "math/rect.h"
+#include "model/material.h"
+#include "renderer/program.h"
 #include "renderer.h"
 #include "shared/color.h"
 #include "shared/pixmap.h"
@@ -33,6 +35,7 @@ public:
     const Recti&    getRect         () const;
 
     void            fillRect        (const Recti& rect, const Color& color);
+    void            fillRect        (const Recti& rect, model::Material* material);
     void            drawText        (const Vector2i& position, const std::string& text, const Color& color = Color::WHITE);
     void            drawImage       (const Recti& rect, const Pixmap& image);
     void            drawTexture     (const Recti& rect, Texture* texture, const Rectf& textureCoordinates);
@@ -45,6 +48,7 @@ private:
     CanvasImpl*         mImpl;
     model::ViewPort     mViewport;
     Recti               mRect;
+    model::Material     mColorMaterial;
 };
 
 }

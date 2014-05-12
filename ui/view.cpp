@@ -32,6 +32,13 @@ View::View(int x, int y)
 {
 }
 
+View::View(int x, int y, int width, int height)
+: mParent(nullptr)
+, mPosition(x, y)
+, mDimensions(width, height)
+{
+}
+
 View::View(const Vector2i& pos)
 : mParent(nullptr)
 , mPosition(pos)
