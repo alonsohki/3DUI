@@ -103,7 +103,7 @@ void Canvas::fillRect(const Recti& rect, const Color& color) {
 
 void Canvas::fillRect(const Recti& rect, model::Material* material) {
     if (material != nullptr && init()) {
-        mImpl->fillRect(mRenderer, mViewport, Recti(mRect.left + rect.left, mRect.top + rect.top, rect.right, rect.bottom), material);
+        mImpl->fillRect(mRenderer, mViewport, Recti(mRect.left + rect.left, mRect.top + rect.top, mRect.left + rect.right, mRect.top + rect.bottom), material);
     }
 }
 

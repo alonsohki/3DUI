@@ -23,24 +23,25 @@ namespace renderer {
 
 class Renderer {
 public:
-                    Renderer        ();
-                    ~Renderer       ();
+                    Renderer            ();
+                    ~Renderer           ();
 
-    Texture*        createTexture   ();
-    void            buildMaterial   (model::Material* material);
+    Texture*        createTexture       ();
+    VertexAttrib*   createVertexAttrib  ();
+    void            buildMaterial       (model::Material* material);
 
-    void            renderScene     (const model::ViewPort& viewPort, model::Scene* scene);
-    void            renderMesh      (const model::ViewPort& viewPort, model::Entity* camera, model::Mesh* mesh, model::Material* material, const Transform& transform);
-    void            clear           ();
+    void            renderScene         (const model::ViewPort& viewPort, model::Scene* scene);
+    void            renderMesh          (const model::ViewPort& viewPort, model::Entity* camera, model::Mesh* mesh, model::Material* material, const Transform& transform);
+    void            clear               ();
 
-    model::Entity*  pick            (const model::ViewPort& viewPort, model::Scene* scene, const Vector2i& position);
+    model::Entity*  pick                (const model::ViewPort& viewPort, model::Scene* scene, const Vector2i& position);
 
-    void            setEnabled      (Constant state, bool enabled);
+    void            setEnabled          (Constant state, bool enabled);
 
     //------------------------------------------------
     // Private utility functions
 private:
-    bool            init            ();
+    bool            init                ();
 
 private:
     RendererImpl*   mImpl;

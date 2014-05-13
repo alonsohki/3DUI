@@ -37,6 +37,13 @@ Texture* Renderer::createTexture() {
     return nullptr;
 }
 
+VertexAttrib* Renderer::createVertexAttrib() {
+    if (init()) {
+        return mImpl->createVertexAttrib();
+    }
+    return nullptr;
+}
+
 void Renderer::renderScene(const model::ViewPort& viewPort, model::Scene* scene) {
     if (init()) {
         model::Entity* cameraEntity = scene->getMainCamera();

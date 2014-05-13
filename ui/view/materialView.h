@@ -20,10 +20,10 @@ class MaterialView : public View {
 public:
                             MaterialView    ();
                             MaterialView    (int x, int y, int width, int height);
-	virtual                 ~MaterialView   ();
+    virtual                 ~MaterialView   ();
 
-	void                    setMaterial     (const model::Material& material);
-	const model::Material&  getMaterial     () const { return mMaterial; }
+    void                    setMaterial     (model::Material* material);
+    model::Material*        getMaterial     () const { return mMaterial; }
 
 
     //--------------------------------------
@@ -33,7 +33,7 @@ public:
 
 
 private:
-	model::Material         mMaterial;
+    model::Material*        mMaterial;
 };
 
 }

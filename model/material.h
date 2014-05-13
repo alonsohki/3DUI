@@ -35,6 +35,8 @@ struct Material {
     bool                shadeless = false;
 
     renderer::Texture*  texture = nullptr;
+    renderer::Texture*  texture1 = nullptr;
+    renderer::Texture*  texture2 = nullptr;
 };
 
 }

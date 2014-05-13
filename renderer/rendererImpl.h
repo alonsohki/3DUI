@@ -48,6 +48,7 @@ public:
 
     virtual Program*            createProgram       () const = 0;
     virtual Texture*            createTexture       () const = 0;
+    virtual VertexAttrib*       createVertexAttrib  () const = 0;
 };
 
 }

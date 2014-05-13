@@ -274,6 +274,17 @@ bool OpenGL3_Program::setUniform (const std::string& name, const Vector3& vec) {
     });
 }
 
+bool OpenGL3_Program::setUniform(const std::string& name, const Vector4& vec) {
+    return execute([=] {
+        GLint loc = glGetUniformLocation(handle(mHandle), name.c_str());
+        eglGetError();
+        if (loc != -1) {
+            glUniform4fv(loc, 1, vec.vector());
+            eglGetError();
+        }
+    });
+}
+
 bool OpenGL3_Program::setUniform (const std::string& name, const Matrix& mat) {
     return execute([=] {
         GLint loc = glGetUniformLocation(handle(mHandle), name.c_str());

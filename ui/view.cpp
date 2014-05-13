@@ -58,6 +58,20 @@ void View::addView(View* view) {
     mChildren.push_back(view);
 }
 
+void View::removeView(View* view) {
+    if (view->getParent() == this) {
+        mChildren.erase(std::find(mChildren.begin(), mChildren.end(), view));
+        view->mParent = nullptr;
+    }
+}
+
+void View::removeAllViews() {
+    for (auto& child : mChildren) {
+        child->mParent = nullptr;
+    }
+    mChildren.clear();
+}
+
 void View::setPosition(const Vector2i& position) {
     mPosition = position;
 }
@@ -68,6 +82,10 @@ void View::setWidth(int width) {
 
 void View::setHeight(int height) {
     mDimensions.y() = height;
+}
+
+void View::setDimensions(const Vector2i& dimensions) {
+    mDimensions = dimensions;
 }
 
 void View::setUI(UI* ui) {

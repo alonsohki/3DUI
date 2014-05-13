@@ -62,6 +62,7 @@ OpenGL3Impl::OpenGL3Impl()
     static bool glewInitialized = false;
     if (!glewInitialized) {
         glewInit();
+        glewInitialized = true;
     }
 }
 
@@ -180,14 +181,28 @@ void OpenGL3Impl::renderMesh(const model::ViewPort& viewPort,
         }
 
         if (polyType != GL_INVALID_ENUM) {
+            int textureLevels = 0;
             if (material->texture != nullptr) {
-                program->setUniform("un_TextureLevels", 1.0f);
+                textureLevels++;
+                glActiveTexture(GL_TEXTURE0);
                 program->setUniform("un_Sampler0", 0);
                 material->texture->bind();
+
+                if (material->texture1 != nullptr) {
+                    textureLevels++;
+                    glActiveTexture(GL_TEXTURE1);
+                    program->setUniform("un_Sampler1", 1);
+                    material->texture1->bind();
+
+                    if (material->texture2 != nullptr) {
+                        textureLevels++;
+                        glActiveTexture(GL_TEXTURE2);
+                        program->setUniform("un_Sampler2", 2);
+                        material->texture2->bind();
+                    }
+                }
             }
-            else {
-                program->setUniform("un_TextureLevels", 0.0f);
-            }
+            program->setUniform("un_TextureLevels", (float)textureLevels);
 
             program->setUniform("un_Material.diffuse", material->diffuse, true);
             if (material->shadeless == false) {
@@ -240,4 +255,8 @@ Program* OpenGL3Impl::createProgram() const {
 
 Texture* OpenGL3Impl::createTexture() const {
     return new OpenGL3Texture();
+}
+
+VertexAttrib* OpenGL3Impl::createVertexAttrib() const {
+    return new OpenGL3VertexAttrib();
 }

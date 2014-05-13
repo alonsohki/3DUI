@@ -45,6 +45,7 @@ public:
 
     Program*            createProgram       () const override;
     Texture*            createTexture       () const override;
+    VertexAttrib*       createVertexAttrib  () const override;
 
 private:
     bool    mPicking;

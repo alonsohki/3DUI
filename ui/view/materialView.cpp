@@ -25,7 +25,7 @@ MaterialView::MaterialView(int x, int y, int width, int height)
 MaterialView::~MaterialView() {
 }
 
-void MaterialView::setMaterial(const model::Material& material) {
+void MaterialView::setMaterial(model::Material* material) {
     mMaterial = material;
 }
 
@@ -36,5 +36,5 @@ void MaterialView::draw(renderer::Canvas* canvas) {
     const Vector2i& pos = getPosition();
     const Vector2i& dim = getDimensions();
     Recti rect(pos.x(), pos.y(), pos.x() + dim.x(), pos.y() + dim.y());
-    canvas->fillRect(rect, &mMaterial);
+    canvas->fillRect(rect, mMaterial);
 }

@@ -45,6 +45,7 @@ public:
     virtual bool        setUniform      (const std::string& name, int value) = 0;
     virtual bool        setUniform      (const std::string& name, const Vector2& vec) = 0;
     virtual bool        setUniform      (const std::string& name, const Vector3& vec) = 0;
+    virtual bool        setUniform      (const std::string& name, const Vector4& vec) = 0;
     virtual bool        setUniform      (const std::string& name, const Matrix& mat) = 0;
     virtual bool        setUniform      (const std::string& name, const Matrix* mat, unsigned int count) = 0;
     virtual bool        setUniform      (const std::string& name, const Color& col, bool includeAlpha) = 0;

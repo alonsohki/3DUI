@@ -35,6 +35,8 @@ public:
     virtual                 ~View               ();
 
     void                    addView             (View* view);
+    void                    removeView          (View* view);
+    void                    removeAllViews      ();
     virtual void            draw                (renderer::Canvas* canvas) {}
 
     //-----------------------------------------
@@ -52,6 +54,7 @@ public:
     int                     getWidth            () const { return mDimensions.x(); }
     void                    setHeight           (int height);
     int                     getHeight           () const { return mDimensions.y(); }
+    void                    setDimensions       (const Vector2i& dimensions);
     const Vector2i&         getDimensions       () const { return mDimensions; }
 
 
